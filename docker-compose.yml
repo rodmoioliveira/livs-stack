@@ -1,37 +1,37 @@
 version: "3"
 services:
 
-  # db:
-  #   image: postgres:9.4
-  #   environment:
-  #     POSTGRES_USER: "postgres"
-  #     POSTGRES_PASSWORD: "postgres"
-  #   volumes:
-  #     - db-data:/var/lib/postgresql/data
-  #   networks:
-  #     - backend
-  #   deploy:
-  #     placement:
-  #       constraints: [node.role == manager]
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - back-tier
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - back-tier
+    depends_on:
+      - db
+
   backend:
     build: ./backend
     image: livs-stack/backend
     ports:
       - 8081:8081
     networks:
-      - backend
-    # depends_on:
-    #   - db
-    # deploy:
-    #   replicas: 1
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure
+      - back-tier
+    depends_on:
+      - db
 
 networks:
-  backend:
+  back-tier:
 
-# volumes:
-#   db-data:
+volumes:
+  db-data:

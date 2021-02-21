@@ -1,6 +1,9 @@
 run:
 	docker-compose up --build
 
+db:
+	docker exec -it livs-stack_db_1 psql -U livs
+
 nuke:
 	docker container prune -f && \
 	docker image prune -f  && \
@@ -9,3 +12,4 @@ nuke:
 
 .PHONY: nuke
 .PHONY: run
+.PHONY: db

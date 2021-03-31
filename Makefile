@@ -11,4 +11,4 @@ nuke:
 	docker volume prune -f  && \
 	docker volume rm livs-stack_db-data -f
 
-.PHONY: nuke run db
+.PHONY: nuke run db dev

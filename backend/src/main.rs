@@ -1,6 +1,7 @@
 use actix_web::{middleware::Logger, App, HttpServer};
 use backend::handlers;
 
+// TODO: ver! https://github.com/actix/examples/tree/master/database_interactions/pg/src
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info");

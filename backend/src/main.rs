@@ -23,15 +23,10 @@ impl Config {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
+    env_logger::init();
 
     let config = Config::from_env().unwrap();
     let pool = config.pg.create_pool(NoTls).unwrap();
-
-    std::env::set_var("RUST_LOG", "actix_web=info");
-    env_logger::init();
-
-    let localhost = String::from("0.0.0.0:8081");
-    println!("Server running in {}", localhost);
 
     for i in 1..10 {
         let client = pool.get().await.unwrap();
@@ -41,6 +36,9 @@ async fn main() -> std::io::Result<()> {
         println!("{}", value);
         assert_eq!(value, i + 1);
     }
+
+    let localhost = String::from("0.0.0.0:8081");
+    println!("Server running in {}", localhost);
 
     HttpServer::new(move || {
         App::new()

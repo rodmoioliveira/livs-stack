@@ -46,7 +46,7 @@ async fn books() -> impl Responder {
     })
 }
 
-#[get("/books/{isbn}")]
+#[get("/book/{isbn}")]
 async fn book(web::Path(isbn): web::Path<String>) -> impl Responder {
     HttpResponse::Ok().json(models::Book {
         id: 12,

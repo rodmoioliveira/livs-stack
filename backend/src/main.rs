@@ -28,14 +28,11 @@ async fn main() -> std::io::Result<()> {
     let config = Config::from_env().unwrap();
     let pool = config.pg.create_pool(NoTls).unwrap();
 
-    for i in 1..10 {
-        let client = pool.get().await.unwrap();
-        let stmt = client.prepare("SELECT 1 + $1").await.unwrap();
-        let rows = client.query(&stmt, &[&i]).await.unwrap();
-        let value: i32 = rows[0].get(0);
-        println!("{}", value);
-        assert_eq!(value, i + 1);
-    }
+    let client = pool.get().await.unwrap();
+    let stmt = client.prepare("SELECT * from books").await.unwrap();
+    let rows = client.query(&stmt, &[]).await.unwrap();
+    let value: String = rows[0].get(2);
+    println!("{:#?}", value);
 
     let localhost = String::from("0.0.0.0:8081");
     println!("Server running in {}", localhost);

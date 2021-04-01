@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
+use tokio_pg_mapper_derive::PostgresMapper;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "books")]
 pub struct Book {
     pub id: i64,
     pub isbn: String,

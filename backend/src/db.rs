@@ -1,5 +1,5 @@
 use config;
-use deadpool_postgres::{self};
+use deadpool_postgres;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]

@@ -1,6 +1,7 @@
 use actix_web::{HttpResponse, ResponseError};
 use deadpool_postgres::PoolError;
 use derive_more::{Display, From};
+use serde_postgres::DeError as PGSerdeError;
 use tokio_pg_mapper::Error as PGMError;
 use tokio_postgres::error::Error as PGError;
 
@@ -10,6 +11,7 @@ pub enum MyError {
     PGError(PGError),
     PGMError(PGMError),
     PoolError(PoolError),
+    PGSerdeError(PGSerdeError),
 }
 
 impl std::error::Error for MyError {}
@@ -18,6 +20,9 @@ impl ResponseError for MyError {
     fn error_response(&self) -> HttpResponse {
         match *self {
             MyError::NotFound => HttpResponse::NotFound().finish(),
+            MyError::PGSerdeError(ref err) => {
+                HttpResponse::InternalServerError().body(err.to_string())
+            }
             MyError::PoolError(ref err) => {
                 HttpResponse::InternalServerError().body(err.to_string())
             }

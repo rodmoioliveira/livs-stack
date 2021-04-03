@@ -1,10 +1,12 @@
 CREATE TABLE IF NOT EXISTS titles (
-  id BIGSERIAL NOT NULL,
+  id BIGSERIAL,
   isbn BIGINT NOT NULL,
   author VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
   publisher VARCHAR(255) NOT NULL,
-  year SMALLINT NOT NULL
+  year SMALLINT NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE (isbn)
 );
 INSERT INTO
   titles(isbn, author, title, publisher, year)

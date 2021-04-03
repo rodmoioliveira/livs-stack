@@ -51,8 +51,8 @@ async fn book(
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = format!("SELECT * FROM books WHERE isbn = '{}'", isbn);
     let stmt = client.prepare(&query).await.unwrap();
-    let rows = client.query(&stmt, &[]).await.unwrap();
-    let book: Vec<models::Book> = serde_postgres::from_rows(&rows).unwrap();
+    let row = client.query_one(&stmt, &[]).await.unwrap();
+    let book: models::Book = serde_postgres::from_row(&row).unwrap();
 
     Ok(HttpResponse::Ok().json(book))
 }

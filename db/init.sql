@@ -1,4 +1,4 @@
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS titles (
   isbn BIGSERIAL NOT NULL PRIMARY KEY,
   author VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE books (
 );
 
 INSERT INTO
-  books(isbn, author, title, editor, description)
+  titles(isbn, author, title, editor, description)
 VALUES
   (
     '9788525060600',

@@ -20,8 +20,8 @@ async fn main() -> std::io::Result<()> {
             .data(db_pool.clone())
             .wrap(Logger::default())
             .service(handlers::index)
-            .service(handlers::book)
-            .service(handlers::books)
+            .service(handlers::title)
+            .service(handlers::titles)
     })
     .bind(localhost)?
     .run()

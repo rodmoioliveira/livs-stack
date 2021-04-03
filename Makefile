@@ -1,5 +1,5 @@
 prod: nuke
-	@docker-compose --file docker-compose.yml up --build
+	@docker-compose --file docker-compose.production.yml up --build
 
 dev: nuke
 	@docker-compose --file docker-compose.development.yml up --build & \

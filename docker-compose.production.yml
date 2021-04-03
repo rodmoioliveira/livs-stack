@@ -24,16 +24,8 @@ services:
 
   backend:
     build: ./backend
-    environment:
-      PG__HOST: db
-      PG__PORT: 5432
-      PG__USER: livs
-      PG__PASSWORD: livs
-      PG__DBNAME: livs
-      PG__POOL__MAX_SIZE: 16
-      PG__POOL__TIMEOUTS__WAIT__SECS: 5
-      PG__POOL__TIMEOUTS__WAIT__NANOS: 0
-      RUST_LOG: actix_web=info
+    env_file:
+      - ./backend/.env.prod
     image: livs-stack/backend
     ports:
       - 8081:8081

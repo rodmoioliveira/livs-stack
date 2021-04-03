@@ -22,16 +22,6 @@ services:
     depends_on:
       - db
 
-  # backend:
-  #   build: ./backend
-  #   image: livs-stack/backend
-  #   ports:
-  #     - 8081:8081
-  #   networks:
-  #     - back-tier
-  #   depends_on:
-  #     - db
-
 networks:
   back-tier:
 

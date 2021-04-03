@@ -1,3 +1,6 @@
+prod:
+	@docker-compose --file docker-compose.yml up
+
 dev:
 	@docker-compose --file docker-compose.development.yml up --build & \
 	cd backend && cargo watch -x run
@@ -11,4 +14,4 @@ nuke:
 	docker volume prune -f  && \
 	docker volume rm livs-stack_db-data -f
 
-.PHONY: nuke run db dev
+.PHONY: nuke run db dev prod

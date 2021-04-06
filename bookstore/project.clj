@@ -14,13 +14,13 @@
                  [yogthos/config "1.1.7"]
                  [org.clojure/clojurescript "1.10.773"
                   :scope "provided"]
-                 [metosin/reitit "0.5.12"]                 
+                 [metosin/reitit "0.5.12"]
                  [pez/clerk "1.0.0"]
                  [venantius/accountant "0.2.5"
                   :exclusions [org.clojure/tools.reader]]]
 
   :jvm-opts ["-Xmx1G"]
-  
+
   :plugins [[lein-environ "1.1.0"]
             [lein-cljsbuild "1.1.7"]
             [lein-asset-minifier "0.4.6"
@@ -101,7 +101,7 @@
                                   [nrepl "0.8.3"]
                                   [speclj "3.3.2"]
                                   [pjstadig/humane-test-output "0.10.0"]
-                                  
+
                                   ;; To silence warnings from less4clj dependecies about missing logger implementation
                                   [org.slf4j/slf4j-nop "1.7.25"]
  ]

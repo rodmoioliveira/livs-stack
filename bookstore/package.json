@@ -1,0 +1,30 @@
+{
+  "name": "bookstore",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "private": true,
+  "homepage": "",
+  "author": {
+    "name": "Rodolfo Mói de Oliveira",
+    "email": "rodmoi.oliveira@gmail.com",
+    "url": "https://github.com/rodmoioliveira"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "bugs": "",
+  "license": "",
+  "scripts": {
+    "build": "lein do clean, uberjar",
+    "deploy": "npm-run-all --serial ins build run-app",
+    "ins": "npm i",
+    "run-app": "java -jar target/bookstore.jar",
+    "start:clj": "lein figwheel app",
+    "start:less": "lein less4j auto"
+  }
+}

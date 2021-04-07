@@ -10,7 +10,7 @@ pub async fn index() -> Result<String> {
 #[get("/titles")]
 pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let query: String = String::from("SELECT * FROM titles");
+    let query: String = format!("SELECT * FROM titles");
     let stmt = client
         .prepare(&query)
         .await

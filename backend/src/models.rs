@@ -16,3 +16,9 @@ pub struct Title {
 pub struct Data<T> {
     pub data: T,
 }
+
+impl<T> Data<T> {
+    pub fn new(data: T) -> Self {
+        Data { data }
+    }
+}

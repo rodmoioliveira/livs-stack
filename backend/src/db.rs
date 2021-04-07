@@ -17,6 +17,38 @@ impl Config {
     }
 }
 
+pub async fn get_titles(client: &Client) -> Result<Vec<models::Title>, errors::MyError> {
+    let query: String = format!("SELECT * FROM titles");
+    let stmt = client
+        .prepare(&query)
+        .await
+        .map_err(errors::MyError::PGError)?;
+    let rows = client
+        .query(&stmt, &[])
+        .await
+        .map_err(errors::MyError::PGError)?;
+    let result: Vec<models::Title> =
+        serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+
+    Ok(result)
+}
+
+pub async fn get_title(client: &Client, isbn: i64) -> Result<models::Title, errors::MyError> {
+    let query: String = format!("SELECT * FROM titles WHERE isbn = '{}'", isbn);
+    let stmt = client
+        .prepare(&query)
+        .await
+        .map_err(errors::MyError::PGError)?;
+    let rows = client
+        .query(&stmt, &[])
+        .await
+        .map_err(errors::MyError::PGError)?;
+    let mut result: Vec<models::Title> =
+        serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+
+    result.pop().ok_or(errors::MyError::NotFound)
+}
+
 pub async fn insert_title(
     client: &Client,
     title: models::Title,

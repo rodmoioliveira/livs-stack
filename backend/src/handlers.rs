@@ -48,7 +48,7 @@ pub async fn update_title(
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let result = db::update_title(&client, isbn, title_info).await?;
 
-    Ok(HttpResponse::Created().json(models::Data::new(result)))
+    Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
 
 #[delete("/titles/{isbn}")]

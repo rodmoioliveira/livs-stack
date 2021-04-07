@@ -10,7 +10,7 @@ pub async fn index() -> Result<String, errors::MyError> {
 #[get("/titles")]
 pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result = db::get_titles(&client).await?;
+    let result: Vec<models::Title> = db::get_titles(&client).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
@@ -21,7 +21,7 @@ pub async fn get_title(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result = db::get_title(&client, isbn).await?;
+    let result: models::Title = db::get_title(&client, isbn).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }

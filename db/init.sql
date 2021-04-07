@@ -1,3 +1,5 @@
+BEGIN TRANSACTION;
+
 CREATE TABLE IF NOT EXISTS titles (
   id BIGSERIAL,
   isbn BIGINT NOT NULL,
@@ -88,3 +90,5 @@ VALUES
     'Simon & Schuster',
     2018
   );
+
+COMMIT TRANSACTION;

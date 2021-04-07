@@ -1,14 +1,14 @@
-use crate::{errors, models};
-use actix_web::{error, get, web, Error, HttpResponse, Result};
+use crate::{db, errors, models};
+use actix_web::{error, get, post, web, Error, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
 #[get("/")]
-async fn index() -> Result<String> {
+pub async fn index() -> Result<String> {
     Ok(format!("index"))
 }
 
 #[get("/titles")]
-async fn titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, Error> {
+pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, Error> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = String::from("SELECT * FROM titles");
     let stmt = client.prepare(&query).await.unwrap();
@@ -21,7 +21,7 @@ async fn titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, Error> {
 }
 
 #[get("/titles/{isbn}")]
-async fn title(
+pub async fn get_title(
     web::Path(isbn): web::Path<i64>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, Error> {
@@ -39,4 +39,16 @@ async fn title(
         })),
         _ => Err(error::ErrorNotFound("isbn not found")),
     }
+}
+
+#[post("/titles")]
+pub async fn add_title(
+    title: web::Json<models::Title>,
+    db_pool: web::Data<Pool>,
+) -> Result<HttpResponse, Error> {
+    let title_info: models::Title = title.into_inner();
+    let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
+    let new_title = db::insert_title(&client, title_info).await?;
+
+    Ok(HttpResponse::Ok().json(new_title))
 }

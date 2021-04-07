@@ -23,7 +23,10 @@ pub async fn insert_title(
 ) -> Result<models::Title, errors::MyError> {
     let _stmt = include_str!("./sql/insert_title.sql");
     let _stmt = _stmt.replace("$table_fields", &models::Title::sql_table_fields());
-    let stmt = client.prepare(&_stmt).await.unwrap();
+    let stmt = client
+        .prepare(&_stmt)
+        .await
+        .map_err(errors::MyError::PGError)?;
 
     client
         .query(

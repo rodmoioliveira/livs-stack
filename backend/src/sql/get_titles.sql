@@ -1,4 +1,6 @@
 SELECT
   *
 FROM
-  titles;
+  titles
+ORDER BY
+  id;

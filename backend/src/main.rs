@@ -33,9 +33,10 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
             .service(handlers::index)
+            .service(handlers::add_title)
             .service(handlers::get_title)
             .service(handlers::get_titles)
-            .service(handlers::add_title)
+            .service(handlers::update_title)
     })
     .bind(localhost)?
     .run()

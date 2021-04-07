@@ -113,7 +113,6 @@ pub async fn update_title(
 
 pub async fn delete_title(client: &Client, isbn: i64) -> Result<models::Title, errors::MyError> {
     let _stmt = include_str!("./sql/delete_title.sql");
-    let _stmt = _stmt.replace("$1", &isbn.to_string());
     let _stmt = _stmt.replace("$table_fields", &models::Title::sql_table_fields());
     let stmt = client
         .prepare(&_stmt)
@@ -121,7 +120,7 @@ pub async fn delete_title(client: &Client, isbn: i64) -> Result<models::Title, e
         .map_err(errors::MyError::PGError)?;
 
     client
-        .query(&stmt, &[])
+        .query(&stmt, &[&isbn])
         .await?
         .iter()
         .map(|row| models::Title::from_row_ref(row).unwrap())

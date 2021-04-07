@@ -18,9 +18,9 @@ impl Config {
 }
 
 pub async fn get_titles(client: &Client) -> Result<Vec<models::Title>, errors::MyError> {
-    let query: String = format!("SELECT * FROM titles");
+    let _stmt = include_str!("./sql/get_titles.sql");
     let stmt = client
-        .prepare(&query)
+        .prepare(&_stmt)
         .await
         .map_err(errors::MyError::PGError)?;
     let rows = client
@@ -34,13 +34,13 @@ pub async fn get_titles(client: &Client) -> Result<Vec<models::Title>, errors::M
 }
 
 pub async fn get_title(client: &Client, isbn: i64) -> Result<models::Title, errors::MyError> {
-    let query: String = format!("SELECT * FROM titles WHERE isbn = '{}'", isbn);
+    let _stmt = include_str!("./sql/get_title.sql");
     let stmt = client
-        .prepare(&query)
+        .prepare(&_stmt)
         .await
         .map_err(errors::MyError::PGError)?;
     let rows = client
-        .query(&stmt, &[])
+        .query(&stmt, &[&isbn])
         .await
         .map_err(errors::MyError::PGError)?;
     let mut result: Vec<models::Title> =

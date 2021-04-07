@@ -11,9 +11,14 @@ pub async fn index() -> Result<String> {
 pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = String::from("SELECT * FROM titles");
-    let stmt = client.prepare(&query).await.unwrap();
-    let rows = client.query(&stmt, &[]).await.unwrap();
-
+    let stmt = client
+        .prepare(&query)
+        .await
+        .map_err(errors::MyError::PGError)?;
+    let rows = client
+        .query(&stmt, &[])
+        .await
+        .map_err(errors::MyError::PGError)?;
     let result: Vec<models::Title> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
@@ -27,9 +32,14 @@ pub async fn get_title(
 ) -> Result<HttpResponse> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = format!("SELECT * FROM titles WHERE isbn = '{}'", isbn);
-    let stmt = client.prepare(&query).await.unwrap();
-    let rows = client.query(&stmt, &[]).await.unwrap();
-
+    let stmt = client
+        .prepare(&query)
+        .await
+        .map_err(errors::MyError::PGError)?;
+    let rows = client
+        .query(&stmt, &[])
+        .await
+        .map_err(errors::MyError::PGError)?;
     let result: Vec<models::Title> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 

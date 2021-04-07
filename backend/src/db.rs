@@ -81,7 +81,7 @@ pub async fn insert_title(
 
 pub async fn update_title(
     client: &Client,
-    _isbn: i64,
+    isbn: i64,
     title: models::Title,
 ) -> Result<models::Title, errors::MyError> {
     // TODO: check if _isbn == title.isbn
@@ -101,6 +101,7 @@ pub async fn update_title(
                 &title.title,
                 &title.publisher,
                 &title.year,
+                &isbn,
             ],
         )
         .await?

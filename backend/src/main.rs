@@ -34,6 +34,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Compress::default())
             .service(handlers::index)
             .service(handlers::add_title)
+            .service(handlers::delete_title)
             .service(handlers::get_title)
             .service(handlers::get_titles)
             .service(handlers::update_title)

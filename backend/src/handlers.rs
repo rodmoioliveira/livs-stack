@@ -1,5 +1,5 @@
 use crate::{db, errors, models};
-use actix_web::{error, get, post, web, Error, HttpResponse, Result};
+use actix_web::{get, post, web, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
 #[get("/")]
@@ -8,7 +8,7 @@ pub async fn index() -> Result<String> {
 }
 
 #[get("/titles")]
-pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, Error> {
+pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = String::from("SELECT * FROM titles");
     let stmt = client.prepare(&query).await.unwrap();
@@ -24,7 +24,7 @@ pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, Error>
 pub async fn get_title(
     web::Path(isbn): web::Path<i64>,
     db_pool: web::Data<Pool>,
-) -> Result<HttpResponse, Error> {
+) -> Result<HttpResponse> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = format!("SELECT * FROM titles WHERE isbn = '{}'", isbn);
     let stmt = client.prepare(&query).await.unwrap();
@@ -37,7 +37,7 @@ pub async fn get_title(
         1 => Ok(HttpResponse::Ok().json(models::Data {
             data: result.first(),
         })),
-        _ => Err(error::ErrorNotFound("isbn not found")),
+        _ => Ok(HttpResponse::NotFound().json(errors::JsonError::new("Not Found"))),
     }
 }
 
@@ -45,7 +45,7 @@ pub async fn get_title(
 pub async fn add_title(
     title: web::Json<models::Title>,
     db_pool: web::Data<Pool>,
-) -> Result<HttpResponse, Error> {
+) -> Result<HttpResponse> {
     let title_info: models::Title = title.into_inner();
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let new_title = db::insert_title(&client, title_info).await?;

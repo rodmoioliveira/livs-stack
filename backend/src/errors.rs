@@ -20,13 +20,14 @@ impl ResponseError for MyError {
     fn error_response(&self) -> HttpResponse {
         match *self {
             MyError::NotFound => HttpResponse::NotFound().finish(),
+            MyError::PGError(ref err) => HttpResponse::InternalServerError().body(err.to_string()),
             MyError::PGSerdeError(ref err) => {
                 HttpResponse::InternalServerError().body(err.to_string())
             }
             MyError::PoolError(ref err) => {
                 HttpResponse::InternalServerError().body(err.to_string())
             }
-            _ => HttpResponse::InternalServerError().finish(),
+            _ => HttpResponse::InternalServerError().body("ERROR"),
         }
     }
 }

@@ -8,7 +8,7 @@ pub async fn index() -> Result<String> {
 }
 
 #[get("/titles")]
-pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse> {
+pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = String::from("SELECT * FROM titles");
     let stmt = client
@@ -29,7 +29,7 @@ pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse> {
 pub async fn get_title(
     web::Path(isbn): web::Path<i64>,
     db_pool: web::Data<Pool>,
-) -> Result<HttpResponse> {
+) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let query: String = format!("SELECT * FROM titles WHERE isbn = '{}'", isbn);
     let stmt = client
@@ -55,10 +55,10 @@ pub async fn get_title(
 pub async fn add_title(
     title: web::Json<models::Title>,
     db_pool: web::Data<Pool>,
-) -> Result<HttpResponse> {
+) -> Result<HttpResponse, errors::MyError> {
     let title_info: models::Title = title.into_inner();
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let new_title = db::insert_title(&client, title_info).await?;
 
-    Ok(HttpResponse::Ok().json(new_title))
+    Ok(HttpResponse::Created().json(new_title))
 }

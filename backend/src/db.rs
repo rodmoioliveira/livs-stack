@@ -84,7 +84,6 @@ pub async fn update_title(
     isbn: i64,
     title: models::Title,
 ) -> Result<models::Title, errors::MyError> {
-    // TODO: check if _isbn == title.isbn
     let _stmt = include_str!("./sql/update_title.sql");
     let _stmt = _stmt.replace("$table_fields", &models::Title::sql_table_fields());
     let stmt = client

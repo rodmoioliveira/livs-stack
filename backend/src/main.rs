@@ -26,9 +26,20 @@ async fn main() -> std::io::Result<()> {
             .into()
         });
 
+    // https://docs.rs/actix-web/3.3.2/actix_web/web/struct.PathConfig.html
+    let path_cfg = web::PathConfig::default().error_handler(|err, _req| {
+        let err_msg = err.to_string();
+        error::InternalError::from_response(
+            err,
+            HttpResponse::BadRequest().json(errors::JsonError::new(err_msg)),
+        )
+        .into()
+    });
+
     HttpServer::new(move || {
         App::new()
             .app_data(json_cfg.clone())
+            .app_data(path_cfg.clone())
             .data(db_pool.clone())
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())

@@ -8,7 +8,13 @@ dev: nuke
 db:
 	@docker exec -it livs-stack_db_1 psql -U livs
 
+db-csv:
+	@docker exec -it livs-stack_db_1 psql -U livs \
+	-c "COPY titles TO '/csv/titles-dump.csv' WITH (FORMAT CSV, HEADER);" \
+	-c "COPY genres TO '/csv/genres-dump.csv' WITH (FORMAT CSV, HEADER);" \
+	-c "COPY publishers TO '/csv/publishers-dump.csv' WITH (FORMAT CSV, HEADER);"
+
 nuke:
 	@docker system prune --volumes -f
 
-.PHONY: nuke run db dev prod
+.PHONY: nuke run db dev prod csv-db

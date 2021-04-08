@@ -1,94 +1,41 @@
 BEGIN TRANSACTION;
 
+CREATE TABLE IF NOT EXISTS genres (
+  id BIGSERIAL,
+  genre VARCHAR(255),
+  PRIMARY KEY (id)
+);
+
+COPY genres(id, genre)
+FROM
+  '/csv/genres.csv' DELIMITER ',' CSV HEADER;
+
+CREATE TABLE IF NOT EXISTS publishers (
+  id BIGSERIAL,
+  publisher VARCHAR(255),
+  PRIMARY KEY (id)
+);
+
+COPY publishers(id, publisher)
+FROM
+  '/csv/publishers.csv' DELIMITER ',' CSV HEADER;
+
 CREATE TABLE IF NOT EXISTS titles (
   id BIGSERIAL,
   isbn BIGINT NOT NULL,
   author VARCHAR(255) NOT NULL,
   title VARCHAR(255) NOT NULL,
-  publisher VARCHAR(255) NOT NULL,
   year SMALLINT NOT NULL,
+  genre_id BIGINT NOT NULL,
+  publisher_id BIGINT NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE (isbn)
+  UNIQUE (isbn),
+  FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE,
+  FOREIGN KEY (publisher_id) REFERENCES publishers(id) ON DELETE CASCADE
 );
-INSERT INTO
-  titles(isbn, author, title, publisher, year)
-VALUES
-  (
-    9788535932317,
-    'José Luís Peixoto',
-    'Autobiografia',
-    'Companhia das Letras',
-    2019
-  ),
-  (
-    9788575596296,
-    'Ricardo Antunes',
-    'O Privilégio da Servidão: O Novo Proletariado de Serviços na era Digital',
-    'Boitempo',
-    2018
-  ),
-  (
-    9788535932065,
-    'Roberto Bolaño',
-    'A Literatura Nazista na América',
-    'Companhia das Letras',
-    2019
-  ),
-  (
-    9788466330961,
-    'Juan Carlos Onetti',
-    'El Pozo',
-    'Debolsillo',
-    2018
-  ),
-  (
-    9788576655299,
-    'Mary del Priore e Renato Venancio',
-    'Uma Breve História do Brasil',
-    'Planeta',
-    2010
-  ),
-  (
-    9783037781050,
-    'Kenya Hara',
-    'Designing Design',
-    'Lars Müller Publishers',
-    2011
-  ),
-  (
-    9788569536499,
-    'Sabrina Fernandes',
-    'Sintomas Mórbidos',
-    'Autonomia Literária',
-    2019
-  ),
-  (
-    9780822331971,
-    'Ativa Chomsky, Barry Carr e Pamela Maria Smorkaloff',
-    'The Cuba Reader: History, Culture, Politics',
-    'Duke',
-    2003
-  ),
-  (
-    9788535919837,
-    'José Saramago',
-    'Claraboia',
-    'Companhia das Letras',
-    2011
-  ),
-  (
-    9788535921700,
-    'Mário Magalhães',
-    'Marighella: o Guerrilheiro que Incendiou o Mundo',
-    'Companhia das Letras',
-    2012
-  ),
-  (
-    9781501174476,
-    'Stephen Markley',
-    'Ohio',
-    'Simon & Schuster',
-    2018
-  );
+
+COPY titles(id, isbn, author, title, year, genre_id, publisher_id)
+FROM
+  '/csv/titles.csv' DELIMITER ',' CSV HEADER;
 
 COMMIT TRANSACTION;

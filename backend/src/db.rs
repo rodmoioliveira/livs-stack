@@ -67,8 +67,9 @@ pub async fn insert_title(
                 &title.isbn,
                 &title.author,
                 &title.title,
-                &title.publisher,
                 &title.year,
+                &title.genre_id,
+                &title.publisher_id,
             ],
         )
         .await?
@@ -98,8 +99,9 @@ pub async fn update_title(
                 &title.isbn,
                 &title.author,
                 &title.title,
-                &title.publisher,
                 &title.year,
+                &title.genre_id,
+                &title.publisher_id,
                 &isbn,
             ],
         )

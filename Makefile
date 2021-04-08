@@ -17,4 +17,4 @@ db-csv:
 nuke:
 	@docker system prune --volumes -f
 
-.PHONY: nuke run db dev prod csv-db
+.PHONY: nuke run db dev prod db-csv

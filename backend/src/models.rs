@@ -8,8 +8,9 @@ pub struct Title {
     pub isbn: i64,
     pub author: String,
     pub title: String,
-    pub publisher: String,
     pub year: i16,
+    pub genre_id: i64,
+    pub publisher_id: i64,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

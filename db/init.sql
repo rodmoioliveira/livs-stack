@@ -38,4 +38,23 @@ COPY titles(id, isbn, author, title, year, genre_id, publisher_id)
 FROM
   '/csv/titles.csv' DELIMITER ',' CSV HEADER;
 
+  /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */
+SELECT setval(
+  pg_get_serial_sequence('titles', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM titles;
+
+SELECT setval(
+  pg_get_serial_sequence('genres', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM genres;
+
+SELECT setval(
+  pg_get_serial_sequence('publishers', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM publishers;
+
 COMMIT TRANSACTION;

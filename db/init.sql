@@ -163,12 +163,20 @@ CREATE OR REPLACE VIEW titles_info as (
     measures.weight,
     measures.height,
     measures.width,
-    measures.depth
+    measures.depth,
+    g.genre
   FROM titles
     JOIN authors ON titles.author = authors.id
     JOIN languages ON titles.language = languages.id
     JOIN measures ON titles.id = measures.title_id
     JOIN publishers ON publishers.id = titles.publisher
+    JOIN (
+      SELECT
+        genres.genre,
+        titles_genres.title_id
+      FROM genres
+      JOIN titles_genres ON titles_genres.genre_id = genres.id
+    ) AS g ON titles.id = g.title_id
 );
 
 /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */

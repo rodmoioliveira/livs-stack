@@ -21,6 +21,10 @@ CREATE TABLE IF NOT EXISTS languages (
   language VARCHAR(255) UNIQUE NOT NULL
 );
 
+COPY languages(id, language)
+FROM
+  '/csv/languages.csv' DELIMITER ',' CSV HEADER;
+
 /*
  * ===========================
  * genres
@@ -32,9 +36,9 @@ CREATE TABLE IF NOT EXISTS genres (
   genre VARCHAR(255) UNIQUE NOT NULL
 );
 
-/* COPY genres(id, genre) */
-/* FROM */
-/*   '/csv/genres.csv' DELIMITER ',' CSV HEADER; */
+COPY genres(id, genre)
+FROM
+  '/csv/genres.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================
@@ -47,9 +51,9 @@ CREATE TABLE IF NOT EXISTS publishers (
   publisher VARCHAR(255) UNIQUE NOT NULL
 );
 
-/* COPY publishers(id, publisher) */
-/* FROM */
-/*   '/csv/publishers.csv' DELIMITER ',' CSV HEADER; */
+COPY publishers(id, publisher)
+FROM
+  '/csv/publishers.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================
@@ -60,7 +64,8 @@ CREATE TABLE IF NOT EXISTS publishers (
 CREATE TABLE IF NOT EXISTS authors (
   id BIGSERIAL PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
-  last_name VARCHAR(100) NOT NULL
+  last_name VARCHAR(100) NOT NULL,
+  UNIQUE (first_name, last_name)
 );
 
 /* COPY authors(id, publisher) */
@@ -105,11 +110,11 @@ CREATE TABLE IF NOT EXISTS titles_genres (
 
 /*
  * ===========================
- * measures
+ * titles_measures
  * ===========================
  */
 
-CREATE TABLE IF NOT EXISTS measures (
+CREATE TABLE IF NOT EXISTS titles_measures (
   title_id BIGINT PRIMARY KEY,
   weight REAL NOT NULL,
   height REAL NOT NULL,

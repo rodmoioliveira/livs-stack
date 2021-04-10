@@ -131,6 +131,22 @@ COPY measures(title_id, weight, height, width, depth)
 FROM
   '/csv/measures.csv' DELIMITER ',' CSV HEADER;
 
+
+/*
+ * ===========================
+ * VIEWS
+ * ===========================
+ */
+
+CREATE OR REPLACE VIEW genres_count AS (
+  SELECT genres.genre,
+    COUNT(titles_genres.title_id) AS count
+    FROM genres
+      JOIN titles_genres ON genres.id = titles_genres.genre_id
+    GROUP BY genres.genre
+    ORDER BY count DESC
+);
+
 /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */
 SELECT setval(
   pg_get_serial_sequence('titles', 'id'),

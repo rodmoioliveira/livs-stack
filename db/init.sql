@@ -32,19 +32,6 @@ CREATE TABLE IF NOT EXISTS genres (
   genre VARCHAR(255) UNIQUE NOT NULL
 );
 
-/*
- * ===========================
- * titles_genres
- * ===========================
- */
-
-CREATE TABLE IF NOT EXISTS titles_genres (
-  genre_id BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
-  title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
-  PRIMARY KEY (genre_id, title_id)
-);
-
-
 /* COPY genres(id, genre) */
 /* FROM */
 /*   '/csv/genres.csv' DELIMITER ',' CSV HEADER; */
@@ -66,6 +53,22 @@ CREATE TABLE IF NOT EXISTS publishers (
 
 /*
  * ===========================
+ * authors
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS authors (
+  id BIGSERIAL PRIMARY KEY,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL
+);
+
+/* COPY authors(id, publisher) */
+/* FROM */
+/*   '/csv/authors.csv' DELIMITER ',' CSV HEADER; */
+
+/*
+ * ===========================
  * titles
  * ===========================
  */
@@ -73,20 +76,32 @@ CREATE TABLE IF NOT EXISTS publishers (
 CREATE TABLE IF NOT EXISTS titles (
   id BIGSERIAL PRIMARY KEY,
   isbn VARCHAR NOT NULL UNIQUE,
-  author VARCHAR(255) NOT NULL,
+  author BIGSERIAL REFERENCES authors(id) ON DELETE CASCADE,
   edition SMALLINT NOT NULL,
   format FORMAT NOT NULL,
   language BIGSERIAL REFERENCES languages(id) ON DELETE CASCADE,
   pages SMALLINT NOT NULL,
   publisher BIGSERIAL REFERENCES publishers(id) ON DELETE CASCADE,
-  summary TEXT NOT NULL
+  summary TEXT NOT NULL,
   title VARCHAR(255) NOT NULL,
-  year SMALLINT NOT NULL,
+  year SMALLINT NOT NULL
 );
 
 /* COPY titles(id, isbn, author, title, year, genre_id, publisher_id) */
 /* FROM */
 /*   '/csv/titles.csv' DELIMITER ',' CSV HEADER; */
+
+/*
+ * ===========================
+ * titles_genres
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS titles_genres (
+  genre_id BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
+  title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
+  PRIMARY KEY (genre_id, title_id)
+);
 
 /*
  * ===========================
@@ -127,5 +142,12 @@ SELECT setval(
   COALESCE(max(id) + 1, 1),
   false
 ) FROM languages;
+
+SELECT setval(
+  pg_get_serial_sequence('authors', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM authors;
+
 
 COMMIT TRANSACTION;

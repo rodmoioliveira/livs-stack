@@ -127,6 +127,10 @@ CREATE TABLE IF NOT EXISTS measures (
   CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE
 );
 
+COPY measures(title_id, weight, height, width, depth)
+FROM
+  '/csv/measures.csv' DELIMITER ',' CSV HEADER;
+
 /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */
 SELECT setval(
   pg_get_serial_sequence('titles', 'id'),

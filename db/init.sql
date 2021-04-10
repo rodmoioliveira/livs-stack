@@ -92,9 +92,9 @@ CREATE TABLE IF NOT EXISTS titles (
   year SMALLINT NOT NULL
 );
 
-/* COPY titles(id, isbn, author, title, year, genre_id, publisher_id) */
-/* FROM */
-/*   '/csv/titles.csv' DELIMITER ',' CSV HEADER; */
+COPY titles(id, isbn, author, edition, format, language, pages, publisher, summary, title, year)
+FROM
+  '/csv/titles.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================
@@ -103,10 +103,14 @@ CREATE TABLE IF NOT EXISTS titles (
  */
 
 CREATE TABLE IF NOT EXISTS titles_genres (
-  genre_id BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
   title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
-  PRIMARY KEY (genre_id, title_id)
+  genre_id BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
+  PRIMARY KEY (title_id, genre_id)
 );
+
+COPY titles_genres(title_id, genre_id)
+FROM
+  '/csv/titles_genres.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================

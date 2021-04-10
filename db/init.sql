@@ -147,6 +147,30 @@ CREATE OR REPLACE VIEW genres_count AS (
     ORDER BY count DESC
 );
 
+CREATE OR REPLACE VIEW titles_info as (
+  SELECT
+    titles.id,
+    titles.isbn,
+    CONCAT (authors.first_name, ' ', authors.last_name) AS author,
+    titles.edition,
+    titles.format,
+    languages.language,
+    titles.pages,
+    publishers.publisher,
+    titles.summary,
+    titles.title,
+    titles.year,
+    measures.weight,
+    measures.height,
+    measures.width,
+    measures.depth
+  FROM titles
+    JOIN authors ON titles.author = authors.id
+    JOIN languages ON titles.language = languages.id
+    JOIN measures ON titles.id = measures.title_id
+    JOIN publishers ON publishers.id = titles.publisher
+);
+
 /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */
 SELECT setval(
   pg_get_serial_sequence('titles', 'id'),

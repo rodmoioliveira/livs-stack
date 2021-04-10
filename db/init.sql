@@ -110,11 +110,11 @@ CREATE TABLE IF NOT EXISTS titles_genres (
 
 /*
  * ===========================
- * titles_measures
+ * measures
  * ===========================
  */
 
-CREATE TABLE IF NOT EXISTS titles_measures (
+CREATE TABLE IF NOT EXISTS measures (
   title_id BIGINT PRIMARY KEY,
   weight REAL NOT NULL,
   height REAL NOT NULL,

@@ -1,3 +1,5 @@
+/* Inspired by https://github.com/mkondratek/Bookstore-Database-Design */
+
 BEGIN TRANSACTION;
 
 /*
@@ -30,6 +32,19 @@ CREATE TABLE IF NOT EXISTS genres (
   genre VARCHAR(255) UNIQUE NOT NULL
 );
 
+/*
+ * ===========================
+ * titles_genres
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS titles_genres (
+  genre_id BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
+  title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
+  PRIMARY KEY (genre_id, title_id)
+);
+
+
 /* COPY genres(id, genre) */
 /* FROM */
 /*   '/csv/genres.csv' DELIMITER ',' CSV HEADER; */
@@ -57,17 +72,16 @@ CREATE TABLE IF NOT EXISTS publishers (
 
 CREATE TABLE IF NOT EXISTS titles (
   id BIGSERIAL PRIMARY KEY,
-  isbn BIGINT NOT NULL UNIQUE,
+  isbn VARCHAR NOT NULL UNIQUE,
   author VARCHAR(255) NOT NULL,
+  edition SMALLINT NOT NULL,
+  format FORMAT NOT NULL,
+  language BIGSERIAL REFERENCES languages(id) ON DELETE CASCADE,
+  pages SMALLINT NOT NULL,
+  publisher BIGSERIAL REFERENCES publishers(id) ON DELETE CASCADE,
+  summary TEXT NOT NULL
   title VARCHAR(255) NOT NULL,
   year SMALLINT NOT NULL,
-  genre BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
-  publisher BIGSERIAL REFERENCES publishers(id) ON DELETE CASCADE,
-  format FORMAT NOT NULL,
-  pages SMALLINT NOT NULL,
-  edition SMALLINT NOT NULL,
-  language BIGSERIAL REFERENCES languages(id) ON DELETE CASCADE,
-  summary TEXT NOT NULL
 );
 
 /* COPY titles(id, isbn, author, title, year, genre_id, publisher_id) */
@@ -89,34 +103,6 @@ CREATE TABLE IF NOT EXISTS measures (
   CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE
 );
 
-/*
- * ===========================
- * copies_new
- * ===========================
- */
-
-/* CREATE TABLE IF NOT EXISTS copies_new ( */
-/*   title_id BIGINT PRIMARY KEY, */
-/*   price MONEY NOT NULL, */
-/*   quantity SMALLINT NOT NULL, */
-/*   CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE */
-/* ); */
-
-/*
- * ===========================
- * copies_used
- * ===========================
- */
-
-/* CREATE TABLE IF NOT EXISTS copies_used ( */
-/*   id BIGSERIAL, */
-/*   title_id BIGINT NOT NULL, */
-/*   price MONEY NOT NULL, */
-/*   state TEXT NOT NULL, */
-/*   PRIMARY KEY (id, title_id), */
-/*   FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE */
-/* ); */
-
 /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */
 SELECT setval(
   pg_get_serial_sequence('titles', 'id'),
@@ -135,12 +121,6 @@ SELECT setval(
   COALESCE(max(id) + 1, 1),
   false
 ) FROM publishers;
-
-/* SELECT setval( */
-/*   pg_get_serial_sequence('copies_used', 'id'), */
-/*   COALESCE(max(id) + 1, 1), */
-/*   false */
-/* ) FROM copies_used; */
 
 SELECT setval(
   pg_get_serial_sequence('languages', 'id'),

@@ -68,9 +68,9 @@ CREATE TABLE IF NOT EXISTS authors (
   UNIQUE (first_name, last_name)
 );
 
-/* COPY authors(id, publisher) */
-/* FROM */
-/*   '/csv/authors.csv' DELIMITER ',' CSV HEADER; */
+COPY authors(id, first_name, last_name)
+FROM
+  '/csv/authors.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================

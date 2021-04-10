@@ -103,9 +103,9 @@ FROM
  */
 
 CREATE TABLE IF NOT EXISTS titles_genres (
-  title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
+  title_id BIGSERIAL PRIMARY KEY,
   genre_id BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
-  PRIMARY KEY (title_id, genre_id)
+  CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE
 );
 
 COPY titles_genres(title_id, genre_id)

@@ -1,181 +1,181 @@
-id,isbn,author,edition,format,language,pages,publisher,summary,title,year
-1,LTJK3AK0F1WJ58035,16,8,paperback,20,637,1,"Aperiam quibusdam labore occaecati ea enim vel autem quisquam id.
+id,isbn,author,edition,format,language,genre_id,pages,publisher,summary,title,year
+1,LTJK3AK0F1WJ58035,16,8,paperback,20,14,637,1,"Aperiam quibusdam labore occaecati ea enim vel autem quisquam id.
 Voluptas aliquid alias molestiae.
 Placeat autem quae.
 Alias alias deserunt expedita rerum quisquam qui incidunt occaecati ea.
 Et nulla cupiditate veritatis.",Unspecified subluxation of left knee,1905
-2,NBZDK7K5ZAA342706,27,1,hardcover,16,64,29,Quasi nulla voluptatibus soluta numquam maxime.,Striatonigral degeneration,2017
-3,VR7XTKZ14JHD47342,6,1,paperback,4,524,14,est,Syphilitic saddle nose,1966
-4,6RNPLK6SRHKY34150,15,10,hardcover,1,486,30,"Consectetur nemo facilis laudantium. Minus quis labore sapiente in qui voluptate doloribus a. Quidem sit autem consequatur itaque fugit. Consequatur autem minus sunt animi aut.
+2,NBZDK7K5ZAA342706,27,1,hardcover,16,27,64,29,Quasi nulla voluptatibus soluta numquam maxime.,Striatonigral degeneration,2017
+3,VR7XTKZ14JHD47342,6,1,paperback,4,17,524,14,est,Syphilitic saddle nose,1966
+4,6RNPLK6SRHKY34150,15,10,hardcover,1,17,486,30,"Consectetur nemo facilis laudantium. Minus quis labore sapiente in qui voluptate doloribus a. Quidem sit autem consequatur itaque fugit. Consequatur autem minus sunt animi aut.
  
 Quia architecto sit quis sed similique ut ut. Quis sit impedit deserunt ab earum animi minus. Ipsum molestiae ut.
  
 Quia cupiditate ipsum soluta quo qui dolores. Dolore et quidem facilis consequuntur est et. Sequi maxime qui amet voluptas. Vitae sed voluptatibus. Sunt molestias et.",Subacute cutaneous lupus erythematosus,1957
-5,CYX9E9RAKMWX51907,46,2,paperback,20,475,18,Ratione voluptatum at tempora.,Laceration of dorsal artery of right foot,1994
-6,WZ4KMG9GTYYD80197,25,2,hardcover,25,165,39,quaerat aut distinctio,Late syphilitic oculopathy,1954
-7,MZS8MMLBRMJF61284,2,2,paperback,11,373,2,occaecati,"Familial chondrocalcinosis, elbow",1919
-8,8U5N0Z0RK0KE30949,1,10,hardcover,15,384,4,"Alias dicta laborum sed laboriosam architecto molestiae et. Quaerat beatae sed et. Sequi vel earum. Sint atque magnam eligendi sed rerum. Sit at saepe officia in accusamus numquam.
+5,CYX9E9RAKMWX51907,46,2,paperback,20,17,475,18,Ratione voluptatum at tempora.,Laceration of dorsal artery of right foot,1994
+6,WZ4KMG9GTYYD80197,25,2,hardcover,25,22,165,39,quaerat aut distinctio,Late syphilitic oculopathy,1954
+7,MZS8MMLBRMJF61284,2,2,paperback,11,16,373,2,occaecati,"Familial chondrocalcinosis, elbow",1919
+8,8U5N0Z0RK0KE30949,1,10,hardcover,15,10,384,4,"Alias dicta laborum sed laboriosam architecto molestiae et. Quaerat beatae sed et. Sequi vel earum. Sint atque magnam eligendi sed rerum. Sit at saepe officia in accusamus numquam.
  
 Soluta aut soluta voluptatem soluta voluptas voluptate. Quibusdam velit velit dolore quo aperiam ad laboriosam eius est. Maiores et ipsum quas dicta alias amet. Atque aut animi. Sit mollitia assumenda pariatur.
  
 Et voluptatem quo recusandae in blanditiis non distinctio. Et et omnis consectetur facere perferendis. Asperiores esse fugiat alias nihil aspernatur nihil. Minima repellendus debitis eos optio est corrupti. Voluptas incidunt exercitationem est veritatis delectus est consequatur.","Salter Harris Type III physeal fracture of upper end of humerus, left arm",1993
-9,D4X9L94CCTJZ25398,4,2,paperback,4,249,32,perspiciatis exercitationem nihil,"Salter Harris Type III physeal fracture of upper end of humerus, left arm",1979
-10,PRZL9PBZW2VR57934,9,1,hardcover,3,505,8,"Saepe nobis inventore molestiae minus molestiae.
+9,D4X9L94CCTJZ25398,4,2,paperback,4,3,249,32,perspiciatis exercitationem nihil,"Salter Harris Type III physeal fracture of upper end of humerus, left arm",1979
+10,PRZL9PBZW2VR57934,9,1,hardcover,3,24,505,8,"Saepe nobis inventore molestiae minus molestiae.
 Quia blanditiis minima dignissimos placeat et illum voluptatem.
 Excepturi enim odit quod occaecati in voluptatum.
 Sed eum consequuntur aut harum distinctio consequatur.",Contact with hot household appliances,1928
-11,N76PLHBWWFR050373,37,1,paperback,16,225,39,Doloribus voluptas culpa pariatur fugiat totam magnam. Minima minus vero. Dolorem pariatur in amet ut quis voluptatum ut corporis voluptas. Qui eos qui. Illum sunt est vel. Suscipit ut quo.,"Other disorders of continuity of bone, right radius",1981
-12,D2ZLHXB6GEHY57440,6,10,hardcover,14,92,1,"Amet perspiciatis ut voluptas placeat quos est. Quasi omnis accusantium sequi quibusdam blanditiis laboriosam earum voluptates voluptatibus. Sit sed quia est et recusandae ea. Est officia quod. Est expedita est voluptas quis quas nisi quas consequatur.
+11,N76PLHBWWFR050373,37,1,paperback,16,27,225,39,Doloribus voluptas culpa pariatur fugiat totam magnam. Minima minus vero. Dolorem pariatur in amet ut quis voluptatum ut corporis voluptas. Qui eos qui. Illum sunt est vel. Suscipit ut quo.,"Other disorders of continuity of bone, right radius",1981
+12,D2ZLHXB6GEHY57440,6,10,hardcover,14,28,92,1,"Amet perspiciatis ut voluptas placeat quos est. Quasi omnis accusantium sequi quibusdam blanditiis laboriosam earum voluptates voluptatibus. Sit sed quia est et recusandae ea. Est officia quod. Est expedita est voluptas quis quas nisi quas consequatur.
  
 Facere sed ab magnam totam minima voluptate expedita. Et dolorum accusantium. Blanditiis quis odio minus magnam eum. Rem cumque sapiente perspiciatis. Tempore dolores magnam qui distinctio debitis ut. Consequatur molestiae suscipit sunt ut itaque ipsam est qui.
  
 Possimus amet molestiae est quo sit error est alias. Voluptates perspiciatis optio et illo nemo. Animi qui aliquid sit in ullam repudiandae sed et. Officia quia sint. Cumque sed quibusdam eaque doloremque autem distinctio. Eveniet voluptas nostrum.","Other specified injury of unspecified blood vessel at shoulder and upper arm level, right arm",1998
-13,AUM76S2CKMT011595,22,10,paperback,19,578,42,Laboriosam quo et aliquid nihil quo. Distinctio velit suscipit modi nulla consequatur rerum. Sequi deserunt ut id iusto perspiciatis.,Varicose veins of left lower extremity with inflammation,1984
-14,Z8NC8BC041WZ28919,9,10,hardcover,3,44,20,voluptas,Urethral caruncle,1939
-15,JEBXZUE0ASGV99726,23,3,paperback,17,410,32,Dicta repellat aut voluptas nisi iste non amet porro.,"Disease of spleen, unspecified",1928
-16,ZCLHS5S5T0HM95404,19,1,hardcover,12,554,1,Laudantium quae sed et iusto voluptatum voluptatem et ab. Iure vel consequuntur omnis ut nihil. Repudiandae qui ut ut quaerat voluptate officia labore itaque mollitia. Sapiente illum veniam sint aut rerum dolores rem repudiandae. Voluptatibus veniam omnis animi possimus voluptas consequatur. Voluptas asperiores laboriosam quo perspiciatis quia quisquam nostrum non est.,Corrosion of third degree of multiple sites of left wrist and hand,1954
-17,1LWBVKEGJKRM38660,21,2,paperback,8,292,41,"Qui officiis aut dolorum distinctio nemo illum.
+13,AUM76S2CKMT011595,22,10,paperback,19,29,578,42,Laboriosam quo et aliquid nihil quo. Distinctio velit suscipit modi nulla consequatur rerum. Sequi deserunt ut id iusto perspiciatis.,Varicose veins of left lower extremity with inflammation,1984
+14,Z8NC8BC041WZ28919,9,10,hardcover,3,19,44,20,voluptas,Urethral caruncle,1939
+15,JEBXZUE0ASGV99726,23,3,paperback,17,1,410,32,Dicta repellat aut voluptas nisi iste non amet porro.,"Disease of spleen, unspecified",1928
+16,ZCLHS5S5T0HM95404,19,1,hardcover,12,20,554,1,Laudantium quae sed et iusto voluptatum voluptatem et ab. Iure vel consequuntur omnis ut nihil. Repudiandae qui ut ut quaerat voluptate officia labore itaque mollitia. Sapiente illum veniam sint aut rerum dolores rem repudiandae. Voluptatibus veniam omnis animi possimus voluptas consequatur. Voluptas asperiores laboriosam quo perspiciatis quia quisquam nostrum non est.,Corrosion of third degree of multiple sites of left wrist and hand,1954
+17,1LWBVKEGJKRM38660,21,2,paperback,8,12,292,41,"Qui officiis aut dolorum distinctio nemo illum.
 Eaque consequatur repellendus.
 Delectus voluptas doloremque id qui provident occaecati omnis in iusto.
 Consequuntur quo nisi alias modi illum.",Syphilitic saddle nose,1952
-18,G6HWXFT083M196001,20,9,hardcover,13,39,2,Quis a eum.,"Total perforations of tympanic membrane, right ear",1936
-19,P1K6186RH0UX16116,8,5,paperback,21,699,19,"Aspernatur voluptas earum id sequi ut et impedit quia laudantium. Sit earum saepe vel explicabo expedita. Molestias exercitationem dicta porro quae. Eaque quam nulla exercitationem corporis. Quas perspiciatis laudantium autem reprehenderit eum nulla odio.
+18,G6HWXFT083M196001,20,9,hardcover,13,30,39,2,Quis a eum.,"Total perforations of tympanic membrane, right ear",1936
+19,P1K6186RH0UX16116,8,5,paperback,21,18,699,19,"Aspernatur voluptas earum id sequi ut et impedit quia laudantium. Sit earum saepe vel explicabo expedita. Molestias exercitationem dicta porro quae. Eaque quam nulla exercitationem corporis. Quas perspiciatis laudantium autem reprehenderit eum nulla odio.
  
 Maiores numquam corrupti voluptatum doloribus vero ipsam. Sint facere vitae. Architecto sequi consequatur illum veniam repellendus dolor doloribus rem. Quae ullam molestiae est consequatur labore.
  
 Dolorem nam exercitationem fugit nam. Sequi ut itaque quia repellendus officia unde. Et ut in.","Toxic effect of other seafood, assault",2012
-20,393Y42S8R3SN66460,1,7,hardcover,19,134,34,Delectus amet qui odit ad fugit. In numquam voluptates non eum corrupti. Voluptatibus ab reiciendis saepe explicabo quidem. Modi nisi modi dolorem rerum quisquam ea beatae. Deserunt iure reiciendis ut et.,"Subacute osteomyelitis, right tibia and fibula",1952
-21,JGTDABM3P0J557999,17,2,paperback,16,388,27,nesciunt,Traumatic rupture of unspecified ligament of right little finger at metacarpophalangeal and interphalangeal joint,2008
-22,DCU03MS31SE348477,7,1,hardcover,15,577,26,itaque harum aut,"Toxic effect of other seafood, assault",1967
-23,77RBWSCYY3HJ72514,9,5,paperback,15,160,40,"Non ut praesentium et eos.
+20,393Y42S8R3SN66460,1,7,hardcover,19,17,134,34,Delectus amet qui odit ad fugit. In numquam voluptates non eum corrupti. Voluptatibus ab reiciendis saepe explicabo quidem. Modi nisi modi dolorem rerum quisquam ea beatae. Deserunt iure reiciendis ut et.,"Subacute osteomyelitis, right tibia and fibula",1952
+21,JGTDABM3P0J557999,17,2,paperback,16,15,388,27,nesciunt,Traumatic rupture of unspecified ligament of right little finger at metacarpophalangeal and interphalangeal joint,2008
+22,DCU03MS31SE348477,7,1,hardcover,15,19,577,26,itaque harum aut,"Toxic effect of other seafood, assault",1967
+23,77RBWSCYY3HJ72514,9,5,paperback,15,27,160,40,"Non ut praesentium et eos.
 Odit quibusdam eum cumque molestiae enim autem.","Other chronic hematogenous osteomyelitis, left humerus",1981
-24,8ZZ7X4HZPUYG51363,27,6,hardcover,12,57,5,"Ullam optio et nulla aperiam qui.
+24,8ZZ7X4HZPUYG51363,27,6,hardcover,12,12,57,5,"Ullam optio et nulla aperiam qui.
 Laudantium eligendi est quaerat perferendis pariatur illum eius nihil voluptas.",Corrosion of unspecified degree of right lower leg,1981
-25,HDXRD9470NSJ79768,21,10,paperback,1,280,13,Omnis rerum et laudantium dolorum ut.,Unspecified occupant of military vehicle injured in nontraffic accident,1922
-26,9A2LE1XC64AW62400,29,10,hardcover,15,475,23,saepe,"Rheumatoid bursitis, wrist",2005
-27,TCJ2PTSE3EA513785,12,9,paperback,17,604,23,debitis quos itaque,Nondisplaced fracture of lateral condyle of unspecified femur,2018
-28,DZPV2P84ZHSL27520,8,10,hardcover,14,24,4,Maxime voluptatem aut esse qui possimus et. Est est ab quis ratione dolorem et quia est placeat. Eum deserunt molestias eum eaque molestiae sed.,Urethral caruncle,1964
-29,BC616HLK7SZU36517,6,2,paperback,21,360,12,Qui possimus amet debitis ut consectetur dolorem.,School (private) (public) (state) as the place of occurrence of the external cause,2002
-30,E7DD62CHBNW485541,47,1,hardcover,24,378,17,Totam voluptatem architecto ut.,"Myocarditis, unspecified",1906
-31,JF1VS5DAW5JS57119,31,10,paperback,9,578,29,aut dolore quibusdam,Contusion of small intestine,1962
-32,H1VG5D0PL6BD81738,36,2,hardcover,3,216,3,"Perspiciatis aperiam nostrum. Officia odio velit et perspiciatis dolor et ea rerum. Explicabo voluptatibus quis velit architecto cumque facilis quod sit.
+25,HDXRD9470NSJ79768,21,10,paperback,1,2,280,13,Omnis rerum et laudantium dolorum ut.,Unspecified occupant of military vehicle injured in nontraffic accident,1922
+26,9A2LE1XC64AW62400,29,10,hardcover,15,25,475,23,saepe,"Rheumatoid bursitis, wrist",2005
+27,TCJ2PTSE3EA513785,12,9,paperback,17,13,604,23,debitis quos itaque,Nondisplaced fracture of lateral condyle of unspecified femur,2018
+28,DZPV2P84ZHSL27520,8,10,hardcover,14,3,24,4,Maxime voluptatem aut esse qui possimus et. Est est ab quis ratione dolorem et quia est placeat. Eum deserunt molestias eum eaque molestiae sed.,Urethral caruncle,1964
+29,BC616HLK7SZU36517,6,2,paperback,21,14,360,12,Qui possimus amet debitis ut consectetur dolorem.,School (private) (public) (state) as the place of occurrence of the external cause,2002
+30,E7DD62CHBNW485541,47,1,hardcover,24,4,378,17,Totam voluptatem architecto ut.,"Myocarditis, unspecified",1906
+31,JF1VS5DAW5JS57119,31,10,paperback,9,17,578,29,aut dolore quibusdam,Contusion of small intestine,1962
+32,H1VG5D0PL6BD81738,36,2,hardcover,3,28,216,3,"Perspiciatis aperiam nostrum. Officia odio velit et perspiciatis dolor et ea rerum. Explicabo voluptatibus quis velit architecto cumque facilis quod sit.
  
 Voluptatem veritatis suscipit accusantium. Placeat cum omnis eius quas voluptatum quia. Ratione ut aut inventore aliquam. In voluptatem eos optio. Est odit praesentium cum eius eos sed nostrum impedit ex.
  
 Saepe voluptatem ducimus. Omnis quo perferendis. Dicta optio eos voluptatum nihil aut adipisci reprehenderit. Deleniti adipisci dolores.",Other complications of amputation stump,1913
-33,6386PTG1SWGW50592,9,1,paperback,2,687,4,itaque,Edema of left upper eyelid,2019
-34,6KLNM01L8YJJ62158,5,2,hardcover,8,490,14,Labore voluptatem maiores.,"Unspecified fracture of fourth metacarpal bone, left hand",1922
-35,PCAH7CU4K7E550099,15,8,paperback,4,264,32,Error quasi itaque.,"Unspecified injury of extensor muscle, fascia and tendon of right little finger at forearm level",1990
-36,FS13RUMYX7WM10343,37,1,hardcover,15,436,1,Et sapiente vitae quidem inventore pariatur ut. Consequuntur est ut. Nihil dolorem iste et ipsam qui nam consequuntur. Atque sequi suscipit ea.,Other pneumothorax and air leak,1965
-37,Z4H6SAAZB7C326585,25,1,paperback,15,234,16,"Voluptatem impedit incidunt ex molestiae laboriosam eos.
+33,6386PTG1SWGW50592,9,1,paperback,2,13,687,4,itaque,Edema of left upper eyelid,2019
+34,6KLNM01L8YJJ62158,5,2,hardcover,8,1,490,14,Labore voluptatem maiores.,"Unspecified fracture of fourth metacarpal bone, left hand",1922
+35,PCAH7CU4K7E550099,15,8,paperback,4,14,264,32,Error quasi itaque.,"Unspecified injury of extensor muscle, fascia and tendon of right little finger at forearm level",1990
+36,FS13RUMYX7WM10343,37,1,hardcover,15,13,436,1,Et sapiente vitae quidem inventore pariatur ut. Consequuntur est ut. Nihil dolorem iste et ipsam qui nam consequuntur. Atque sequi suscipit ea.,Other pneumothorax and air leak,1965
+37,Z4H6SAAZB7C326585,25,1,paperback,15,26,234,16,"Voluptatem impedit incidunt ex molestiae laboriosam eos.
 Adipisci et iste molestiae adipisci magnam saepe.
 Error deleniti itaque illum eaque fuga est.
 Et ullam rerum aspernatur tempora aut voluptas voluptatum dolorem adipisci.",Encounter for aftercare following multiple organ transplant,1979
-38,6982T89D42NL83657,20,2,hardcover,23,463,18,"Delectus expedita voluptate. Aut corporis animi voluptatem. Debitis explicabo perspiciatis quia facere autem consequatur dignissimos aut ullam. Id soluta saepe aut sit non cumque omnis. Modi aut modi qui fuga delectus et rerum distinctio.
+38,6982T89D42NL83657,20,2,hardcover,23,3,463,18,"Delectus expedita voluptate. Aut corporis animi voluptatem. Debitis explicabo perspiciatis quia facere autem consequatur dignissimos aut ullam. Id soluta saepe aut sit non cumque omnis. Modi aut modi qui fuga delectus et rerum distinctio.
  
 Inventore ut blanditiis atque aut. Voluptas id adipisci cupiditate vitae harum laudantium rem. Rerum iure quis neque. Quibusdam unde et.
  
 Omnis voluptatem earum praesentium blanditiis. Dolor voluptas in. Iusto modi ut omnis.","Chondrolysis, hip",1926
-39,1NRN7VDCW0YF73993,21,7,paperback,18,172,3,Ab corrupti enim adipisci. Quia quae sunt omnis voluptas. Nam vero ut tempore molestiae molestiae unde fugit id. Ullam mollitia beatae et impedit sint perferendis optio repudiandae. Dolorem asperiores doloremque non quia qui suscipit.,Salter-Harris Type I physeal fracture of upper end of unspecified femur,1973
-40,0VF90ZF2NDV822140,50,1,hardcover,12,161,41,"Incidunt illum debitis at aperiam est ex illo mollitia aspernatur.
+39,1NRN7VDCW0YF73993,21,7,paperback,18,24,172,3,Ab corrupti enim adipisci. Quia quae sunt omnis voluptas. Nam vero ut tempore molestiae molestiae unde fugit id. Ullam mollitia beatae et impedit sint perferendis optio repudiandae. Dolorem asperiores doloremque non quia qui suscipit.,Salter-Harris Type I physeal fracture of upper end of unspecified femur,1973
+40,0VF90ZF2NDV822140,50,1,hardcover,12,31,161,41,"Incidunt illum debitis at aperiam est ex illo mollitia aspernatur.
 Expedita dolor sed non vel dicta cum est voluptatem aspernatur.
 Et ea similique id optio laudantium qui sint ipsum veniam.","Benign neoplasm of connective and other soft tissue of lower limb, including hip",2002
-41,FW9S8WWVVXJ281002,47,10,paperback,3,684,43,Molestias sit blanditiis tempore minus ea et corporis ea. Similique et consectetur sunt quasi. Voluptas mollitia tenetur voluptatem nihil quaerat. Perferendis consequatur reprehenderit rerum officia dolor. Hic et perspiciatis delectus sint quia. Eos quia illo magnam molestiae consectetur accusamus omnis.,Malignant neoplasm of other and unspecified female genital organs,1995
-42,8BRR54CNMSDP50492,7,4,hardcover,1,639,37,Hic porro amet illo dolor cupiditate occaecati dignissimos porro. Cumque a veritatis autem inventore veritatis sit unde neque. Rerum pariatur ab vel est enim. Est autem quia. Dolorum voluptatem nemo excepturi reiciendis blanditiis. Sed mollitia labore odit nihil consequatur doloremque iure enim soluta.,Contact with turtles,1949
-43,WTHPUXTNJRW647957,45,1,paperback,24,606,24,quibusdam aspernatur reprehenderit,"Chronic myeloid leukemia, BCR/ABL-positive, in remission",1936
-44,RVRXHAMXDCER53210,12,5,hardcover,7,336,6,aut corporis soluta,"Total perforations of tympanic membrane, right ear",1973
-45,DE643HPGAFJ240128,22,10,paperback,25,615,8,"Expedita voluptas facere. Eum ipsam voluptatum asperiores ut distinctio nisi. Facere facere alias et.
+41,FW9S8WWVVXJ281002,47,10,paperback,3,7,684,43,Molestias sit blanditiis tempore minus ea et corporis ea. Similique et consectetur sunt quasi. Voluptas mollitia tenetur voluptatem nihil quaerat. Perferendis consequatur reprehenderit rerum officia dolor. Hic et perspiciatis delectus sint quia. Eos quia illo magnam molestiae consectetur accusamus omnis.,Malignant neoplasm of other and unspecified female genital organs,1995
+42,8BRR54CNMSDP50492,7,4,hardcover,1,1,639,37,Hic porro amet illo dolor cupiditate occaecati dignissimos porro. Cumque a veritatis autem inventore veritatis sit unde neque. Rerum pariatur ab vel est enim. Est autem quia. Dolorum voluptatem nemo excepturi reiciendis blanditiis. Sed mollitia labore odit nihil consequatur doloremque iure enim soluta.,Contact with turtles,1949
+43,WTHPUXTNJRW647957,45,1,paperback,24,13,606,24,quibusdam aspernatur reprehenderit,"Chronic myeloid leukemia, BCR/ABL-positive, in remission",1936
+44,RVRXHAMXDCER53210,12,5,hardcover,7,30,336,6,aut corporis soluta,"Total perforations of tympanic membrane, right ear",1973
+45,DE643HPGAFJ240128,22,10,paperback,25,26,615,8,"Expedita voluptas facere. Eum ipsam voluptatum asperiores ut distinctio nisi. Facere facere alias et.
  
 Maiores quos enim est explicabo ipsam. Provident ea libero neque expedita placeat vitae. Aut iste placeat nulla et facere sit beatae voluptate.
  
 Et velit et voluptas est et voluptatem repellendus. Est porro natus laborum nesciunt ipsum nisi ut. Architecto maiores illo magni. Nam fuga natus a sunt cum cum doloribus. Soluta repellendus delectus est consequatur quis nesciunt sed est.","Acute tonsillitis, unspecified",1926
-46,WFAKP94MMBP546857,20,3,hardcover,11,235,19,unde,"Other specified injury of unspecified blood vessel at shoulder and upper arm level, right arm",2015
-47,11YWJ7ZPBCYE31269,24,7,paperback,19,389,6,Iste aut culpa iusto pariatur rerum vel. Minima accusantium qui numquam voluptas. Sint sunt nihil impedit odit libero. A autem minus. Nihil cum ex. Quidem ab tempore vel illo dignissimos ut et quia.,Other spotted fevers,1952
-48,0VF1MBT92UD298824,12,2,hardcover,11,396,36,Modi ut aperiam odio. Nesciunt sit aperiam velit aut omnis qui. Eos occaecati asperiores aut et id facere. Voluptatem temporibus iste id quisquam non. Consequatur reiciendis ut aliquam. Labore laudantium expedita.,"Elevated blood-pressure reading, without diagnosis of hypertension",1990
-49,N811SK2CJ1HM40295,5,7,paperback,20,78,38,Natus debitis quo expedita et praesentium nemo dolorum.,Late syphilitic oculopathy,1920
-50,9F03Y6AZA0GT90600,16,7,hardcover,1,388,18,ratione voluptatem nam,"Benign neoplasm of connective and other soft tissue of lower limb, including hip",1904
-51,8FHZ05SVDVPH70680,36,4,paperback,3,405,43,Excepturi eos aut sed dolore.,"Swimmer's ear, left ear",2020
-52,6RU4JYXSTLCC33390,40,2,hardcover,2,465,22,Et quasi facere quae laborum nihil ut.,"Burn of unspecified body region, unspecified degree",1944
-53,3BCXH8BAX3D520105,50,3,paperback,9,150,36,"Eius omnis et. Dolor doloremque assumenda est velit temporibus. Velit voluptatem dolorem qui pariatur est minus dolores nobis modi. Sed eum itaque eum. Magnam sint consectetur nihil mollitia voluptatem vero minus.
+46,WFAKP94MMBP546857,20,3,hardcover,11,9,235,19,unde,"Other specified injury of unspecified blood vessel at shoulder and upper arm level, right arm",2015
+47,11YWJ7ZPBCYE31269,24,7,paperback,19,12,389,6,Iste aut culpa iusto pariatur rerum vel. Minima accusantium qui numquam voluptas. Sint sunt nihil impedit odit libero. A autem minus. Nihil cum ex. Quidem ab tempore vel illo dignissimos ut et quia.,Other spotted fevers,1952
+48,0VF1MBT92UD298824,12,2,hardcover,11,8,396,36,Modi ut aperiam odio. Nesciunt sit aperiam velit aut omnis qui. Eos occaecati asperiores aut et id facere. Voluptatem temporibus iste id quisquam non. Consequatur reiciendis ut aliquam. Labore laudantium expedita.,"Elevated blood-pressure reading, without diagnosis of hypertension",1990
+49,N811SK2CJ1HM40295,5,7,paperback,20,9,78,38,Natus debitis quo expedita et praesentium nemo dolorum.,Late syphilitic oculopathy,1920
+50,9F03Y6AZA0GT90600,16,7,hardcover,1,19,388,18,ratione voluptatem nam,"Benign neoplasm of connective and other soft tissue of lower limb, including hip",1904
+51,8FHZ05SVDVPH70680,36,4,paperback,3,28,405,43,Excepturi eos aut sed dolore.,"Swimmer's ear, left ear",2020
+52,6RU4JYXSTLCC33390,40,2,hardcover,2,24,465,22,Et quasi facere quae laborum nihil ut.,"Burn of unspecified body region, unspecified degree",1944
+53,3BCXH8BAX3D520105,50,3,paperback,9,20,150,36,"Eius omnis et. Dolor doloremque assumenda est velit temporibus. Velit voluptatem dolorem qui pariatur est minus dolores nobis modi. Sed eum itaque eum. Magnam sint consectetur nihil mollitia voluptatem vero minus.
  
 Sequi asperiores mollitia quae qui expedita vel. Facilis quia illo dignissimos voluptate eum. Suscipit est repellendus maiores minima sunt reprehenderit itaque et non. Molestiae voluptas sequi sint. Doloremque laboriosam qui beatae. Nihil aliquid quia unde nulla quia suscipit.
  
 Fuga expedita nisi animi et alias aut ipsam a. Harum qui nam enim sit ut. Voluptas quia accusamus officiis praesentium voluptatum accusantium asperiores est. Cumque sint quo quo magni omnis id quia. Laboriosam assumenda est enim. Quo assumenda ut et iure hic vel consequatur velit.",Other spondylosis,1900
-54,0AS3REKDJ6BG34934,3,3,hardcover,8,131,4,deserunt in corporis,"Inhalant use, unspecified with inhalant-induced psychotic disorder with hallucinations",1991
-55,6U8JUM84PFA076936,43,7,paperback,17,58,19,Similique odit eveniet ea quisquam omnis expedita. Harum veritatis aut. Et voluptatem qui consequatur fugiat iste saepe magnam ipsum qui. Eum ullam hic facere eos autem reiciendis expedita ut impedit. Odit possimus aut suscipit animi est sunt itaque corrupti.,"Laceration of flexor muscle, fascia and tendon of right index finger at forearm level",1998
-56,SWDN162X81W043344,31,5,hardcover,16,69,15,Eum eum iste debitis atque sed aut ipsa soluta molestias.,"Rheumatoid bursitis, wrist",1901
-57,5WPBS30B4UBH23602,16,6,paperback,9,210,22,Dolorem ducimus autem consequatur quia magni. Eius repellat commodi magnam.,"Other disorders of continuity of bone, right radius",1906
-58,20VBLM0NPHUF13284,27,8,hardcover,18,481,8,expedita commodi tempore,"Acute mastoiditis without complications, unspecified ear",2009
-59,AY5NGSVCHRXL20081,5,2,paperback,26,408,2,Omnis est possimus.,"Other acute osteomyelitis, right shoulder",1918
-60,LS19ABELLGY049939,8,4,hardcover,20,473,40,Eos aut accusamus exercitationem distinctio quia eos. Atque tenetur accusantium et et tempora sint modi temporibus. Eligendi quo odit blanditiis ducimus ea ut adipisci. Dolorum ut non quia nihil est occaecati mollitia vero. Quasi corporis beatae recusandae et quam dolores non et. Dolores unde non tenetur ad.,"Cystic meniscus, anterior horn of medial meniscus",1953
-61,TJ3BS50X1ZLK91493,17,2,paperback,25,570,35,Eos tempora nemo recusandae magnam aut ipsum est.,"Transient synovitis, hip",1926
-62,BT1MY7AKVZZB34167,34,10,hardcover,6,203,37,"Eligendi necessitatibus assumenda sit.
+54,0AS3REKDJ6BG34934,3,3,hardcover,8,14,131,4,deserunt in corporis,"Inhalant use, unspecified with inhalant-induced psychotic disorder with hallucinations",1991
+55,6U8JUM84PFA076936,43,7,paperback,17,29,58,19,Similique odit eveniet ea quisquam omnis expedita. Harum veritatis aut. Et voluptatem qui consequatur fugiat iste saepe magnam ipsum qui. Eum ullam hic facere eos autem reiciendis expedita ut impedit. Odit possimus aut suscipit animi est sunt itaque corrupti.,"Laceration of flexor muscle, fascia and tendon of right index finger at forearm level",1998
+56,SWDN162X81W043344,31,5,hardcover,16,16,69,15,Eum eum iste debitis atque sed aut ipsa soluta molestias.,"Rheumatoid bursitis, wrist",1901
+57,5WPBS30B4UBH23602,16,6,paperback,9,5,210,22,Dolorem ducimus autem consequatur quia magni. Eius repellat commodi magnam.,"Other disorders of continuity of bone, right radius",1906
+58,20VBLM0NPHUF13284,27,8,hardcover,18,10,481,8,expedita commodi tempore,"Acute mastoiditis without complications, unspecified ear",2009
+59,AY5NGSVCHRXL20081,5,2,paperback,26,27,408,2,Omnis est possimus.,"Other acute osteomyelitis, right shoulder",1918
+60,LS19ABELLGY049939,8,4,hardcover,20,23,473,40,Eos aut accusamus exercitationem distinctio quia eos. Atque tenetur accusantium et et tempora sint modi temporibus. Eligendi quo odit blanditiis ducimus ea ut adipisci. Dolorum ut non quia nihil est occaecati mollitia vero. Quasi corporis beatae recusandae et quam dolores non et. Dolores unde non tenetur ad.,"Cystic meniscus, anterior horn of medial meniscus",1953
+61,TJ3BS50X1ZLK91493,17,2,paperback,25,22,570,35,Eos tempora nemo recusandae magnam aut ipsum est.,"Transient synovitis, hip",1926
+62,BT1MY7AKVZZB34167,34,10,hardcover,6,18,203,37,"Eligendi necessitatibus assumenda sit.
 Molestias placeat sint aut error dignissimos omnis laudantium.
 Sunt necessitatibus optio nesciunt eveniet dignissimos veniam enim perferendis.
 Soluta mollitia illo voluptas.
 Veniam nihil et soluta iste reprehenderit sunt dolores qui enim.",Acute hepatitis A,1900
-63,CW8AD81A8YYJ65694,5,6,paperback,5,303,11,dolores,Exposure to smoke in uncontrolled fire in building or structure,1986
-64,2HAY1AMNDFGL83467,36,7,hardcover,13,666,12,ut unde voluptatem,Meningitis in Chagas' disease,1967
-65,RPNJPKBWAVJU11992,12,9,paperback,6,193,16,Consequatur vel in molestias dolor sed. Aut earum animi qui tempore pariatur modi ut. Aut quis quod ipsa expedita consequuntur aliquam ut facere.,Contact with powered kitchen appliance,1972
-66,BZN5RTM4Z8GE20671,41,4,hardcover,21,232,19,Culpa minima ipsam quibusdam quidem rerum. Tempora aut illum. Nemo perferendis nisi qui consectetur et nemo. Et quo quam sequi eveniet non. Ab laboriosam ratione sed laudantium sit incidunt et dolor sunt. Tempora beatae quia rem.,"Subacute osteomyelitis, right tibia and fibula",1954
-67,25885071V3BZ67564,3,3,paperback,20,127,34,voluptas,Chronic superficial gastritis without bleeding,1956
-68,HVSVGCKZVXDH66518,25,5,hardcover,1,333,28,in voluptatem voluptates,"Burn of first degree of multiple sites of left shoulder and upper limb, except wrist and hand",1937
-69,NN6XYA546PPU74497,24,10,paperback,3,84,35,Omnis sunt sapiente rem voluptatem rerum quos quia qui. Nisi doloremque vel soluta occaecati. Esse repellendus voluptas ut vero fuga in ullam voluptatum aspernatur. Consectetur accusantium animi aspernatur illo et temporibus assumenda distinctio. Velit eos nihil quo neque fugiat.,"Unspecified juvenile rheumatoid arthritis, hip",1984
-70,KZ3UX7UAY0BP42597,45,4,hardcover,11,548,37,Ut a laborum doloribus. Consequatur ducimus quasi. Beatae nesciunt consequatur consequuntur enim. Dolorem odio nihil officiis voluptates consequatur quia qui ducimus provident.,"Aspiration of fluid as the cause of abnormal reaction of the patient, or of later complication, without mention of misadventure at the time of the procedure",1996
-71,1ZVT5YPZDDSF60330,4,3,paperback,16,365,12,culpa,"Acute mastoiditis without complications, unspecified ear",1973
-72,3Y3XLZ153FDB49124,15,3,hardcover,22,394,18,Ut delectus amet numquam quo quod repudiandae neque rerum. Est qui nulla odit voluptatem ea itaque dignissimos sed. Deleniti qui et et facilis exercitationem quis consequatur.,Displaced trimalleolar fracture of left lower leg,1926
-73,FHVN42D555UL92040,27,6,paperback,7,178,26,sit ut officia,Malignant neoplasm of overlapping sites of other and unspecified parts of mouth,1950
-74,D7CZ1C0EN6T254064,47,4,hardcover,14,401,27,Nihil facere sint velit. Praesentium quam distinctio tempora exercitationem esse hic quibusdam temporibus. Consequuntur fugit amet consequatur consequatur est sunt omnis quisquam reprehenderit.,Hereditary lymphedema,1942
-75,M7NNRNHTM9GZ20455,40,5,paperback,20,631,34,Hic voluptatum ea deleniti eius et.,Acute hepatitis A,1942
-76,6UJSVX6438AD15776,15,10,hardcover,8,86,2,"Quis odio reprehenderit eos sed ut. Enim aut culpa corporis. Earum non sint illo sunt libero eos. Inventore ullam odio ducimus voluptatem molestias. Id ut sit. In sunt tenetur excepturi non debitis est doloribus quos ut.
+63,CW8AD81A8YYJ65694,5,6,paperback,5,2,303,11,dolores,Exposure to smoke in uncontrolled fire in building or structure,1986
+64,2HAY1AMNDFGL83467,36,7,hardcover,13,12,666,12,ut unde voluptatem,Meningitis in Chagas' disease,1967
+65,RPNJPKBWAVJU11992,12,9,paperback,6,21,193,16,Consequatur vel in molestias dolor sed. Aut earum animi qui tempore pariatur modi ut. Aut quis quod ipsa expedita consequuntur aliquam ut facere.,Contact with powered kitchen appliance,1972
+66,BZN5RTM4Z8GE20671,41,4,hardcover,21,10,232,19,Culpa minima ipsam quibusdam quidem rerum. Tempora aut illum. Nemo perferendis nisi qui consectetur et nemo. Et quo quam sequi eveniet non. Ab laboriosam ratione sed laudantium sit incidunt et dolor sunt. Tempora beatae quia rem.,"Subacute osteomyelitis, right tibia and fibula",1954
+67,25885071V3BZ67564,3,3,paperback,20,15,127,34,voluptas,Chronic superficial gastritis without bleeding,1956
+68,HVSVGCKZVXDH66518,25,5,hardcover,1,13,333,28,in voluptatem voluptates,"Burn of first degree of multiple sites of left shoulder and upper limb, except wrist and hand",1937
+69,NN6XYA546PPU74497,24,10,paperback,3,16,84,35,Omnis sunt sapiente rem voluptatem rerum quos quia qui. Nisi doloremque vel soluta occaecati. Esse repellendus voluptas ut vero fuga in ullam voluptatum aspernatur. Consectetur accusantium animi aspernatur illo et temporibus assumenda distinctio. Velit eos nihil quo neque fugiat.,"Unspecified juvenile rheumatoid arthritis, hip",1984
+70,KZ3UX7UAY0BP42597,45,4,hardcover,11,26,548,37,Ut a laborum doloribus. Consequatur ducimus quasi. Beatae nesciunt consequatur consequuntur enim. Dolorem odio nihil officiis voluptates consequatur quia qui ducimus provident.,"Aspiration of fluid as the cause of abnormal reaction of the patient, or of later complication, without mention of misadventure at the time of the procedure",1996
+71,1ZVT5YPZDDSF60330,4,3,paperback,16,4,365,12,culpa,"Acute mastoiditis without complications, unspecified ear",1973
+72,3Y3XLZ153FDB49124,15,3,hardcover,22,14,394,18,Ut delectus amet numquam quo quod repudiandae neque rerum. Est qui nulla odit voluptatem ea itaque dignissimos sed. Deleniti qui et et facilis exercitationem quis consequatur.,Displaced trimalleolar fracture of left lower leg,1926
+73,FHVN42D555UL92040,27,6,paperback,7,17,178,26,sit ut officia,Malignant neoplasm of overlapping sites of other and unspecified parts of mouth,1950
+74,D7CZ1C0EN6T254064,47,4,hardcover,14,29,401,27,Nihil facere sint velit. Praesentium quam distinctio tempora exercitationem esse hic quibusdam temporibus. Consequuntur fugit amet consequatur consequatur est sunt omnis quisquam reprehenderit.,Hereditary lymphedema,1942
+75,M7NNRNHTM9GZ20455,40,5,paperback,20,9,631,34,Hic voluptatum ea deleniti eius et.,Acute hepatitis A,1942
+76,6UJSVX6438AD15776,15,10,hardcover,8,10,86,2,"Quis odio reprehenderit eos sed ut. Enim aut culpa corporis. Earum non sint illo sunt libero eos. Inventore ullam odio ducimus voluptatem molestias. Id ut sit. In sunt tenetur excepturi non debitis est doloribus quos ut.
  
 Qui non consequatur perspiciatis blanditiis cupiditate. Quaerat nostrum alias dolor minus maxime possimus nulla aliquid. Est deserunt iure. Molestiae saepe assumenda ut nulla corporis odio consequuntur. Exercitationem voluptatem impedit neque iusto consectetur.
  
 Cupiditate excepturi atque aut quis labore impedit unde veritatis. Est optio voluptate consequatur et iusto repudiandae ducimus atque. Aut eos unde dolor expedita esse velit. Voluptas qui et dolorum aut aspernatur. Est ut omnis.",Laceration with foreign body of unspecified eyelid and periocular area,2006
-77,FBSB5WJTAGHR93530,26,2,paperback,26,441,22,qui,"Transient synovitis, hip",1965
-78,U64LGKDVHCFC82736,45,6,hardcover,9,396,27,"Vel omnis sed quo dolorem earum assumenda sed.
+77,FBSB5WJTAGHR93530,26,2,paperback,26,13,441,22,qui,"Transient synovitis, hip",1965
+78,U64LGKDVHCFC82736,45,6,hardcover,9,28,396,27,"Vel omnis sed quo dolorem earum assumenda sed.
 Voluptatum consequatur ipsum.
 Nesciunt commodi eveniet cumque.
 Aut accusantium velit maiores enim voluptas dolorem aperiam.",Burn of unspecified degree of upper back,2009
-79,J4GU0SRJTHFZ11273,1,4,paperback,10,511,23,Officia suscipit sint.,Meningococcal myocarditis,1906
-80,GDNL6JXH3YYV19662,41,4,hardcover,7,476,10,Odit cupiditate rerum voluptate et aperiam vel.,"Pedestrian on skateboard injured in collision with pedal cycle, unspecified whether traffic or nontraffic accident",1991
-81,9R3CKE8K0ZD425115,27,5,paperback,2,369,31,"Dolore ab corrupti ab modi. Voluptatibus doloribus beatae distinctio omnis consequatur laborum soluta pariatur. Sed facilis soluta dolor distinctio voluptate vero. Quisquam id nihil exercitationem porro officiis velit quae.
+79,J4GU0SRJTHFZ11273,1,4,paperback,10,11,511,23,Officia suscipit sint.,Meningococcal myocarditis,1906
+80,GDNL6JXH3YYV19662,41,4,hardcover,7,28,476,10,Odit cupiditate rerum voluptate et aperiam vel.,"Pedestrian on skateboard injured in collision with pedal cycle, unspecified whether traffic or nontraffic accident",1991
+81,9R3CKE8K0ZD425115,27,5,paperback,2,8,369,31,"Dolore ab corrupti ab modi. Voluptatibus doloribus beatae distinctio omnis consequatur laborum soluta pariatur. Sed facilis soluta dolor distinctio voluptate vero. Quisquam id nihil exercitationem porro officiis velit quae.
  
 Quae nemo sit quos amet animi praesentium. Facilis expedita consectetur quas iusto dolore quos ipsum praesentium. Fugit ratione exercitationem ut. Occaecati iusto quo recusandae repellat sint possimus. Nemo velit omnis occaecati incidunt rerum recusandae amet corrupti.
  
 Excepturi porro dolorem aut commodi repellendus. Voluptas odit ad. Animi nulla vitae laudantium perferendis earum minus.","Subluxation of lens, unspecified eye",1912
-82,Z4HNYF2VFANB50881,9,4,hardcover,24,406,24,Maiores velit quia. Labore dolore pariatur ullam ducimus. Numquam voluptatum consequuntur dolorum impedit aliquam tempore. Quia ut autem non iste odio.,"Osteonecrosis in diseases classified elsewhere, thigh",1985
-83,20TNT19FYZSW57855,36,8,paperback,23,429,20,"Ea ut cum maxime et adipisci totam a architecto et. Neque qui excepturi doloremque. Qui maxime velit voluptatem tenetur minus architecto aut.
+82,Z4HNYF2VFANB50881,9,4,hardcover,24,24,406,24,Maiores velit quia. Labore dolore pariatur ullam ducimus. Numquam voluptatum consequuntur dolorum impedit aliquam tempore. Quia ut autem non iste odio.,"Osteonecrosis in diseases classified elsewhere, thigh",1985
+83,20TNT19FYZSW57855,36,8,paperback,23,4,429,20,"Ea ut cum maxime et adipisci totam a architecto et. Neque qui excepturi doloremque. Qui maxime velit voluptatem tenetur minus architecto aut.
  
 Incidunt sint pariatur. Sapiente modi et voluptatem magni maxime ut. Officia vitae sequi voluptatum laboriosam harum qui. Et voluptatem illo sequi sit ipsam accusantium pariatur. Error enim officia expedita eos asperiores et consequatur cum.
  
 Iure doloribus nam maiores libero voluptates dicta quo sunt nesciunt. Neque exercitationem ut nesciunt. Et illo fugit aut voluptatum. Occaecati molestiae alias culpa odit non repellendus cum. Dolorem earum amet delectus necessitatibus iste ad.","Unspecified corneal deposit, unspecified eye",1941
-84,124RASWGLYA633277,19,5,hardcover,25,462,5,enim alias vel,Edema of left upper eyelid,1935
-85,9DFEHG9UVLD663308,43,4,paperback,25,28,15,"Eligendi debitis fugit ut quas natus impedit. Dolorem vel itaque laboriosam sit suscipit quae non alias omnis. Sed ipsam possimus est omnis nemo expedita sint velit illum. Vero vel aut animi. Quis non fuga quam sit quo. Voluptatem vel blanditiis non corrupti necessitatibus voluptates.
+84,124RASWGLYA633277,19,5,hardcover,25,7,462,5,enim alias vel,Edema of left upper eyelid,1935
+85,9DFEHG9UVLD663308,43,4,paperback,25,21,28,15,"Eligendi debitis fugit ut quas natus impedit. Dolorem vel itaque laboriosam sit suscipit quae non alias omnis. Sed ipsam possimus est omnis nemo expedita sint velit illum. Vero vel aut animi. Quis non fuga quam sit quo. Voluptatem vel blanditiis non corrupti necessitatibus voluptates.
  
 Dolores quaerat in. Qui quia explicabo. Voluptatibus voluptas dignissimos totam quia qui laboriosam quisquam. Tempore aut ut omnis quo veniam consequuntur rerum. Dolores ea dolor autem voluptatibus consequatur non.
  
 Natus rerum velit et architecto deleniti. Qui fugiat recusandae veritatis nihil. Nesciunt dolorem ut iste placeat quia doloremque ut soluta dignissimos. Odio dolorem fugit.",Other spondylosis,2011
-86,CKSJY3S5P8EM67816,25,9,hardcover,13,275,34,Eum et aspernatur officia aperiam et consectetur voluptatem ut.,Periapical abscess without sinus,1988
-87,HBNZM96B6RNA39479,26,4,paperback,5,370,37,totam voluptatem magni,Other ulcerative colitis with intestinal obstruction,2021
-88,M6FPN9MNF2C862205,37,8,hardcover,15,162,16,Minima officia eum ullam delectus repellendus. Magnam distinctio soluta sed. Repellat cum nemo quo. Accusamus dolorem voluptatibus voluptas provident ipsum laudantium adipisci facilis qui.,Abnormal hard tissue formation in pulp,1903
-89,DWT42Y01LZKW96272,15,8,paperback,16,320,10,"Inventore ducimus officia id est vero repudiandae minima. Amet consequuntur quidem. Occaecati deserunt voluptatem nam dolor. Est quae perspiciatis alias alias. Laborum ratione sunt quis aspernatur officia deserunt laborum blanditiis. Voluptate est qui autem molestiae rerum iusto voluptatum.
+86,CKSJY3S5P8EM67816,25,9,hardcover,13,27,275,34,Eum et aspernatur officia aperiam et consectetur voluptatem ut.,Periapical abscess without sinus,1988
+87,HBNZM96B6RNA39479,26,4,paperback,5,11,370,37,totam voluptatem magni,Other ulcerative colitis with intestinal obstruction,2021
+88,M6FPN9MNF2C862205,37,8,hardcover,15,25,162,16,Minima officia eum ullam delectus repellendus. Magnam distinctio soluta sed. Repellat cum nemo quo. Accusamus dolorem voluptatibus voluptas provident ipsum laudantium adipisci facilis qui.,Abnormal hard tissue formation in pulp,1903
+89,DWT42Y01LZKW96272,15,8,paperback,16,4,320,10,"Inventore ducimus officia id est vero repudiandae minima. Amet consequuntur quidem. Occaecati deserunt voluptatem nam dolor. Est quae perspiciatis alias alias. Laborum ratione sunt quis aspernatur officia deserunt laborum blanditiis. Voluptate est qui autem molestiae rerum iusto voluptatum.
  
 Facere sequi quia laboriosam vitae ratione itaque dolore. In aliquam quo voluptatibus error eaque inventore quam vero eveniet. Ab dolores sed sed eos eaque repellat laborum dignissimos velit.
  
 Delectus ducimus est quibusdam aut ea veniam ut unde. Et alias dolore deserunt libero omnis et. Minus aliquid natus optio qui.",Diffuse cystic mastopathy of unspecified breast,2011
-90,M8U52EUSWSSV72102,41,4,hardcover,13,490,31,In aliquid nihil minima. Eligendi nesciunt ut. Nihil provident nostrum quae dolores in nihil.,"Burn of unspecified body region, unspecified degree",1900
-91,KVSCPMUPDFYJ97499,11,5,paperback,20,410,32,"Explicabo quae nihil.
+90,M8U52EUSWSSV72102,41,4,hardcover,13,32,490,31,In aliquid nihil minima. Eligendi nesciunt ut. Nihil provident nostrum quae dolores in nihil.,"Burn of unspecified body region, unspecified degree",1900
+91,KVSCPMUPDFYJ97499,11,5,paperback,20,31,410,32,"Explicabo quae nihil.
 Deleniti inventore est blanditiis qui soluta.
 Porro tempora velit odit eligendi illum ut qui qui.",Complications of anesthesia during labor and delivery,1902
-92,99TJT8RPXZTT93844,27,8,hardcover,7,35,30,libero maxime perferendis,"Chondromalacia, left wrist",1928
-93,PS4P6427K8WX73781,23,10,paperback,10,276,36,"Dolores provident laboriosam id voluptatum quaerat ut et repellat vitae.
+92,99TJT8RPXZTT93844,27,8,hardcover,7,30,35,30,libero maxime perferendis,"Chondromalacia, left wrist",1928
+93,PS4P6427K8WX73781,23,10,paperback,10,2,276,36,"Dolores provident laboriosam id voluptatum quaerat ut et repellat vitae.
 Doloremque cumque error eos voluptatem.
 Et eos reprehenderit.",Other spotted fevers,1958
-94,UJ1EV5VP59BX81734,50,9,hardcover,21,514,25,et culpa ut,"Mooren's corneal ulcer, unspecified eye",1927
-95,59BMJAY9YBGV94549,15,1,paperback,8,509,13,Aut ut est sed pariatur enim eos. Recusandae nesciunt quo sunt. Vel fugiat necessitatibus voluptas.,Bus occupant (driver) (passenger) injured in other specified transport accidents,1902
-96,E3B3SV58ASSH92470,16,1,hardcover,22,65,10,facilis,Strain of unspecified muscle and tendon at ankle and foot level,1959
-97,FAWWJ8WR92U382680,41,9,paperback,13,580,42,ut eveniet neque,Alcohol abuse with intoxication,1981
-98,NU1BZNYNPHEB83190,42,6,hardcover,7,47,13,Eos totam deserunt magni qui et. Reprehenderit et omnis cum maxime. Incidunt voluptatibus dolores eligendi.,"Preterm labor without delivery, unspecified trimester",1966
-99,RGFW93G0KMUT47086,28,9,paperback,21,6,38,Minima aut repellat eos nihil ullam suscipit blanditiis voluptates quae. Ipsum assumenda sequi ea enim vel. Voluptas asperiores est.,"Glycogen storage disease, unspecified",1992
-100,RF5EVDAHHNZZ16910,50,9,hardcover,26,540,11,Itaque voluptatem deleniti modi aut commodi incidunt quibusdam beatae.,Unspecified dementia,1981
+94,UJ1EV5VP59BX81734,50,9,hardcover,21,1,514,25,et culpa ut,"Mooren's corneal ulcer, unspecified eye",1927
+95,59BMJAY9YBGV94549,15,1,paperback,8,14,509,13,Aut ut est sed pariatur enim eos. Recusandae nesciunt quo sunt. Vel fugiat necessitatibus voluptas.,Bus occupant (driver) (passenger) injured in other specified transport accidents,1902
+96,E3B3SV58ASSH92470,16,1,hardcover,22,7,65,10,facilis,Strain of unspecified muscle and tendon at ankle and foot level,1959
+97,FAWWJ8WR92U382680,41,9,paperback,13,19,580,42,ut eveniet neque,Alcohol abuse with intoxication,1981
+98,NU1BZNYNPHEB83190,42,6,hardcover,7,13,47,13,Eos totam deserunt magni qui et. Reprehenderit et omnis cum maxime. Incidunt voluptatibus dolores eligendi.,"Preterm labor without delivery, unspecified trimester",1966
+99,RGFW93G0KMUT47086,28,9,paperback,21,24,6,38,Minima aut repellat eos nihil ullam suscipit blanditiis voluptates quae. Ipsum assumenda sequi ea enim vel. Voluptas asperiores est.,"Glycogen storage disease, unspecified",1992
+100,RF5EVDAHHNZZ16910,50,9,hardcover,26,12,540,11,Itaque voluptatem deleniti modi aut commodi incidunt quibusdam beatae.,Unspecified dementia,1981

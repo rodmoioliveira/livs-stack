@@ -46,15 +46,18 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Compress::default())
             .service(web::resource("/").route(web::get().to(root::index)))
             .service(
-                web::resource("/titles")
-                    .route(web::get().to(titles::all))
-                    .route(web::post().to(titles::add)),
-            )
-            .service(
-                web::resource("/titles/{id}")
-                    .route(web::get().to(titles::one))
-                    .route(web::delete().to(titles::delete))
-                    .route(web::put().to(titles::update)),
+                web::scope("/titles")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(titles::all))
+                            .route(web::post().to(titles::add)),
+                    )
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(titles::one))
+                            .route(web::delete().to(titles::delete))
+                            .route(web::put().to(titles::update)),
+                    ),
             )
     })
     .bind(localhost)?

@@ -3,7 +3,7 @@ use deadpool_postgres::Client;
 use tokio_pg_mapper::FromTokioPostgresRow;
 
 pub async fn all(client: &Client) -> Result<Vec<models::titles::Title>, errors::MyError> {
-    let _stmt = include_str!("../sql/get_titles.sql");
+    let _stmt = include_str!("../sql/titles/all.sql");
     let stmt = client
         .prepare(&_stmt)
         .await
@@ -19,7 +19,7 @@ pub async fn all(client: &Client) -> Result<Vec<models::titles::Title>, errors::
 }
 
 pub async fn one(client: &Client, id: i64) -> Result<models::titles::Title, errors::MyError> {
-    let _stmt = include_str!("../sql/get_title.sql");
+    let _stmt = include_str!("../sql/titles/one.sql");
     let stmt = client
         .prepare(&_stmt)
         .await
@@ -38,7 +38,7 @@ pub async fn add(
     client: &Client,
     title: models::titles::Title,
 ) -> Result<models::titles::Title, errors::MyError> {
-    let _stmt = include_str!("../sql/insert_title.sql");
+    let _stmt = include_str!("../sql/titles/add.sql");
     let _stmt = _stmt.replace("$table_fields", &models::titles::Title::sql_table_fields());
     let stmt = client
         .prepare(&_stmt)
@@ -75,7 +75,7 @@ pub async fn update(
     id: i64,
     title: models::titles::Title,
 ) -> Result<models::titles::Title, errors::MyError> {
-    let _stmt = include_str!("../sql/update_title.sql");
+    let _stmt = include_str!("../sql/titles/update.sql");
     let _stmt = _stmt.replace("$table_fields", &models::titles::Title::sql_table_fields());
     let stmt = client
         .prepare(&_stmt)
@@ -109,7 +109,7 @@ pub async fn update(
 }
 
 pub async fn delete(client: &Client, id: i64) -> Result<models::titles::Title, errors::MyError> {
-    let _stmt = include_str!("../sql/delete_title.sql");
+    let _stmt = include_str!("../sql/titles/delete.sql");
     let _stmt = _stmt.replace("$table_fields", &models::titles::Title::sql_table_fields());
     let stmt = client
         .prepare(&_stmt)

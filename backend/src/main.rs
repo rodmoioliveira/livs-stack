@@ -1,5 +1,6 @@
 use actix_web::{error, middleware, web, App, HttpResponse, HttpServer};
-use backend::{db, errors, handlers};
+use backend::handlers::{root, titles};
+use backend::{db, errors};
 use dotenv::dotenv;
 use tokio_postgres::NoTls;
 
@@ -43,12 +44,12 @@ async fn main() -> std::io::Result<()> {
             .data(db_pool.clone())
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
-            .service(handlers::index)
-            .service(handlers::add_title)
-            .service(handlers::delete_title)
-            .service(handlers::get_title)
-            .service(handlers::get_titles)
-            .service(handlers::update_title)
+            .service(root::index)
+            .service(titles::add_title)
+            .service(titles::delete_title)
+            .service(titles::get_title)
+            .service(titles::get_titles)
+            .service(titles::update_title)
     })
     .bind(localhost)?
     .run()

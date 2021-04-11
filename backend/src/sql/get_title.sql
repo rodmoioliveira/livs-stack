@@ -3,4 +3,4 @@ SELECT
 FROM
   titles
 WHERE
-  isbn = $1;
+  id = $1;

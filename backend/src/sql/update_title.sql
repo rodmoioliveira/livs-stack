@@ -13,4 +13,4 @@ SET
  ,title = $10
  ,year = $11
 WHERE
-  isbn = $12 RETURNING $table_fields;
+  id = $12 RETURNING $table_fields;

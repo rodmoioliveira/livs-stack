@@ -17,7 +17,7 @@ pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors
 
 #[get("/titles/{isbn}")]
 pub async fn get_title(
-    web::Path(isbn): web::Path<i64>,
+    web::Path(isbn): web::Path<String>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
@@ -40,7 +40,7 @@ pub async fn add_title(
 
 #[put("/titles/{isbn}")]
 pub async fn update_title(
-    web::Path(isbn): web::Path<i64>,
+    web::Path(isbn): web::Path<String>,
     title: web::Json<models::Title>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
@@ -53,7 +53,7 @@ pub async fn update_title(
 
 #[delete("/titles/{isbn}")]
 pub async fn delete_title(
-    web::Path(isbn): web::Path<i64>,
+    web::Path(isbn): web::Path<String>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;

@@ -1,6 +1,16 @@
 UPDATE
   titles
 SET
-  isbn = $1, author = $2, title = $3, year = $4, genre_id = $5, publisher_id = $6
+  isbn = $1
+ ,author = $2
+ ,edition = $3
+ ,format = $4
+ ,language = $5
+ ,genre = $6
+ ,pages = $7
+ ,publisher = $8
+ ,summary = $9
+ ,title = $10
+ ,year = $11
 WHERE
-  isbn = $7 RETURNING $table_fields;
+  isbn = $12 RETURNING $table_fields;

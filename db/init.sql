@@ -8,7 +8,7 @@ BEGIN TRANSACTION;
  * ===========================
  */
 
-CREATE TYPE format AS ENUM ('hardcover', 'paperback');
+/* CREATE TYPE format AS ENUM ('hardcover', 'paperback'); */
 
 /*
  * ===========================
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS titles (
   isbn VARCHAR NOT NULL UNIQUE,
   author BIGSERIAL REFERENCES authors(id) ON DELETE CASCADE,
   edition SMALLINT NOT NULL,
-  format FORMAT NOT NULL,
+  format VARCHAR(10) NOT NULL CHECK (format = 'paperback' OR format = 'hardcover'),
   language BIGSERIAL REFERENCES languages(id) ON DELETE CASCADE,
   genre BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
   pages SMALLINT NOT NULL,

@@ -33,7 +33,7 @@ pub async fn get_titles(client: &Client) -> Result<Vec<models::Title>, errors::M
     Ok(result)
 }
 
-pub async fn get_title(client: &Client, isbn: i64) -> Result<models::Title, errors::MyError> {
+pub async fn get_title(client: &Client, isbn: String) -> Result<models::Title, errors::MyError> {
     let _stmt = include_str!("./sql/get_title.sql");
     let stmt = client
         .prepare(&_stmt)
@@ -66,10 +66,15 @@ pub async fn insert_title(
             &[
                 &title.isbn,
                 &title.author,
+                &title.edition,
+                &title.format,
+                &title.language,
+                &title.genre,
+                &title.pages,
+                &title.publisher,
+                &title.summary,
                 &title.title,
                 &title.year,
-                &title.genre_id,
-                &title.publisher_id,
             ],
         )
         .await?
@@ -82,7 +87,7 @@ pub async fn insert_title(
 
 pub async fn update_title(
     client: &Client,
-    isbn: i64,
+    isbn: String,
     title: models::Title,
 ) -> Result<models::Title, errors::MyError> {
     let _stmt = include_str!("./sql/update_title.sql");
@@ -98,10 +103,15 @@ pub async fn update_title(
             &[
                 &title.isbn,
                 &title.author,
+                &title.edition,
+                &title.format,
+                &title.language,
+                &title.genre,
+                &title.pages,
+                &title.publisher,
+                &title.summary,
                 &title.title,
                 &title.year,
-                &title.genre_id,
-                &title.publisher_id,
                 &isbn,
             ],
         )
@@ -113,7 +123,7 @@ pub async fn update_title(
         .ok_or(errors::MyError::NotFound) // more applicable for SELECTs
 }
 
-pub async fn delete_title(client: &Client, isbn: i64) -> Result<models::Title, errors::MyError> {
+pub async fn delete_title(client: &Client, isbn: String) -> Result<models::Title, errors::MyError> {
     let _stmt = include_str!("./sql/delete_title.sql");
     let _stmt = _stmt.replace("$table_fields", &models::Title::sql_table_fields());
     let stmt = client

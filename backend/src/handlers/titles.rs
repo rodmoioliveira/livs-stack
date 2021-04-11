@@ -1,17 +1,15 @@
 use crate::{db, errors, models};
-use actix_web::{delete, get, post, put, web, HttpResponse, Result};
+use actix_web::{web, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
-#[get("/titles")]
-pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors::MyError> {
+pub async fn all(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let result: Vec<models::Title> = db::get_titles(&client).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
 
-#[get("/titles/{id}")]
-pub async fn get_title(
+pub async fn one(
     web::Path(id): web::Path<i64>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
@@ -21,8 +19,7 @@ pub async fn get_title(
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
 
-#[post("/titles")]
-pub async fn add_title(
+pub async fn add(
     title: web::Json<models::Title>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
@@ -33,8 +30,7 @@ pub async fn add_title(
     Ok(HttpResponse::Created().json(models::Data::new(result)))
 }
 
-#[put("/titles/{id}")]
-pub async fn update_title(
+pub async fn update(
     web::Path(id): web::Path<i64>,
     title: web::Json<models::Title>,
     db_pool: web::Data<Pool>,
@@ -46,8 +42,7 @@ pub async fn update_title(
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
 
-#[delete("/titles/{id}")]
-pub async fn delete_title(
+pub async fn delete(
     web::Path(id): web::Path<i64>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {

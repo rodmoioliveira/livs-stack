@@ -1,10 +1,10 @@
-use crate::{db, errors, models};
+use crate::{errors, models, queries};
 use actix_web::{web, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
 pub async fn all(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: Vec<models::Title> = db::get_titles(&client).await?;
+    let result: Vec<models::Title> = queries::titles::all(&client).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
@@ -14,7 +14,7 @@ pub async fn one(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: models::Title = db::get_title(&client, id).await?;
+    let result: models::Title = queries::titles::one(&client, id).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
@@ -25,7 +25,7 @@ pub async fn add(
 ) -> Result<HttpResponse, errors::MyError> {
     let title_info: models::Title = title.into_inner();
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result = db::insert_title(&client, title_info).await?;
+    let result = queries::titles::add(&client, title_info).await?;
 
     Ok(HttpResponse::Created().json(models::Data::new(result)))
 }
@@ -37,7 +37,7 @@ pub async fn update(
 ) -> Result<HttpResponse, errors::MyError> {
     let title_info: models::Title = title.into_inner();
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result = db::update_title(&client, id, title_info).await?;
+    let result = queries::titles::update(&client, id, title_info).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
@@ -47,7 +47,7 @@ pub async fn delete(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result = db::delete_title(&client, id).await?;
+    let result = queries::titles::delete(&client, id).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }

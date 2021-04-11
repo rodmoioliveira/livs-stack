@@ -9,7 +9,7 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
     env_logger::init();
 
-    let config = db::Config::from_env().unwrap();
+    let config = db::config::Config::from_env().unwrap();
     let db_pool = config.pg.create_pool(NoTls).unwrap();
 
     let localhost = String::from("0.0.0.0:8081");

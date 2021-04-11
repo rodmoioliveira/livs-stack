@@ -1,48 +1,33 @@
 id,genre
-1,Administração
-2,Antropologia
-3,Arquitetura
-4,Artes
-5,Auto Ajuda
-6,Biografia
-7,Biologia
-8,Botânica
-9,Ciência Política
-10,Ciências Exatas
-11,Ciencias Sociais
-12,Cinema
-13,Comunicação
-14,Contos
-15,Crítica Literária
-16,Culinária
-17,Dicionários
-18,Direito
-19,Economia
-20,Ensaios
-21,Esportes
-22,Feminismo
-23,Ficção Científica
-24,Filosofia
-25,Fotografia
-26,História do Brasil
-27,História Geral
-28,Hobbies
-29,Infantil
-30,Infanto-Juvenis
-31,Linguística
-32,Literatura Brasileira
-33,Literatura Estrangeira
-34,Medicina
-35,Memorias
-36,Moda
-37,Música
-38,Outros Assuntos
-39,Pedagogia
-40,Poesia
-41,Politica
-42,Psicologia
-43,Quadrinhos
-44,Religião
-45,Saúde
-46,Sociologia
-47,Teatro
+1,Arts & Photography
+2,Biographies & Memoirs
+3,Business & Money
+4,Calendars
+5,Children's Books
+6,Christian Books & Bibles
+7,Comics & Graphic Novels
+8,Computers & Technology
+9,"Cookbooks, Food & Wine"
+10,"Crafts, Hobbies & Home"
+11,Education & Teaching
+12,Engineering & Transportation
+13,"Health, Fitness & Dieting"
+14,History
+15,Humor & Entertainment
+16,Law
+17,LGBTQ+ Books
+18,Literature & Fiction
+19,Medical Books
+20,"Mystery, Thriller & Suspense"
+21,Parenting & Relationships
+22,Politics & Social Sciences
+23,Reference
+24,Religion & Spirituality
+25,Romance
+26,Science & Math
+27,Science Fiction & Fantasy
+28,Self-Help
+29,Sports & Outdoors
+30,Teen & Young Adult
+31,Test Preparation
+32,Travel

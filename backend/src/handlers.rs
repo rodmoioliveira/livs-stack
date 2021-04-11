@@ -15,13 +15,13 @@ pub async fn get_titles(db_pool: web::Data<Pool>) -> Result<HttpResponse, errors
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
 
-#[get("/titles/{isbn}")]
+#[get("/titles/{id}")]
 pub async fn get_title(
-    web::Path(isbn): web::Path<String>,
+    web::Path(id): web::Path<i64>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: models::Title = db::get_title(&client, isbn).await?;
+    let result: models::Title = db::get_title(&client, id).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
@@ -38,26 +38,26 @@ pub async fn add_title(
     Ok(HttpResponse::Created().json(models::Data::new(result)))
 }
 
-#[put("/titles/{isbn}")]
+#[put("/titles/{id}")]
 pub async fn update_title(
-    web::Path(isbn): web::Path<String>,
+    web::Path(id): web::Path<i64>,
     title: web::Json<models::Title>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let title_info: models::Title = title.into_inner();
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result = db::update_title(&client, isbn, title_info).await?;
+    let result = db::update_title(&client, id, title_info).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }
 
-#[delete("/titles/{isbn}")]
+#[delete("/titles/{id}")]
 pub async fn delete_title(
-    web::Path(isbn): web::Path<String>,
+    web::Path(id): web::Path<i64>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result = db::delete_title(&client, isbn).await?;
+    let result = db::delete_title(&client, id).await?;
 
     Ok(HttpResponse::Ok().json(models::Data::new(result)))
 }

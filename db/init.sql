@@ -64,8 +64,7 @@ FROM
 CREATE TABLE IF NOT EXISTS authors (
   id BIGSERIAL PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
-  last_name VARCHAR(100) NOT NULL,
-  UNIQUE (first_name, last_name)
+  last_name VARCHAR(100) NOT NULL
 );
 
 COPY authors(id, first_name, last_name)
@@ -85,6 +84,7 @@ CREATE TABLE IF NOT EXISTS titles (
   edition SMALLINT NOT NULL,
   format FORMAT NOT NULL,
   language BIGSERIAL REFERENCES languages(id) ON DELETE CASCADE,
+  genre BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
   pages SMALLINT NOT NULL,
   publisher BIGSERIAL REFERENCES publishers(id) ON DELETE CASCADE,
   summary TEXT NOT NULL,
@@ -92,25 +92,9 @@ CREATE TABLE IF NOT EXISTS titles (
   year SMALLINT NOT NULL
 );
 
-COPY titles(id, isbn, author, edition, format, language, pages, publisher, summary, title, year)
+COPY titles(id, isbn, author, edition, format, language, genre, pages, publisher, summary, title, year)
 FROM
   '/csv/titles.csv' DELIMITER ',' CSV HEADER;
-
-/*
- * ===========================
- * titles_genres
- * ===========================
- */
-
-CREATE TABLE IF NOT EXISTS titles_genres (
-  title_id BIGSERIAL PRIMARY KEY,
-  genre_id BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
-  CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE
-);
-
-COPY titles_genres(title_id, genre_id)
-FROM
-  '/csv/titles_genres.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================
@@ -138,15 +122,6 @@ FROM
  * ===========================
  */
 
-CREATE OR REPLACE VIEW genres_count AS (
-  SELECT genres.genre,
-    COUNT(titles_genres.title_id) AS count
-    FROM genres
-      JOIN titles_genres ON genres.id = titles_genres.genre_id
-    GROUP BY genres.genre
-    ORDER BY count DESC
-);
-
 CREATE OR REPLACE VIEW titles_info as (
   SELECT
     titles.id,
@@ -164,19 +139,13 @@ CREATE OR REPLACE VIEW titles_info as (
     measures.height,
     measures.width,
     measures.depth,
-    g.genre
+    genres.genre
   FROM titles
     JOIN authors ON titles.author = authors.id
     JOIN languages ON titles.language = languages.id
     JOIN measures ON titles.id = measures.title_id
     JOIN publishers ON publishers.id = titles.publisher
-    JOIN (
-      SELECT
-        genres.genre,
-        titles_genres.title_id
-      FROM genres
-      JOIN titles_genres ON titles_genres.genre_id = genres.id
-    ) AS g ON titles.id = g.title_id
+    JOIN genres ON titles.genre = genres.id
 );
 
 /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */

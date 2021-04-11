@@ -122,6 +122,16 @@ FROM
  * ===========================
  */
 
+CREATE OR REPLACE VIEW genres_count as (
+  SELECT
+    genres.genre,
+    count(*) as count
+  FROM titles
+  JOIN genres on titles.genre = genres.id
+  GROUP BY genres.genre
+  ORDER BY count DESC
+);
+
 CREATE OR REPLACE VIEW titles_info as (
   SELECT
     titles.id,
@@ -146,6 +156,7 @@ CREATE OR REPLACE VIEW titles_info as (
     JOIN measures ON titles.id = measures.title_id
     JOIN publishers ON publishers.id = titles.publisher
     JOIN genres ON titles.genre = genres.id
+  ORDER BY titles.id
 );
 
 /* https://stackoverflow.com/questions/244243/how-to-reset-postgres-primary-key-sequence-when-it-falls-out-of-sync */

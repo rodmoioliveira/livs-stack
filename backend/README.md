@@ -7,6 +7,11 @@
 
 |path|method||
 |-|-|-|
+|`/authors`|`GET`|
+|`/authors`|`POST`|
+|`/authors/{id}`|`GET`|
+|`/authors/{id}`|`PUT`|
+|`/authors/{id}`|`DELETE`|
 |`/titles`|`GET`|
 |`/titles`|`POST`|
 |`/titles/{id}`|`GET`|
@@ -30,18 +35,13 @@
 |`/languages/{id}`|`GET`|
 |`/languages/{id}`|`PUT`|
 |`/languages/{id}`|`DELETE`|
-|`/publishers`|`GET`|
-|`/publishers`|`POST`|
-|`/publishers/{id}`|`GET`|
-|`/publishers/{id}`|`PUT`|
-|`/publishers/{id}`|`DELETE`|
 |`/measures`|`GET`|
 |`/measures`|`POST`|
 |`/measures/{id}`|`GET`|
 |`/measures/{id}`|`PUT`|
 |`/measures/{id}`|`DELETE`|
-|`/authors`|`GET`|
-|`/authors`|`POST`|
-|`/authors/{id}`|`GET`|
-|`/authors/{id}`|`PUT`|
-|`/authors/{id}`|`DELETE`|
+|`/publishers`|`GET`|
+|`/publishers`|`POST`|
+|`/publishers/{id}`|`GET`|
+|`/publishers/{id}`|`PUT`|
+|`/publishers/{id}`|`DELETE`|

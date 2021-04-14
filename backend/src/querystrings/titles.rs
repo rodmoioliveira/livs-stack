@@ -7,6 +7,32 @@ lazy_static! {
 }
 
 #[derive(Debug, Deserialize)]
+pub struct Filters {
+    pub genres: Option<String>,
+    pub languages: Option<String>,
+}
+
+impl Filters {
+    pub fn to_sql(self) -> String {
+        let mut filters: Vec<String> = vec![];
+
+        match self.genres {
+            Some(value) => filters.push(format!("genre IN ({})", value)),
+            None => (),
+        };
+        match self.languages {
+            Some(value) => filters.push(format!("language IN ({})", value)),
+            None => (),
+        };
+
+        let where_cause = if filters.len() == 0 { "" } else { "WHERE" };
+
+        let sql = format!("{} {}", where_cause, filters.join(" AND "));
+        sql
+    }
+}
+
+#[derive(Debug, Deserialize)]
 pub struct Order {
     pub order_by: Option<String>,
     pub offset: Option<u64>,

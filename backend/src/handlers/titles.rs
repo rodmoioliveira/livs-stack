@@ -1,9 +1,9 @@
-use crate::{errors, models, qs, queries};
+use crate::{errors, models, queries, querystrings};
 use actix_web::{web, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
 pub async fn all(
-    web::Query(title_qs): web::Query<qs::TitleQs>,
+    web::Query(title_qs): web::Query<querystrings::titles::Order>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;

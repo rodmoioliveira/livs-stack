@@ -7,13 +7,13 @@ lazy_static! {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct TitleQs {
+pub struct Order {
     pub order_by: Option<String>,
     pub offset: Option<u64>,
     pub limit: Option<u64>,
 }
 
-impl TitleQs {
+impl Order {
     pub fn to_sql(self) -> String {
         let limit = match self.limit {
             Some(value) => format!("{}", value),

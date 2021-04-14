@@ -2,4 +2,4 @@ SELECT
   *
 FROM
   titles
-$order_by;
+$title_qs;

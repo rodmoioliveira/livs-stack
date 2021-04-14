@@ -3,11 +3,11 @@ use actix_web::{web, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
 pub async fn all(
-    web::Query(qs_order): web::Query<qs::Order>,
+    web::Query(title_qs): web::Query<qs::TitleQs>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: Vec<models::titles::Title> = queries::titles::all(&client, qs_order).await?;
+    let result: Vec<models::titles::Title> = queries::titles::all(&client, title_qs).await?;
 
     Ok(HttpResponse::Ok().json(models::response::Data::new(result)))
 }

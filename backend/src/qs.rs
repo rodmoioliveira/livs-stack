@@ -7,14 +7,22 @@ lazy_static! {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct Order {
+pub struct TitleQs {
     pub order_by: Option<String>,
+    pub offset: Option<i64>,
+    pub limit: Option<i64>,
 }
 
-impl Order {
+impl TitleQs {
     pub fn to_sql(self) -> String {
-        let order = self.order_by.unwrap_or(format!("{} id", "ORDER_BY"));
-        let split: Vec<String> = order
+        let limit = match self.limit {
+            Some(value) => format!("{}", value),
+            None => "NULL".to_string(),
+        };
+        let offset = self.offset.unwrap_or(0);
+        let order: Vec<String> = self
+            .order_by
+            .unwrap_or("id".to_string())
             .split(",")
             .filter(|&s| s != "")
             .map(|s| {
@@ -24,7 +32,14 @@ impl Order {
                     .replace("+", "ASC")
             })
             .collect();
-        let result = format!("{} {};", "ORDER_BY", split.join(", "));
-        result
+
+        let sql = format!(
+            "ORDER BY {} LIMIT {} OFFSET {};",
+            order.join(", "),
+            limit,
+            offset
+        );
+
+        sql
     }
 }

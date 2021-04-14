@@ -12,7 +12,7 @@
 |`/authors/{id}`|`GET`|
 |`/authors/{id}`|`PUT`|
 |`/authors/{id}`|`DELETE`|
-|`/titles`|`GET`|
+|`/titles?order_by=+year,-author&limit=10&offset=10`|`GET`|
 |`/titles`|`POST`|
 |`/titles/{id}`|`GET`|
 |`/titles/{id}`|`PUT`|

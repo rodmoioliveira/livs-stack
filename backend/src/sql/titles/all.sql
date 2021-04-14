@@ -2,5 +2,5 @@ SELECT
   *
 FROM
   titles
-ORDER BY
-  id;
+$sort_by
+$order_by;

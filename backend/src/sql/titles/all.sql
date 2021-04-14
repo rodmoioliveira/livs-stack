@@ -2,4 +2,5 @@ SELECT
   *
 FROM
   titles
-$title_qs;
+$filters
+$order_by;

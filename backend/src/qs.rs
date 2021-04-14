@@ -1,23 +1,30 @@
+use lazy_static::lazy_static;
+use regex::Regex;
 use serde::Deserialize;
 
-static ORDER_BY: &str = "ORDER BY";
+lazy_static! {
+    static ref RE: Regex = Regex::new(r"(\+|\-)(\w+)").unwrap();
+}
 
 #[derive(Debug, Deserialize)]
 pub struct Order {
     pub order_by: Option<String>,
-    pub sort_by: Option<String>,
 }
 
 impl Order {
-    pub fn default(&mut self) {
-        self.sort_by = match &self.sort_by {
-            Some(value) => Some(format!("{} {}", ORDER_BY, value.to_owned())),
-            None => Some(format!("{} {}", ORDER_BY, "id".to_owned())),
-        };
-
-        self.order_by = match &self.order_by {
-            Some(value) => Some(value.to_owned()),
-            None => Some("ASC".to_owned()),
-        };
+    pub fn to_sql(self) -> String {
+        let order = self.order_by.unwrap_or(format!("{} id", "ORDER_BY"));
+        let split: Vec<String> = order
+            .split(",")
+            .filter(|&s| s != "")
+            .map(|s| {
+                RE.replace_all(s, "$2 $1")
+                    .into_owned()
+                    .replace("-", "DESC")
+                    .replace("+", "ASC")
+            })
+            .collect();
+        let result = format!("{} {};", "ORDER_BY", split.join(", "));
+        result
     }
 }

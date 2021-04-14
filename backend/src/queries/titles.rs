@@ -4,14 +4,10 @@ use tokio_pg_mapper::FromTokioPostgresRow;
 
 pub async fn all(
     client: &Client,
-    mut qs_order: qs::Order,
+    qs_order: qs::Order,
 ) -> Result<Vec<models::titles::Title>, errors::MyError> {
-    qs_order.default();
-
     let _stmt = include_str!("../sql/titles/all.sql");
-    let _stmt = _stmt
-        .replace("$order_by", &qs_order.order_by.unwrap())
-        .replace("$sort_by", &qs_order.sort_by.unwrap());
+    let _stmt = _stmt.replace("$order_by", &qs_order.to_sql());
     let stmt = client
         .prepare(&_stmt)
         .await

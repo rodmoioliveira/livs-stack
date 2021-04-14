@@ -1,10 +1,10 @@
-use crate::{errors, models, qs};
+use crate::{errors, models, querystrings};
 use deadpool_postgres::Client;
 use tokio_pg_mapper::FromTokioPostgresRow;
 
 pub async fn all(
     client: &Client,
-    title_qs: qs::TitleQs,
+    title_qs: querystrings::titles::Order,
 ) -> Result<Vec<models::titles::Title>, errors::MyError> {
     let _stmt = include_str!("../sql/titles/all.sql");
     let _stmt = _stmt.replace("$title_qs", &title_qs.to_sql());

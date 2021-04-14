@@ -9,8 +9,8 @@ lazy_static! {
 #[derive(Debug, Deserialize)]
 pub struct TitleQs {
     pub order_by: Option<String>,
-    pub offset: Option<i64>,
-    pub limit: Option<i64>,
+    pub offset: Option<u64>,
+    pub limit: Option<u64>,
 }
 
 impl TitleQs {
@@ -26,7 +26,7 @@ impl TitleQs {
             .split(",")
             .filter(|&s| s != "")
             .map(|s| {
-                RE.replace_all(s, "$2 $1")
+                RE.replace_all(s.trim(), "$2 $1")
                     .into_owned()
                     .replace("-", "DESC")
                     .replace("+", "ASC")

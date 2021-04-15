@@ -158,6 +158,10 @@ CREATE TABLE IF NOT EXISTS reviews (
   UNIQUE (title_id, customer_id)
 );
 
+COPY reviews(id, title_id, customer_id, review, rate)
+FROM
+  '/csv/reviews.csv' DELIMITER ',' CSV HEADER;
+
 /*
  * ===========================
  * VIEWS

@@ -1,13 +1,16 @@
 /* Inspired by https://github.com/mkondratek/Bookstore-Database-Design */
 
-DROP TABLE IF EXISTS titles CASCADE;
-DROP TABLE IF EXISTS publishers CASCADE;
-DROP TABLE IF EXISTS genres CASCADE;
+DROP TABLE IF EXISTS authors CASCADE;
+DROP TABLE IF EXISTS copies_new CASCADE;
+DROP TABLE IF EXISTS copies_used CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
-DROP TABLE IF EXISTS reviews CASCADE;
+DROP TABLE IF EXISTS genres CASCADE;
 DROP TABLE IF EXISTS languages CASCADE;
 DROP TABLE IF EXISTS measures CASCADE;
-DROP TABLE IF EXISTS authors CASCADE;
+DROP TABLE IF EXISTS publishers CASCADE;
+DROP TABLE IF EXISTS reviews CASCADE;
+DROP TABLE IF EXISTS titles CASCADE;
+
 DROP VIEW IF EXISTS genres_count;
 DROP VIEW IF EXISTS titles_info;
 
@@ -106,6 +109,41 @@ CREATE TABLE IF NOT EXISTS titles (
 COPY titles(id, isbn, author, edition, format, language, genre, pages, publisher, summary, title, year)
 FROM
   '/csv/titles.csv' DELIMITER ',' CSV HEADER;
+
+/*
+ * ===========================
+ * copies_new
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS copies_new (
+    title_id BIGSERIAL PRIMARY KEY,
+    price MONEY NOT NULL,
+    quantity BIGINT NOT NULL CHECK (quantity >= 0),
+    CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE
+);
+
+COPY copies_new(title_id, price, quantity)
+FROM
+  '/csv/copies_new.csv' DELIMITER ',' CSV HEADER;
+
+/*
+ * ===========================
+ * copies_used
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS copies_used (
+    id BIGSERIAL PRIMARY KEY,
+    title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
+    price MONEY NOT NULL,
+    condition TEXT NOT NULL,
+    UNIQUE (id, title_id)
+);
+
+COPY copies_used(id, title_id, price, condition)
+FROM
+  '/csv/copies_used.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================
@@ -236,5 +274,22 @@ SELECT setval(
   false
 ) FROM authors;
 
+SELECT setval(
+  pg_get_serial_sequence('reviews', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM reviews;
+
+SELECT setval(
+  pg_get_serial_sequence('customers', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM customers;
+
+SELECT setval(
+  pg_get_serial_sequence('copies_used', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM copies_used;
 
 COMMIT TRANSACTION;

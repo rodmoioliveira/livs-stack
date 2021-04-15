@@ -3,6 +3,8 @@
 DROP TABLE IF EXISTS titles CASCADE;
 DROP TABLE IF EXISTS publishers CASCADE;
 DROP TABLE IF EXISTS genres CASCADE;
+DROP TABLE IF EXISTS customers CASCADE;
+DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS languages CASCADE;
 DROP TABLE IF EXISTS measures CASCADE;
 DROP TABLE IF EXISTS authors CASCADE;
@@ -124,6 +126,37 @@ COPY measures(title_id, weight, height, width, depth)
 FROM
   '/csv/measures.csv' DELIMITER ',' CSV HEADER;
 
+/*
+ * ===========================
+ * customers
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS customers (
+  id BIGSERIAL PRIMARY KEY,
+  first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL
+);
+
+COPY customers(id, first_name, last_name, email)
+FROM
+  '/csv/customers.csv' DELIMITER ',' CSV HEADER;
+
+/*
+ * ===========================
+ * reviews
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS reviews (
+  id BIGSERIAL PRIMARY KEY,
+  title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
+  customer_id BIGSERIAL REFERENCES customers(id) ON DELETE CASCADE,
+  review TEXT NOT NULL,
+  rate SMALLINT NOT NULL CHECK (rate >= 0 OR rate <= 5),
+  UNIQUE (title_id, customer_id)
+);
 
 /*
  * ===========================

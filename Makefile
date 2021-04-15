@@ -15,6 +15,8 @@ db-csv:
 	-c "COPY authors TO '/csv/authors-dump.csv' WITH (FORMAT CSV, HEADER);" \
 	-c "COPY languages TO '/csv/languages-dump.csv' WITH (FORMAT CSV, HEADER);" \
 	-c "COPY measures TO '/csv/measures-dump.csv' WITH (FORMAT CSV, HEADER);" \
+	-c "COPY customers TO '/csv/customers-dump.csv' WITH (FORMAT CSV, HEADER);" \
+	-c "COPY reviews TO '/csv/reviews-dump.csv' WITH (FORMAT CSV, HEADER);" \
 	-c "COPY publishers TO '/csv/publishers-dump.csv' WITH (FORMAT CSV, HEADER);"
 
 nuke:

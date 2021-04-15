@@ -1,5 +1,14 @@
 /* Inspired by https://github.com/mkondratek/Bookstore-Database-Design */
 
+DROP TABLE IF EXISTS titles CASCADE;
+DROP TABLE IF EXISTS publishers CASCADE;
+DROP TABLE IF EXISTS genres CASCADE;
+DROP TABLE IF EXISTS languages CASCADE;
+DROP TABLE IF EXISTS measures CASCADE;
+DROP TABLE IF EXISTS authors CASCADE;
+DROP VIEW IF EXISTS genres_count;
+DROP VIEW IF EXISTS titles_info;
+
 BEGIN TRANSACTION;
 
 /*

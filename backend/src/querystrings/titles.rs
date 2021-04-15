@@ -38,8 +38,8 @@ impl Filters {
         };
 
         let where_cause = if filters.len() == 0 { "" } else { "WHERE" };
-
         let sql = format!("{} {}", where_cause, filters.join(" AND "));
+
         sql
     }
 }

@@ -10,10 +10,10 @@ DROP TABLE IF EXISTS publishers CASCADE;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS titles CASCADE;
 
+DROP VIEW IF EXISTS copies_new;
+DROP VIEW IF EXISTS copies_used;
 DROP VIEW IF EXISTS genres_count;
-DROP VIEW IF EXISTS inventory_new;
-DROP VIEW IF EXISTS inventory_total;
-DROP VIEW IF EXISTS inventory_used;
+DROP VIEW IF EXISTS inventory_quantities;
 DROP VIEW IF EXISTS titles_info;
 
 BEGIN TRANSACTION;
@@ -194,27 +194,33 @@ FROM
  * ===========================
  */
 
-CREATE OR REPLACE VIEW inventory_total as (
+CREATE OR REPLACE VIEW copies_used as (
   SELECT
     title_id, sum(quantity) AS total
-    FROM inventory
-    GROUP BY title_id
+  FROM inventory
+  WHERE used
+  GROUP BY title_id
+  ORDER BY title_id
 );
 
-CREATE OR REPLACE VIEW inventory_used as (
+CREATE OR REPLACE VIEW copies_new as (
   SELECT
     title_id, sum(quantity) AS total
-    FROM inventory
-    WHERE used
-    GROUP BY title_id
+  FROM inventory
+  WHERE NOT used
+  GROUP BY title_id
+  ORDER BY title_id
 );
 
-CREATE OR REPLACE VIEW inventory_new as (
+CREATE OR REPLACE VIEW inventory_quantities as (
   SELECT
-    title_id, sum(quantity) AS total
-    FROM inventory
-    WHERE NOT used
-    GROUP BY title_id
+    copies_new.title_id as title_id,
+    COALESCE(copies_new.total, 0) as new,
+    COALESCE(copies_used.total, 0) as used,
+    (COALESCE(copies_used.total, 0) + COALESCE(copies_new.total, 0)) as total
+  FROM copies_new
+    FULL OUTER JOIN copies_used ON copies_new.title_id = copies_used.title_id
+  ORDER BY title_id
 );
 
 CREATE OR REPLACE VIEW genres_count as (
@@ -222,7 +228,7 @@ CREATE OR REPLACE VIEW genres_count as (
     genres.genre,
     count(*) as count
   FROM titles
-  JOIN genres on titles.genre = genres.id
+    JOIN genres ON titles.genre = genres.id
   GROUP BY genres.genre
   ORDER BY count DESC
 );
@@ -245,17 +251,16 @@ CREATE OR REPLACE VIEW titles_info as (
     measures.width,
     measures.depth,
     genres.genre,
-    COALESCE(inventory_used.total, 0) as copies_used_total,
-    COALESCE(inventory_new.total, 0) as copies_new_total,
-    (COALESCE(inventory_used.total, 0) + COALESCE(inventory_new.total, 0)) as copies_total
+    inventory_quantities.new as copies_new,
+    inventory_quantities.used as copies_used,
+    inventory_quantities.total as copies_total
   FROM titles
     JOIN authors ON titles.author = authors.id
     JOIN languages ON titles.language = languages.id
     JOIN measures ON titles.id = measures.title_id
     JOIN publishers ON publishers.id = titles.publisher
     JOIN genres ON titles.genre = genres.id
-    LEFT JOIN inventory_used ON titles.id = inventory_used.title_id
-    LEFT JOIN inventory_new ON titles.id = inventory_new.title_id
+    JOIN inventory_quantities ON titles.id = inventory_quantities.title_id
   ORDER BY titles.id
 );
 

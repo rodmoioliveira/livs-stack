@@ -1,10 +1,9 @@
 /* Inspired by https://github.com/mkondratek/Bookstore-Database-Design */
 
 DROP TABLE IF EXISTS authors CASCADE;
-DROP TABLE IF EXISTS copies_new CASCADE;
-DROP TABLE IF EXISTS copies_used CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
 DROP TABLE IF EXISTS genres CASCADE;
+DROP TABLE IF EXISTS inventory CASCADE;
 DROP TABLE IF EXISTS languages CASCADE;
 DROP TABLE IF EXISTS measures CASCADE;
 DROP TABLE IF EXISTS publishers CASCADE;
@@ -12,6 +11,9 @@ DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS titles CASCADE;
 
 DROP VIEW IF EXISTS genres_count;
+DROP VIEW IF EXISTS inventory_new;
+DROP VIEW IF EXISTS inventory_total;
+DROP VIEW IF EXISTS inventory_used;
 DROP VIEW IF EXISTS titles_info;
 
 BEGIN TRANSACTION;
@@ -112,38 +114,24 @@ FROM
 
 /*
  * ===========================
- * copies_new
+ * inventory
  * ===========================
  */
 
-CREATE TABLE IF NOT EXISTS copies_new (
-    title_id BIGSERIAL PRIMARY KEY,
-    price MONEY NOT NULL,
-    quantity BIGINT NOT NULL CHECK (quantity >= 0),
-    CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE
-);
-
-COPY copies_new(title_id, price, quantity)
-FROM
-  '/csv/copies_new.csv' DELIMITER ',' CSV HEADER;
-
-/*
- * ===========================
- * copies_used
- * ===========================
- */
-
-CREATE TABLE IF NOT EXISTS copies_used (
+CREATE TABLE IF NOT EXISTS inventory (
     id BIGSERIAL PRIMARY KEY,
     title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
     price MONEY NOT NULL,
-    condition TEXT NOT NULL,
-    UNIQUE (id, title_id)
+    quantity BIGINT NOT NULL CHECK (quantity >= 0),
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+    sku VARCHAR(100) DEFAULT 'SKU_NEW_BOOK' NOT NULL,
+    condition TEXT,
+    UNIQUE (title_id, used, sku)
 );
 
-COPY copies_used(id, title_id, price, condition)
+COPY inventory(id, title_id, price, quantity, used, sku, condition)
 FROM
-  '/csv/copies_used.csv' DELIMITER ',' CSV HEADER;
+  '/csv/inventory.csv' DELIMITER ',' CSV HEADER;
 
 /*
  * ===========================
@@ -206,6 +194,29 @@ FROM
  * ===========================
  */
 
+CREATE OR REPLACE VIEW inventory_total as (
+  SELECT
+    title_id, sum(quantity) AS total
+    FROM inventory
+    GROUP BY title_id
+);
+
+CREATE OR REPLACE VIEW inventory_used as (
+  SELECT
+    title_id, sum(quantity) AS total
+    FROM inventory
+    WHERE used
+    GROUP BY title_id
+);
+
+CREATE OR REPLACE VIEW inventory_new as (
+  SELECT
+    title_id, sum(quantity) AS total
+    FROM inventory
+    WHERE NOT used
+    GROUP BY title_id
+);
+
 CREATE OR REPLACE VIEW genres_count as (
   SELECT
     genres.genre,
@@ -233,13 +244,18 @@ CREATE OR REPLACE VIEW titles_info as (
     measures.height,
     measures.width,
     measures.depth,
-    genres.genre
+    genres.genre,
+    COALESCE(inventory_used.total, 0) as copies_used_total,
+    COALESCE(inventory_new.total, 0) as copies_new_total,
+    (COALESCE(inventory_used.total, 0) + COALESCE(inventory_new.total, 0)) as copies_total
   FROM titles
     JOIN authors ON titles.author = authors.id
     JOIN languages ON titles.language = languages.id
     JOIN measures ON titles.id = measures.title_id
     JOIN publishers ON publishers.id = titles.publisher
     JOIN genres ON titles.genre = genres.id
+    LEFT JOIN inventory_used ON titles.id = inventory_used.title_id
+    LEFT JOIN inventory_new ON titles.id = inventory_new.title_id
   ORDER BY titles.id
 );
 
@@ -287,9 +303,9 @@ SELECT setval(
 ) FROM customers;
 
 SELECT setval(
-  pg_get_serial_sequence('copies_used', 'id'),
+  pg_get_serial_sequence('inventory', 'id'),
   COALESCE(max(id) + 1, 1),
   false
-) FROM copies_used;
+) FROM inventory;
 
 COMMIT TRANSACTION;

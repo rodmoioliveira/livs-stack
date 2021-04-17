@@ -298,6 +298,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "assets"
+version = "0.1.0"
+dependencies = [
+ "actix-files",
+ "actix-web",
+ "dotenv",
+ "env_logger",
+]
+
+[[package]]
 name = "async-trait"
 version = "0.1.49"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -599,16 +609,6 @@ checksum = "5fc25a87fa4fd2094bffb06925852034d90a17f0d1e05197d4956d3555752191"
 dependencies = [
  "matches",
  "percent-encoding",
-]
-
-[[package]]
-name = "frontend"
-version = "0.1.0"
-dependencies = [
- "actix-files",
- "actix-web",
- "dotenv",
- "env_logger",
 ]
 
 [[package]]

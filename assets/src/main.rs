@@ -1,13 +1,16 @@
 use actix_files::Files;
 use actix_web::{middleware, App, HttpServer};
 use dotenv::dotenv;
+use std::env;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
     env_logger::init();
 
-    let localhost = String::from("0.0.0.0:8082");
+    let host = env::var("HOST").unwrap();
+    let port = env::var("PORT").unwrap();
+    let localhost = String::from(format!("{}:{}", host, port));
     println!("Server running in {}", localhost);
 
     HttpServer::new(|| {

@@ -2,6 +2,7 @@ use actix_web::{error, middleware, web, App, HttpResponse, HttpServer};
 use backend::handlers::{root, titles};
 use backend::{db, errors};
 use dotenv::dotenv;
+use std::env;
 use tokio_postgres::NoTls;
 
 #[actix_web::main]
@@ -12,7 +13,9 @@ async fn main() -> std::io::Result<()> {
     let config = db::config::Config::from_env().unwrap();
     let db_pool = config.pg.create_pool(NoTls).unwrap();
 
-    let localhost = String::from("0.0.0.0:8081");
+    let host = env::var("HOST").unwrap();
+    let port = env::var("PORT").unwrap();
+    let localhost = String::from(format!("{}:{}", host, port));
     println!("Server running in {}", localhost);
 
     let query_cfg = web::QueryConfig::default().error_handler(|err, _req| {

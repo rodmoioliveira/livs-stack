@@ -1,0 +1,13 @@
+[package]
+name = "frontend"
+version = "0.1.0"
+authors = ["rodolfo.moi <rodolfo.moi@b2wdigital.com>"]
+edition = "2018"
+
+[dependencies]
+actix-http = "2.2.0"
+actix-web = "3.3.2"
+dotenv = "0.15.0"
+env_logger = "0.8.3"
+handlebars = { version = "3.5.2", features = ["dir_source"] }
+serde_json = "1.0.64"

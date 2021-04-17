@@ -44,6 +44,20 @@ services:
     networks:
       - front-tier
 
+  frontend:
+    build: ./frontend
+    env_file:
+      - ./frontend/.env.prod
+    image: livs-stack/frontend
+    ports:
+      - 8083:8083
+    networks:
+      - back-tier
+      - front-tier
+    depends_on:
+      - backend
+      - assets
+
 networks:
   back-tier:
   front-tier:

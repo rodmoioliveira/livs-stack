@@ -1,5 +1,5 @@
 [package]
-name = "frontend"
+name = "assets"
 version = "0.1.0"
 authors = ["rodolfo.moi <rodolfo.moi@b2wdigital.com>"]
 edition = "2018"
@@ -8,6 +8,6 @@ edition = "2018"
 
 [dependencies]
 actix-files = "0.3"
-actix-web = "3"
+actix-web = "3.3.2"
 dotenv = "0.15.0"
 env_logger = "0.8.3"

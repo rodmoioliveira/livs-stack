@@ -4,6 +4,7 @@ prod: nuke
 dev: nuke
 	@docker-compose --file docker-compose.development.yml up --build & \
 	cd backend && cargo watch -x run & \
+	cd frontend && cargo watch -x run & \
 	cd assets && cargo watch -x run
 
 db:

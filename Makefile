@@ -3,7 +3,8 @@ prod: nuke
 
 dev: nuke
 	@docker-compose --file docker-compose.development.yml up --build & \
-	cd backend && cargo watch -x run
+	cd backend && cargo watch -x run & \
+	cd frontend && cargo watch -x run
 
 db:
 	@docker exec -it livs-stack_db_1 psql -U livs

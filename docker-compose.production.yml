@@ -34,18 +34,19 @@ services:
     depends_on:
       - db
 
-  frontend:
-    build: ./frontend
+  assets:
+    build: ./assets
     env_file:
-      - ./frontend/.env.prod
-    image: livs-stack/frontend
+      - ./assets/.env.prod
+    image: livs-stack/assets
     ports:
       - 8082:8082
     networks:
-      - back-tier
+      - front-tier
 
 networks:
   back-tier:
+  front-tier:
 
 volumes:
   db-data:

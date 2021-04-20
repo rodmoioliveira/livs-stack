@@ -8,9 +8,7 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
     env_logger::init();
 
-    let host = env::var("HOST").unwrap();
-    let port = env::var("PORT").unwrap();
-    let localhost = String::from(format!("{}:{}", host, port));
+    let localhost = env::var("ENDPOINT_ASSETS").unwrap();
     println!("Server running in {}", localhost);
 
     HttpServer::new(|| {

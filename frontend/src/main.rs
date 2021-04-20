@@ -1,7 +1,7 @@
 use actix_web::middleware;
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
-use frontend::handlers;
+use frontend::{handlers, models};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
 use std::{env, io};
@@ -11,10 +11,10 @@ async fn main() -> io::Result<()> {
     dotenv().ok();
     env_logger::init();
 
-    let host = env::var("HOST").unwrap();
-    let port = env::var("PORT").unwrap();
-    let localhost = String::from(format!("{}:{}", host, port));
+    let localhost = env::var("ENDPOINT_FRONTEND").unwrap();
     println!("Server running in {}", localhost);
+
+    let endpoints = models::types::Endpoints::new();
 
     let mut handlebars = Handlebars::new();
     handlebars
@@ -30,6 +30,7 @@ async fn main() -> io::Result<()> {
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
             .data(client.clone())
+            .data(endpoints.clone())
             .app_data(handlebars_ref.clone())
             .service(web::resource("/").route(web::get().to(handlers::root::index)))
     })

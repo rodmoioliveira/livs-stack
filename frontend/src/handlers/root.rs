@@ -1,4 +1,4 @@
-use crate::errors;
+use crate::{errors, models};
 use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
@@ -34,9 +34,10 @@ pub struct Title {
 pub async fn index(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
+    endpoints: web::Data<models::types::Endpoints>,
 ) -> Result<HttpResponse, errors::MyError> {
     let res: serde_json::Value = client
-        .get("http://localhost:8081/titles")
+        .get(format!("{}/titles", endpoints.backend))
         .send()
         .map_err(errors::MyError::ReqwestError)?
         .json()
@@ -44,7 +45,7 @@ pub async fn index(
 
     let data = serde_json::json!({
         // TODO: get within docker container for prod
-        "assets": "http://localhost:8082/static",
+        "assets": endpoints.assets,
         "titles": res["data"],
     });
 

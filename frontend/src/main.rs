@@ -22,7 +22,7 @@ async fn main() -> io::Result<()> {
         .unwrap();
     let handlebars_ref = web::Data::new(handlebars);
 
-    let client = Client::new();
+    let client = Client::builder().build().unwrap();
 
     HttpServer::new(move || {
         App::new()
@@ -32,7 +32,6 @@ async fn main() -> io::Result<()> {
             .data(client.clone())
             .app_data(handlebars_ref.clone())
             .service(web::resource("/").route(web::get().to(handlers::root::index)))
-            .service(web::resource("/{user}/{data}").route(web::get().to(handlers::titles::user)))
     })
     .bind(localhost)?
     .run()

@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>{{ name }} Example</title>
+    <link rel="stylesheet" href="{{ assets }}/css/main.css" />
+  </head>
 
-<head>
-    <title>{{name}} Example</title>
-</head>
-
-<body>
-    <h1>{{name}} example</h1>
-    <p>This is an example of how to use {{name}} with Actix-Web.</p>
-</body>
+  <body>
+    <ul>
+      {{#each titles}}
+      <li>
+        <p>id: {{ id }}</p>
+        <p>isbn: {{ isbn }}</p>
+        <p>Title: {{ title }}</p>
+        <p>Summary: {{ summary }}</p>
+        <p>Format: {{ format }}</p>
+      </li>
+      {{/each}}
+    </ul>
+  </body>
 </html>
+

@@ -3,6 +3,7 @@ use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use frontend::handlers;
 use handlebars::Handlebars;
+use reqwest::blocking::Client;
 use std::{env, io};
 
 #[actix_web::main]
@@ -21,11 +22,14 @@ async fn main() -> io::Result<()> {
         .unwrap();
     let handlebars_ref = web::Data::new(handlebars);
 
+    let client = Client::new();
+
     HttpServer::new(move || {
         App::new()
             .wrap(handlers::error::_404())
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
+            .data(client.clone())
             .app_data(handlebars_ref.clone())
             .service(web::resource("/").route(web::get().to(handlers::root::index)))
             .service(web::resource("/{user}/{data}").route(web::get().to(handlers::titles::user)))

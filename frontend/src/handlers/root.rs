@@ -35,19 +35,19 @@ pub async fn index(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
 ) -> Result<HttpResponse, errors::MyError> {
-    let resp = client
-        .get("http://localhost:8081/titles?limit=1")
+    let res: serde_json::Value = client
+        .get("http://localhost:8081/titles")
         .send()
         .map_err(errors::MyError::ReqwestError)?
-        .json::<Data<Vec<Title>>>()
+        .json()
         .map_err(errors::MyError::ReqwestError)?;
 
-    println!("{:#?}", resp);
-
     let data = serde_json::json!({
-        "name": "Handlebars"
+        // TODO: get within docker container for prod
+        "assets": "http://localhost:8082/static",
+        "titles": res["data"],
     });
-    let body = hb.render("index", &data).unwrap();
 
+    let body = hb.render("index", &data).unwrap();
     Ok(HttpResponse::Ok().body(body))
 }

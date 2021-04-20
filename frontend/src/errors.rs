@@ -29,7 +29,6 @@ impl ResponseError for MyError {
             MyError::ReqwestError(ref err) => {
                 HttpResponse::InternalServerError().json(JsonError::new(err.to_string()))
             }
-            _ => HttpResponse::InternalServerError().json(JsonError::new("ERROR")),
         }
     }
 }

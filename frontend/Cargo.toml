@@ -11,6 +11,6 @@ derive_more = "0.99.13"
 dotenv = "0.15.0"
 env_logger = "0.8.3"
 handlebars = { version = "3.5.2", features = ["dir_source"] }
+reqwest = { version = "0.11.3", features = ["blocking", "json"] }
 serde = { version = "1.0.125", features = ["derive"] }
 serde_json = "1.0.64"
-reqwest = { version = "0.11.3", features = ["blocking", "json"] }

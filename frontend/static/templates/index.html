@@ -1,22 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{ name }} Example</title>
-    <link rel="stylesheet" href="{{ assets }}/static/css/main.css" />
-  </head>
-
+  {{> head }}
   <body>
-    <ul>
-      {{#each titles}}
-      <li>
-        <p>id: {{ id }}</p>
-        <p>isbn: {{ isbn }}</p>
-        <p>Title: {{ title }}</p>
-        <p>Summary: {{ summary }}</p>
-        <p>Format: {{ format }}</p>
-      </li>
-      {{/each}}
-    </ul>
+    {{> header }}
+    {{> titles}}
+    {{> footer }}
   </body>
 </html>
-

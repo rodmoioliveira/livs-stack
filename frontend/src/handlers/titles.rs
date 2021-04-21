@@ -16,12 +16,10 @@ pub async fn all(
         .map_err(errors::MyError::ReqwestError)?;
 
     let data = serde_json::json!({
-        // TODO: get within docker container for prod
-        // https://docs.docker.com/compose/compose-file/compose-file-v3/#ipv4_address-ipv6_address
         "assets": endpoints.assets,
         "titles": res["data"],
     });
 
-    let body = hb.render("titles", &data).unwrap();
+    let body = hb.render("pages/titles", &data).unwrap();
     Ok(HttpResponse::Ok().body(body))
 }

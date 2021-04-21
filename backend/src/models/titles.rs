@@ -8,7 +8,7 @@ pub struct Title {
     pub isbn: String,
     pub author: i64,
     pub edition: i16,
-    pub format: String,
+    pub format: i16,
     pub language: i64,
     pub genre: i64,
     pub pages: i16,

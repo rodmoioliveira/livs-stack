@@ -18,6 +18,7 @@ db:
 db-csv:
 	@docker exec -it livs-stack_db_1 psql -U livs \
 	-c "COPY authors TO '/csv/authors-dump.csv' WITH (FORMAT CSV, HEADER);" \
+	-c "COPY formats TO '/csv/formats-dump.csv' WITH (FORMAT CSV, HEADER);" \
 	-c "COPY customers TO '/csv/customers-dump.csv' WITH (FORMAT CSV, HEADER);" \
 	-c "COPY genres TO '/csv/genres-dump.csv' WITH (FORMAT CSV, HEADER);" \
 	-c "COPY inventory TO '/csv/inventory-dump.csv' WITH (FORMAT CSV, HEADER);" \

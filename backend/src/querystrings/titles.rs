@@ -21,7 +21,7 @@ impl Filters {
             Some(value) => {
                 let formats = value
                     .split(",")
-                    .map(|s| format!("'{}'", s.to_owned()))
+                    .map(|s| format!("{}", s.to_owned()))
                     .collect::<Vec<String>>()
                     .join(",");
                 filters.push(format!("format IN ({})", formats));

@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../sass/_partial.scss","../sass/_partial2.scss","../sass/main.scss"],"names":[],"mappings":"AAAA;EACE;;;ACDF;EACE;;;ACEF;EACE;EACA;;;AAGF;EACE;EACA;;;AAGF;EACE;EACA;;;AAGF;EACE;EACA;EACA;;;AAGF;EACE;EACA","file":"main.css"}
+{"version":3,"sourceRoot":"","sources":["../sass/_partial.scss","../sass/_partial2.scss","../sass/main.scss"],"names":[],"mappings":"AAAA;EACE;EACA;EACA;;;ACHF;EACE;EACA;;;ACCF;EACE;EACA;;;AAGF;EACE;EACA;;;AAGF;EACE;EACA","file":"main.css"}

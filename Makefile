@@ -2,15 +2,15 @@ prod: nuke
 	@docker-compose --file docker-compose.production.yml up --build
 
 dev: nuke
-	@make sass-watch & \
 	@docker-compose --file docker-compose.development.yml up --build & \
 	cd backend && cargo watch -x run & \
 	cd frontend && cargo watch -x run & \
-	cd assets && cargo watch -x run
+	cd assets && cargo watch -x run & \
+	make sass-watch
 
 # TODO: make your own docker file
 sass-watch:
-	@docker run --rm -v $(shell pwd)/assets/dev/less:/sass/ -v $(shell pwd)/assets/static/css:/css/ michalklempa/dart-sass:latest
+	@docker run --rm -v $(shell pwd)/assets/dev/scss:/sass/ -v $(shell pwd)/assets/static/css:/css/ michalklempa/dart-sass:latest
 
 db:
 	@docker exec -it livs-stack_db_1 psql -U livs

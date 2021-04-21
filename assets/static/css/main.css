@@ -1,9 +1,12 @@
-.rudi {
-  color: red;
+li {
+  margin-bottom: 1rem;
+  border: 1px solid var(--main-color);
+  padding: 0.5rem;
 }
 
-.oli {
-  color: red;
+p {
+  font-size: 1.2rem;
+  margin: 0 auto;
 }
 
 :root {
@@ -14,17 +17,6 @@
 body {
   color: var(--main-color);
   background-color: var(--main-bg-color);
-}
-
-p {
-  font-size: 1.2rem;
-  margin: 0 auto;
-}
-
-li {
-  margin-bottom: 1rem;
-  border: 1px solid var(--main-color);
-  padding: 0.5rem;
 }
 
 ul {

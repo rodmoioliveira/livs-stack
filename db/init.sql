@@ -1,6 +1,7 @@
 /* Inspired by https://github.com/mkondratek/Bookstore-Database-Design */
 
 DROP TABLE IF EXISTS authors CASCADE;
+DROP TABLE IF EXISTS formats CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
 DROP TABLE IF EXISTS genres CASCADE;
 DROP TABLE IF EXISTS inventory CASCADE;
@@ -17,14 +18,6 @@ DROP VIEW IF EXISTS inventory_quantities;
 DROP VIEW IF EXISTS titles_info;
 
 BEGIN TRANSACTION;
-
-/*
- * ===========================
- * enums
- * ===========================
- */
-
-/* CREATE TYPE format AS ENUM ('hardcover', 'paperback'); */
 
 /*
  * ===========================
@@ -89,6 +82,21 @@ FROM
 
 /*
  * ===========================
+ * formats
+ * ===========================
+ */
+
+CREATE TABLE IF NOT EXISTS formats (
+  id SMALLSERIAL PRIMARY KEY,
+  format VARCHAR(100) NOT NULL
+);
+
+COPY formats(id, format)
+FROM
+  '/csv/formats.csv' DELIMITER ',' CSV HEADER;
+
+/*
+ * ===========================
  * titles
  * ===========================
  */
@@ -98,7 +106,7 @@ CREATE TABLE IF NOT EXISTS titles (
   isbn VARCHAR NOT NULL UNIQUE,
   author BIGSERIAL REFERENCES authors(id) ON DELETE CASCADE,
   edition SMALLINT NOT NULL,
-  format VARCHAR(10) NOT NULL CHECK (format = 'paperback' OR format = 'hardcover'),
+  format SMALLSERIAL REFERENCES formats(id) ON DELETE CASCADE,
   language BIGSERIAL REFERENCES languages(id) ON DELETE CASCADE,
   genre BIGSERIAL REFERENCES genres(id) ON DELETE CASCADE,
   pages SMALLINT NOT NULL,
@@ -239,7 +247,7 @@ CREATE OR REPLACE VIEW titles_info as (
     titles.isbn,
     CONCAT (authors.first_name, ' ', authors.last_name) AS author,
     titles.edition,
-    titles.format,
+    formats.format,
     languages.language,
     titles.pages,
     publishers.publisher,
@@ -256,6 +264,7 @@ CREATE OR REPLACE VIEW titles_info as (
     inventory_quantities.total as copies_total
   FROM titles
     JOIN authors ON titles.author = authors.id
+    JOIN formats ON titles.format = formats.id
     JOIN languages ON titles.language = languages.id
     JOIN measures ON titles.id = measures.title_id
     JOIN publishers ON publishers.id = titles.publisher
@@ -312,5 +321,11 @@ SELECT setval(
   COALESCE(max(id) + 1, 1),
   false
 ) FROM inventory;
+
+SELECT setval(
+  pg_get_serial_sequence('formats', 'id'),
+  COALESCE(max(id) + 1, 1),
+  false
+) FROM formats;
 
 COMMIT TRANSACTION;

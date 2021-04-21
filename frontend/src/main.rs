@@ -1,7 +1,10 @@
 use actix_web::middleware;
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
-use frontend::{handlers, models};
+use frontend::{
+    handlers::{error, root, titles},
+    models,
+};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
 use std::{env, io};
@@ -26,13 +29,14 @@ async fn main() -> io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .wrap(handlers::error::_404())
+            .wrap(error::_404())
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
             .data(client.clone())
             .data(endpoints.clone())
             .app_data(handlebars_ref.clone())
-            .service(web::resource("/").route(web::get().to(handlers::root::index)))
+            .service(web::resource("/").route(web::get().to(root::index)))
+            .service(web::resource("/titles").route(web::get().to(titles::all)))
     })
     .bind(localhost)?
     .run()

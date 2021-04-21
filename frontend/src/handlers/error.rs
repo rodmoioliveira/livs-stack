@@ -33,7 +33,7 @@ fn get_error_response<B>(res: &ServiceResponse<B>, error: &str) -> Response<Body
                 "error": error,
                 "status_code": res.status().as_str()
             });
-            let body = hb.render("error", &data);
+            let body = hb.render("pages/404", &data);
 
             match body {
                 Ok(body) => Response::build(res.status())

@@ -1,0 +1,17 @@
+.footer {
+  border-top: 1px solid var(--primary-text-color);
+  border-bottom: 1px solid var(--primary-text-color);
+  font-weight: var(--fw-light);
+  padding: 2em;
+}
+
+.footer__text {
+  text-align: center;
+  margin: 0;
+}
+
+.footer__link {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}

@@ -1,26 +1,86 @@
-li {
-  margin-bottom: 1rem;
-  border: 1px solid var(--main-color);
-  padding: 0.5rem;
+h1 {
+  font-size: 4.2em;
 }
 
-p {
-  font-size: 1.2rem;
-  margin: 0 auto;
+h2 {
+  font-size: 3.157em;
+}
+
+h3 {
+  font-size: 2.369em;
+}
+
+h4 {
+  font-size: 1.777em;
+}
+
+h5 {
+  font-size: 1.333em;
+}
+
+p,
+a {
+  font-size: 1.2em;
+  margin: 0.5em 0;
+}
+
+small {
+  font-size: 0.75em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0.3em 0;
 }
 
 :root {
-  --main-bg-color: white;
-  --main-color: black;
+  --fw-black: 900;
+  --fw-light: 300;
+  --fw-thin: 100;
+  --html-font-size: 1.1rem;
+  --primary-bg-color: white;
+  --primary-font: "Lato", sans-serif;
+  --primary-text-color: black;
+}
+
+.header {
+  border-bottom: 1px solid var(--primary-text-color);
+  font-weight: var(--fw-bold);
+}
+
+.header__title {
+  text-align: center;
+}
+
+.footer {
+  border-top: 1px solid var(--primary-text-color);
+  border-bottom: 1px solid var(--primary-text-color);
+  font-weight: var(--fw-light);
+  padding: 2em;
+}
+
+.footer__text {
+  text-align: center;
+  margin: 0;
+}
+
+.footer__link {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+
+html {
+  font-size: var(--html-font-size);
 }
 
 body {
-  color: var(--main-color);
-  background-color: var(--main-bg-color);
-}
-
-ul {
-  list-style: none;
+  background-color: var(--primary-bg-color);
+  font-family: var(--primary-font);
+  margin: 0;
   padding: 0;
 }
 

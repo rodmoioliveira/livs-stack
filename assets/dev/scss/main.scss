@@ -1,17 +1,15 @@
-@use 'partial';
-@use 'partial2';
+@use 'scales';
+@use 'constants';
+@use 'header';
+@use 'footer';
 
-:root {
-  --main-bg-color: white;
-  --main-color: black;
+html {
+  font-size: var(--html-font-size);
 }
 
 body {
-  color: var(--main-color);
-  background-color: var(--main-bg-color);
-}
-
-ul {
-  list-style: none;
+  background-color: var(--primary-bg-color);
+  font-family: var(--primary-font);
+  margin: 0;
   padding: 0;
 }

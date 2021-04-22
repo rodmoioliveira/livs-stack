@@ -31,3 +31,10 @@ pub struct Genre {
     pub id: Option<i64>,
     pub genre: String,
 }
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "languages")]
+pub struct Language {
+    pub id: Option<i64>,
+    pub language: String,
+}

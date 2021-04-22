@@ -41,23 +41,29 @@ h5 {
   --fw-light: 300;
   --fw-thin: 100;
   --html-font-size: 1.2rem;
-  --primary-bg-color: #f9f9f9;
   --primary-font: "Lato", sans-serif;
-  --primary-text-color: #111;
+  --first-color: #f9f9f9;
+  --second-color: #ce1212;
+  --third-color: #810000;
+  --fourth-color: #1b1717;
 }
 
 .header {
-  border-bottom: 1px solid var(--primary-text-color);
-  font-weight: var(--fw-bold);
+  border-bottom: 1px solid var(--third-color);
+  background-color: var(--third-color);
+  padding: 0.2em;
 }
 
 .header__title {
+  color: var(--first-color);
   text-align: center;
+  font-weight: var(--fw-black);
 }
 
 .footer {
-  border-top: 1px solid var(--primary-text-color);
-  border-bottom: 1px solid var(--primary-text-color);
+  border-top: 1px solid var(--third-color);
+  border-bottom: 1px solid var(--third-color);
+  background-color: var(--third-color);
   font-weight: var(--fw-light);
   padding: 1em;
   margin-bottom: 1em;
@@ -66,12 +72,14 @@ h5 {
 .footer__text {
   text-align: center;
   margin: 0;
+  color: var(--first-color);
 }
 
 .footer__link {
   text-align: center;
   display: block;
   margin: 0 auto;
+  color: var(--first-color);
 }
 
 html {
@@ -79,8 +87,8 @@ html {
 }
 
 body {
-  background-color: var(--primary-bg-color);
-  color: var(--primary-text-color);
+  background-color: var(--first-color);
+  color: var(--fourth-color);
   font-family: var(--primary-font);
   margin: 0;
   padding: 0;

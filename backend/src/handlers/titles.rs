@@ -8,7 +8,7 @@ pub async fn all(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: Vec<models::titles::Title> =
+    let result: Vec<models::db::Title> =
         queries::titles::all(&client, order_by_qs, filter_qs).await?;
 
     Ok(HttpResponse::Ok().json(models::response::Data::new(result)))
@@ -19,16 +19,16 @@ pub async fn one(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: models::titles::Title = queries::titles::one(&client, id).await?;
+    let result: models::db::Title = queries::titles::one(&client, id).await?;
 
     Ok(HttpResponse::Ok().json(models::response::Data::new(result)))
 }
 
 pub async fn add(
-    title: web::Json<models::titles::Title>,
+    title: web::Json<models::db::Title>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
-    let title_info: models::titles::Title = title.into_inner();
+    let title_info: models::db::Title = title.into_inner();
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let result = queries::titles::add(&client, title_info).await?;
 
@@ -37,10 +37,10 @@ pub async fn add(
 
 pub async fn update(
     web::Path(id): web::Path<i64>,
-    title: web::Json<models::titles::Title>,
+    title: web::Json<models::db::Title>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
-    let title_info: models::titles::Title = title.into_inner();
+    let title_info: models::db::Title = title.into_inner();
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
     let result = queries::titles::update(&client, id, title_info).await?;
 

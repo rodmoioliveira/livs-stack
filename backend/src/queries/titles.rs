@@ -6,7 +6,7 @@ pub async fn all(
     client: &Client,
     order_by_qs: querystrings::titles::Order,
     filter_qs: querystrings::titles::Filters,
-) -> Result<Vec<models::titles::Title>, errors::MyError> {
+) -> Result<Vec<models::db::Title>, errors::MyError> {
     let _stmt = include_str!("../sql/titles/all.sql");
     let _stmt = _stmt.replace("$order_by", &order_by_qs.to_sql());
     let _stmt = _stmt.replace("$filters", &filter_qs.to_sql());
@@ -18,13 +18,13 @@ pub async fn all(
         .query(&stmt, &[])
         .await
         .map_err(errors::MyError::PGError)?;
-    let result: Vec<models::titles::Title> =
+    let result: Vec<models::db::Title> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
     Ok(result)
 }
 
-pub async fn one(client: &Client, id: i64) -> Result<models::titles::Title, errors::MyError> {
+pub async fn one(client: &Client, id: i64) -> Result<models::db::Title, errors::MyError> {
     let _stmt = include_str!("../sql/titles/one.sql");
     let stmt = client
         .prepare(&_stmt)
@@ -34,7 +34,7 @@ pub async fn one(client: &Client, id: i64) -> Result<models::titles::Title, erro
         .query(&stmt, &[&id])
         .await
         .map_err(errors::MyError::PGError)?;
-    let mut result: Vec<models::titles::Title> =
+    let mut result: Vec<models::db::Title> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
     result.pop().ok_or(errors::MyError::NotFound)
@@ -42,10 +42,10 @@ pub async fn one(client: &Client, id: i64) -> Result<models::titles::Title, erro
 
 pub async fn add(
     client: &Client,
-    title: models::titles::Title,
-) -> Result<models::titles::Title, errors::MyError> {
+    title: models::db::Title,
+) -> Result<models::db::Title, errors::MyError> {
     let _stmt = include_str!("../sql/titles/add.sql");
-    let _stmt = _stmt.replace("$table_fields", &models::titles::Title::sql_table_fields());
+    let _stmt = _stmt.replace("$table_fields", &models::db::Title::sql_table_fields());
     let stmt = client
         .prepare(&_stmt)
         .await
@@ -70,8 +70,8 @@ pub async fn add(
         )
         .await?
         .iter()
-        .map(|row| models::titles::Title::from_row_ref(row).unwrap())
-        .collect::<Vec<models::titles::Title>>()
+        .map(|row| models::db::Title::from_row_ref(row).unwrap())
+        .collect::<Vec<models::db::Title>>()
         .pop()
         .ok_or(errors::MyError::NotFound) // more applicable for SELECTs
 }
@@ -79,10 +79,10 @@ pub async fn add(
 pub async fn update(
     client: &Client,
     id: i64,
-    title: models::titles::Title,
-) -> Result<models::titles::Title, errors::MyError> {
+    title: models::db::Title,
+) -> Result<models::db::Title, errors::MyError> {
     let _stmt = include_str!("../sql/titles/update.sql");
-    let _stmt = _stmt.replace("$table_fields", &models::titles::Title::sql_table_fields());
+    let _stmt = _stmt.replace("$table_fields", &models::db::Title::sql_table_fields());
     let stmt = client
         .prepare(&_stmt)
         .await
@@ -108,15 +108,15 @@ pub async fn update(
         )
         .await?
         .iter()
-        .map(|row| models::titles::Title::from_row_ref(row).unwrap())
-        .collect::<Vec<models::titles::Title>>()
+        .map(|row| models::db::Title::from_row_ref(row).unwrap())
+        .collect::<Vec<models::db::Title>>()
         .pop()
         .ok_or(errors::MyError::NotFound) // more applicable for SELECTs
 }
 
-pub async fn delete(client: &Client, id: i64) -> Result<models::titles::Title, errors::MyError> {
+pub async fn delete(client: &Client, id: i64) -> Result<models::db::Title, errors::MyError> {
     let _stmt = include_str!("../sql/titles/delete.sql");
-    let _stmt = _stmt.replace("$table_fields", &models::titles::Title::sql_table_fields());
+    let _stmt = _stmt.replace("$table_fields", &models::db::Title::sql_table_fields());
     let stmt = client
         .prepare(&_stmt)
         .await
@@ -126,8 +126,8 @@ pub async fn delete(client: &Client, id: i64) -> Result<models::titles::Title, e
         .query(&stmt, &[&id])
         .await?
         .iter()
-        .map(|row| models::titles::Title::from_row_ref(row).unwrap())
-        .collect::<Vec<models::titles::Title>>()
+        .map(|row| models::db::Title::from_row_ref(row).unwrap())
+        .collect::<Vec<models::db::Title>>()
         .pop()
         .ok_or(errors::MyError::NotFound) // more applicable for SELECTs
 }

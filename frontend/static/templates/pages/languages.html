@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> components/head }}
+  <body>
+    {{> sections/header }}
+    <ul>
+      {{#each languages}}
+      <li>
+        <p>id: {{ id }}</p>
+        <p>Language: {{ language }}</p>
+      </li>
+      {{/each}}
+    </ul>
+    {{> sections/footer }}
+  </body>
+</html>

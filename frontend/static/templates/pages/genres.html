@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> components/head }}
+  <body>
+    {{> sections/header }}
+    <ul>
+      {{#each genres}}
+      <li>
+        <p>id: {{ id }}</p>
+        <p>Genre: {{ genre }}</p>
+      </li>
+      {{/each}}
+    </ul>
+    {{> sections/footer }}
+  </body>
+</html>

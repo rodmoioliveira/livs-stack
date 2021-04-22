@@ -24,3 +24,10 @@ pub struct Format {
     pub id: Option<i16>,
     pub format: String,
 }
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "genres")]
+pub struct Genre {
+    pub id: Option<i64>,
+    pub genre: String,
+}

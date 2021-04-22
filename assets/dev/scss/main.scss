@@ -1,4 +1,5 @@
-@use 'scales';
+@use 'scales_minor_third';
+// @use 'scales_perfect_fourth';
 @use 'constants';
 @use 'header';
 @use 'footer';
@@ -9,6 +10,7 @@ html {
 
 body {
   background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
   font-family: var(--primary-font);
   margin: 0;
   padding: 0;

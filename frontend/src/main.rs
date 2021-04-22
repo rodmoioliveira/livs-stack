@@ -2,7 +2,7 @@ use actix_web::middleware;
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use frontend::{
-    handlers::{error, root, titles},
+    handlers::{error, formats, genres, languages, root, titles},
     models,
 };
 use handlebars::Handlebars;
@@ -36,6 +36,9 @@ async fn main() -> io::Result<()> {
             .data(endpoints.clone())
             .app_data(handlebars_ref.clone())
             .service(web::resource("/").route(web::get().to(root::index)))
+            .service(web::resource("/formats").route(web::get().to(formats::all)))
+            .service(web::resource("/genres").route(web::get().to(genres::all)))
+            .service(web::resource("/languages").route(web::get().to(languages::all)))
             .service(web::resource("/titles").route(web::get().to(titles::all)))
     })
     .bind(localhost)?

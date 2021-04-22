@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> components/head }}
+  <body>
+    {{> sections/header }}
+    <ul>
+      {{#each formats}}
+      <li>
+        <p>id: {{ id }}</p>
+        <p>Format: {{ format }}</p>
+      </li>
+      {{/each}}
+    </ul>
+    {{> sections/footer }}
+  </body>
+</html>

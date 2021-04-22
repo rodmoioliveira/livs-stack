@@ -1,5 +1,5 @@
 use actix_web::{error, middleware, web, App, HttpResponse, HttpServer};
-use backend::handlers::{formats, root, titles};
+use backend::handlers::{formats, genres, root, titles};
 use backend::{db, errors};
 use dotenv::dotenv;
 use std::env;
@@ -80,6 +80,20 @@ async fn main() -> std::io::Result<()> {
                             .route(web::get().to(formats::one))
                             .route(web::delete().to(formats::delete))
                             .route(web::put().to(formats::update)),
+                    ),
+            )
+            .service(
+                web::scope("/genres")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(genres::all))
+                            .route(web::post().to(genres::add)),
+                    )
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(genres::one))
+                            .route(web::delete().to(genres::delete))
+                            .route(web::put().to(genres::update)),
                     ),
             )
     })

@@ -17,3 +17,10 @@ pub struct Title {
     pub title: String,
     pub year: i16,
 }
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "formats")]
+pub struct Format {
+    pub id: Option<i16>,
+    pub format: String,
+}

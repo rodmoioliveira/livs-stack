@@ -88,7 +88,7 @@ FROM
 
 CREATE TABLE IF NOT EXISTS formats (
   id SMALLSERIAL PRIMARY KEY,
-  format VARCHAR(100) NOT NULL
+  format VARCHAR(100) UNIQUE NOT NULL
 );
 
 COPY formats(id, format)

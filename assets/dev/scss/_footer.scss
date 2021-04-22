@@ -1,6 +1,7 @@
 .footer {
-  border-top: 1px solid var(--primary-text-color);
-  border-bottom: 1px solid var(--primary-text-color);
+  border-top: 1px solid var(--third-color);
+  border-bottom: 1px solid var(--third-color);
+  background-color: var(--third-color);
   font-weight: var(--fw-light);
   padding: 1em;
   margin-bottom: 1em;
@@ -9,10 +10,12 @@
 .footer__text {
   text-align: center;
   margin: 0;
+  color: var(--first-color);
 }
 
 .footer__link {
   text-align: center;
   display: block;
   margin: 0 auto;
+  color: var(--first-color);
 }

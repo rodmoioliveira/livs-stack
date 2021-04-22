@@ -1,8 +1,11 @@
 .header {
-  border-bottom: 1px solid var(--primary-text-color);
-  font-weight: var(--fw-bold);
+  border-bottom: 1px solid var(--third-color);
+  background-color: var(--third-color);
+  padding: 0.2em;
 }
 
 .header__title {
+  color: var(--first-color);
   text-align: center;
+  font-weight: var(--fw-black);
 }

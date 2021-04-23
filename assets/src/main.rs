@@ -13,11 +13,11 @@ async fn main() -> std::io::Result<()> {
     println!("Server running in {}", localhost);
 
     HttpServer::new(|| {
-        let cors = Cors::default().allow_any_origin().max_age(3600);
-        // https://stackoverflow.com/questions/65863107/how-to-set-expire-or-cache-control-header-when-serving-static-files-with-act
         App::new()
-            .wrap(cors)
+            .wrap(Cors::default().allow_any_origin())
+            .wrap(middleware::DefaultHeaders::new().header("Cache-Control", "max-age=31536000"))
             .wrap(middleware::Logger::default())
+            .wrap(middleware::Compress::default())
             .service(Files::new("/static", "static/").show_files_listing())
     })
     .bind(localhost)?

@@ -9,53 +9,29 @@
           <h5 class="filters__name">Genres</h5>
           <nav class="filters__nav">
             <ul class="filters__list">
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
+              {{#each genres}}
+              <li class="filters__item">{{ genre }}</li>
+              {{/each}}
             </ul>
           </nav>
         </section>
         <section class="filters__section">
-          <h5 class="filters__name">Genres</h5>
+          <h5 class="filters__name">Languages</h5>
           <nav class="filters__nav">
             <ul class="filters__list">
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
+              {{#each languages}}
+              <li class="filters__item">{{ language }}</li>
+              {{/each}}
             </ul>
           </nav>
         </section>
         <section class="filters__section">
-          <h5 class="filters__name">Genres</h5>
+          <h5 class="filters__name">Formats</h5>
           <nav class="filters__nav">
             <ul class="filters__list">
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
-              <li class="filters__item">genre</li>
+              {{#each formats}}
+              <li class="filters__item">{{ format }}</li>
+              {{/each}}
             </ul>
           </nav>
         </section>

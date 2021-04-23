@@ -12,4 +12,12 @@ impl Endpoints {
         let backend = format!("http://{}", env::var("ENDPOINT_BACKEND").unwrap());
         Self { assets, backend }
     }
+
+    pub fn backend_url(&self, route: &str) -> String {
+        format!("{}/{}", self.backend, route)
+    }
+
+    pub fn assets_url(&self, route: &str) -> String {
+        format!("{}/{}", self.assets, route)
+    }
 }

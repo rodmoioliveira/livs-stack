@@ -24,7 +24,10 @@ pub async fn all(
     Ok(result)
 }
 
-pub async fn one(client: &Client, id: i64) -> Result<models::db::Title, errors::MyError> {
+pub async fn one(
+    client: &Client,
+    id: i64,
+) -> Result<models::db::Title, errors::MyError> {
     let _stmt = include_str!("../sql/titles/one.sql");
     let stmt = client
         .prepare(&_stmt)
@@ -114,7 +117,10 @@ pub async fn update(
         .ok_or(errors::MyError::NotFound) // more applicable for SELECTs
 }
 
-pub async fn delete(client: &Client, id: i64) -> Result<models::db::Title, errors::MyError> {
+pub async fn delete(
+    client: &Client,
+    id: i64,
+) -> Result<models::db::Title, errors::MyError> {
     let _stmt = include_str!("../sql/titles/delete.sql");
     let _stmt = _stmt.replace("$table_fields", &models::db::Title::sql_table_fields());
     let stmt = client

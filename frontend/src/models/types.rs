@@ -13,11 +13,17 @@ impl Endpoints {
         Self { assets, backend }
     }
 
-    pub fn backend_url(&self, route: &str) -> String {
+    pub fn backend_url(
+        &self,
+        route: &str,
+    ) -> String {
         format!("{}/{}", self.backend, route)
     }
 
-    pub fn assets_url(&self, route: &str) -> String {
+    pub fn assets_url(
+        &self,
+        route: &str,
+    ) -> String {
         format!("{}/{}", self.assets, route)
     }
 }

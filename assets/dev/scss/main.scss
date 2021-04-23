@@ -3,6 +3,7 @@
 @use 'constants';
 @use 'header';
 @use 'footer';
+@use 'filters';
 
 html {
   font-size: var(--html-font-size);
@@ -14,4 +15,8 @@ body {
   font-family: var(--primary-font);
   margin: 0;
   padding: 0;
+}
+
+.main {
+  display: flex;
 }

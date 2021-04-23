@@ -82,6 +82,27 @@ h5 {
   color: var(--first-color);
 }
 
+.filters {
+  width: 12em;
+  border-right: 1px solid var(--fourth-color);
+  padding-top: 1em;
+}
+
+.filters__section {
+  margin: 0 0 1em 0.5em;
+}
+
+.filters__name {
+  margin: 0;
+  font-weight: var(--fw-black);
+}
+
+.filters__list {
+  margin: 0;
+  list-style: none;
+  padding: 0 1em;
+}
+
 html {
   font-size: var(--html-font-size);
 }
@@ -92,6 +113,10 @@ body {
   font-family: var(--primary-font);
   margin: 0;
   padding: 0;
+}
+
+.main {
+  display: flex;
 }
 
 /*# sourceMappingURL=main.css.map */

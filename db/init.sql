@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS publishers CASCADE;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS titles CASCADE;
 
+DROP VIEW IF EXISTS titles_avg_rate;
 DROP VIEW IF EXISTS copies_new;
 DROP VIEW IF EXISTS copies_used;
 DROP VIEW IF EXISTS genres_count;
@@ -239,6 +240,15 @@ CREATE OR REPLACE VIEW genres_count as (
     JOIN genres ON titles.genre = genres.id
   GROUP BY genres.genre
   ORDER BY count DESC
+);
+
+CREATE OR REPLACE VIEW titles_avg_rate as (
+  SELECT
+    title_id,
+    round(avg(rate)) AS rate
+  FROM reviews
+  GROUP BY title_id
+  ORDER BY rate DESC
 );
 
 CREATE OR REPLACE VIEW titles_info as (

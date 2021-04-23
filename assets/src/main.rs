@@ -1,6 +1,6 @@
 use actix_cors::Cors;
 use actix_files::Files;
-use actix_web::{middleware, App, HttpServer};
+use actix_web::{http::header, middleware, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
@@ -15,7 +15,9 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .wrap(Cors::default().allow_any_origin())
-            .wrap(middleware::DefaultHeaders::new().header("Cache-Control", "max-age=31536000"))
+            .wrap(
+                middleware::DefaultHeaders::new().header(header::CACHE_CONTROL, "max-age=31536000"),
+            )
             .wrap(middleware::Logger::default())
             .wrap(middleware::Compress::default())
             .service(Files::new("/static", "static/").show_files_listing())

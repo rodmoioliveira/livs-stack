@@ -16,7 +16,10 @@ fn not_found<B>(res: ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
     ))
 }
 
-fn get_error_response<B>(res: &ServiceResponse<B>, error: &str) -> Response<Body> {
+fn get_error_response<B>(
+    res: &ServiceResponse<B>,
+    error: &str,
+) -> Response<Body> {
     let request = res.request();
     let fallback = |e: &str| {
         Response::build(res.status())

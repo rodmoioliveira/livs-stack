@@ -17,8 +17,6 @@ async fn main() -> io::Result<()> {
     let localhost = env::var("ENDPOINT_FRONTEND").unwrap();
     println!("Server running in {}", localhost);
 
-    let endpoints = models::types::Endpoints::new();
-
     let mut handlebars = Handlebars::new();
     handlebars
         .register_templates_directory(".html", "./static/templates")
@@ -26,6 +24,7 @@ async fn main() -> io::Result<()> {
     let handlebars_ref = web::Data::new(handlebars);
 
     let client = Client::builder().build().unwrap();
+    let endpoints = models::types::Endpoints::new();
 
     HttpServer::new(move || {
         App::new()

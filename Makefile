@@ -1,3 +1,9 @@
+up:
+	@docker-compose --file docker-compose.production.yml up
+
+down:
+	@docker-compose --file docker-compose.production.yml down
+
 prod: nuke
 	@docker-compose --file docker-compose.production.yml up --build
 
@@ -31,4 +37,4 @@ db-csv:
 nuke:
 	@docker system prune --volumes -f
 
-.PHONY: nuke run db dev prod db-csv sass-watch
+.PHONY: nuke run db dev prod db-csv sass-watch up down

@@ -8,10 +8,20 @@ pub async fn all(
     client: web::Data<Client>,
     endpoints: web::Data<models::types::Endpoints>,
 ) -> Result<HttpResponse, errors::MyError> {
-    let res = utils::fetch(endpoints.backend_url("titles"), &client)?;
+    let genres = utils::fetch(endpoints.backend_url("genres?order_by=genre"), &client)?;
+    let languages = utils::fetch(
+        endpoints.backend_url("languages?order_by=language"),
+        &client,
+    )?;
+    let formats = utils::fetch(endpoints.backend_url("formats?order_by=format"), &client)?;
+    let titles = utils::fetch(endpoints.backend_url("titles"), &client)?;
+
     let data = serde_json::json!({
         "assets": endpoints.assets,
-        "titles": res["data"],
+        "genres": genres["data"],
+        "languages": languages["data"],
+        "formats": formats["data"],
+        "titles": titles["data"],
     });
 
     let body = hb.render("pages/titles", &data).unwrap();

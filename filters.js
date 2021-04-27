@@ -1483,9 +1483,73 @@ const data = [
 ];
 
 // http://localhost:8081/titles?genres=1&formats=1,2,3,4&languages=1,2,3,4,5&order_by=-id
+const data_filters = {
+  formats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  languages: [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+  ],
+  genres: [
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+  ],
+};
 
-const genre_values = [];
-const format_values = [];
+const genre_values = [1];
+const format_values = [1];
 const language_values = [];
 
 const filter_genres = (active) => ({ genre }) => {
@@ -1515,13 +1579,32 @@ const result = data
   .filter(filter_languages(true))
   .filter(filter_formats(true));
 
-const formats = [
-  ...new Set(result.map(({ format }) => format).sort()),
-];
-const languages = [
-  ...new Set(result.map(({ language }) => language).sort()),
-];
-const genres = [...new Set(result.map(({ genre }) => genre).sort())];
+const formats = () =>
+  genre_values.length === 0 && language_values.length === 0
+    ? data_filters.formats
+    : [
+        ...new Set(
+          result.map(({ format }) => format).sort((a, b) => a - b)
+        ),
+      ];
+
+const languages = () =>
+  format_values.length === 0 && genre_values.length === 0
+    ? data_filters.languages
+    : [
+        ...new Set(
+          result.map(({ language }) => language).sort((a, b) => a - b)
+        ),
+      ];
+
+const genres = () =>
+  format_values.length === 0 && language_values.length === 0
+    ? data_filters.genres
+    : [
+        ...new Set(
+          result.map(({ genre }) => genre).sort((a, b) => a - b)
+        ),
+      ];
 
 console.log({
   results: result.length,
@@ -1530,52 +1613,73 @@ console.log({
     languages: language_values,
     genres: genre_values,
   },
-  avaliable_filters: {
-    formats,
-    languages,
-    genres,
+  data_filters: {
+    formats: formats(),
+    languages: languages(),
+    genres: genres(),
   },
 });
 
-// STATE MACHINE
-// STATE 0
 // {
-//   results: 6,
-//   active_filters: { formats: [], languages: [ 3 ], genres: [] },
-//   avaliable_filters: {
-//     formats: [ 1, 10, 2, 4, 9 ],
-//     languages: [ 3 ],
-//     genres: [ 16, 19, 24, 28, 7 ]
-//   }
-// }
-//
-// active languages: [ 3 ] has formats: [ 1, 10, 2, 4, 9 ]
-//
-// STATE 1
-// {
-//   results: 2,
-//   active_filters: { formats: [ 1 ], languages: [ 3 ], genres: [] },
-//   avaliable_filters: { formats: [ 1 ], languages: [ 3 ], genres: [ 28, 7 ] }
-// }
-//
-// So in STATE 1, when both  formats: [ 1 ], languages: [ 3 ] are selected,
-// the avaliable_filters should be: {
-//    formats: [ 1, 10, 2, 4, 9 ],
-//    languages: [16, 2, 20, 25, 3, 9]
-// }
-//
-// STATE 2
-// {
-//   results: 10,
-//   active_filters: { formats: [ 1 ], languages: [], genres: [] },
-//   avaliable_filters: {
-//     formats: [ 1 ],
-//     languages: [ 16, 2, 20, 25, 3, 9 ],
+//   results: 3,
+//   active_filters: { formats: [], languages: [], genres: [ 7 ] },
+//   data_filters: {
+//     formats: [ 1, 4, 6 ],
+//     languages: [ 3, 22, 25 ],
 //     genres: [
-//       14, 15, 17, 22, 27,
-//       28, 31,  4,  7,  8
+//        1,  2,  3,  4,  5,  7,  8,  9, 10,
+//       11, 12, 13, 14, 15, 16, 17, 18, 19,
+//       20, 21, 22, 23, 24, 25, 26, 27, 28,
+//       29, 30, 31, 32
 //     ]
 //   }
 // }
 //
-// active formats: [ 1 ] has languages: [16, 2, 20, 25, 3, 9]
+// {
+//   results: 6,
+//   active_filters: { formats: [], languages: [ 3 ], genres: [] },
+//   data_filters: {
+//     formats: [ 1, 2, 4, 9, 10 ],
+//     languages: [
+//        1,  2,  3,  4,  5,  6,  7,  8,
+//        9, 10, 11, 12, 13, 14, 15, 16,
+//       17, 18, 19, 20, 21, 22, 23, 24,
+//       25, 26
+//     ],
+//     genres: [ 7, 16, 19, 24, 28 ]
+//   }
+// }
+//
+// RESULT:
+// {
+//   results: 1,
+//   active_filters: { formats: [], languages: [ 3 ], genres: [ 7 ] },
+//   data_filters: { formats: [ 1 ], languages: [ 3 ], genres: [ 7 ] }
+// }
+// SHOULD BE:
+// {
+//   results: 1,
+//   active_filters: { formats: [], languages: [ 3 ], genres: [ 7 ] },
+//   data_filters: {
+//      formats: [ 1, 4 ],
+//      languages: [ 3, 22, 25 ],
+//      genres: [ 7, 16, 19, 24, 28 ]
+//    }
+// }
+//
+//
+// EACH LANGUAGE has a set of formats and genres
+// EACH GENRE has a set of formats and languages
+// EACH FORMAT has a set o languages and genres
+//
+// For example
+//
+// genres: [ 1 ]
+//  => formats: [ 2, 4, 5 ],
+//  => languages: [ 1, 8, 17, 21 ],
+// formats: [ 1 ]
+//  => languages: [ 2, 3, 9, 16, 20, 25 ],
+//  => genres: [ 4, 7, 8, 14, 15, 17, 22, 27, 28, 31 ]
+// languages: [ 1 ]
+//  => formats: [ 2, 4, 5, 8, 10 ],
+//  => genres: [ 1, 2, 13, 17, 19 ]

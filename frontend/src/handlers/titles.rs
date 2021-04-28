@@ -63,10 +63,9 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_values: String = set
-                .clone()
-                .into_iter()
-                .collect::<Vec<i64>>()
+            let mut ids: Vec<i64> = set.clone().into_iter().collect();
+            ids.sort();
+            let qs_values: String = ids
                 .iter()
                 .map(|id| id.to_string())
                 .collect::<Vec<String>>()

@@ -4,9 +4,15 @@
     <nav class="filters__nav">
       <ul class="filters__list">
         {{#each genres}}
-        <a class="filters__link" href="{{ link }}" data-selected="{{ selected }}">
-          <li class="filters__item">{{ value }}</li>
-        </a>
+        <li class="filters__item">
+          <a
+            class="filters__link"
+            href="{{ link }}"
+            data-selected="{{ selected }}"
+          >
+            {{ value }}
+          </a>
+        </li>
         {{/each}}
       </ul>
     </nav>

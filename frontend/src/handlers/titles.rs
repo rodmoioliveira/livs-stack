@@ -29,6 +29,12 @@ pub struct Genre {
     pub genre: String,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Language {
+    pub id: Option<i64>,
+    pub language: String,
+}
+
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
@@ -42,7 +48,7 @@ pub async fn all(
     )?;
     let formats = utils::fetch(endpoints.backend_url("formats?order_by=format"), &client)?;
 
-    let selected_genres_set = filter_qs
+    let set_genres = filter_qs
         .clone()
         .genres
         .unwrap_or("0".to_string())
@@ -50,13 +56,51 @@ pub async fn all(
         .map(|s| s.parse::<i64>().unwrap())
         .filter(|id| id != &0_i64)
         .collect::<HashSet<i64>>();
+    let set_languages = filter_qs
+        .clone()
+        .languages
+        .unwrap_or("0".to_string())
+        .split(",")
+        .map(|s| s.parse::<i64>().unwrap())
+        .filter(|id| id != &0_i64)
+        .collect::<HashSet<i64>>();
+    let languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
     let genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
+
+    let languages_qs: String = set_languages
+        .clone()
+        .into_iter()
+        .collect::<Vec<i64>>()
+        .iter()
+        .map(|id| id.to_string())
+        .collect::<Vec<String>>()
+        .join(",");
+
+    let genres_qs: String = set_genres
+        .clone()
+        .into_iter()
+        .collect::<Vec<i64>>()
+        .iter()
+        .map(|id| id.to_string())
+        .collect::<Vec<String>>()
+        .join(",");
+
+    let qs_genres = match set_genres.len() {
+        0 => "".to_string(),
+        _ => format!("genres={}", genres_qs),
+    };
+
+    let qs_languages = match set_languages.len() {
+        0 => "".to_string(),
+        _ => format!("languages={}", languages_qs),
+    };
+
     let filter_genres = genres
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
-            let selected = selected_genres_set.contains(&genre.id.unwrap());
-            let mut set = selected_genres_set.clone();
+            let selected = set_genres.contains(&genre.id.unwrap());
+            let mut set = set_genres.clone();
 
             match selected {
                 true => set.remove(&id),
@@ -71,9 +115,12 @@ pub async fn all(
                 .collect::<Vec<String>>()
                 .join(",");
 
+            let interrogation = if qs_languages == "" { "" } else { "?" };
+            let and = if qs_languages == "" { "" } else { "&" };
+
             let qs = match set.len() {
-                0 => "".to_string(),
-                _ => format!("?genres={}", qs_values),
+                0 => format!("{}{}", interrogation, qs_languages),
+                _ => format!("?genres={}{}{}", qs_values, and, qs_languages),
             };
 
             let link = format!("/titles{}", qs);
@@ -88,28 +135,60 @@ pub async fn all(
         })
         .collect::<Vec<Filter>>();
 
-    let qs_values: String = selected_genres_set
-        .clone()
-        .into_iter()
-        .collect::<Vec<i64>>()
+    let filter_languages = languages
         .iter()
-        .map(|id| id.to_string())
+        .map(|language| {
+            let id = language.id.unwrap();
+            let selected = set_languages.contains(&language.id.unwrap());
+            let mut set = set_languages.clone();
+
+            match selected {
+                true => set.remove(&id),
+                false => set.insert(id),
+            };
+
+            let mut ids: Vec<i64> = set.clone().into_iter().collect();
+            ids.sort();
+            let qs_values: String = ids
+                .iter()
+                .map(|id| id.to_string())
+                .collect::<Vec<String>>()
+                .join(",");
+
+            let interrogation = if qs_genres == "" { "" } else { "?" };
+            let and = if qs_genres == "" { "" } else { "&" };
+
+            let qs = match set.len() {
+                0 => format!("{}{}", interrogation, qs_genres),
+                _ => format!("?languages={}{}{}", qs_values, and, qs_genres),
+            };
+
+            let link = format!("/titles{}", qs);
+
+            Filter {
+                id,
+                name: "language".to_string(),
+                selected,
+                value: language.language.clone(),
+                link,
+            }
+        })
+        .collect::<Vec<Filter>>();
+
+    let queries: String = vec![qs_genres, qs_languages]
+        .into_iter()
+        .filter(|q| *q != "")
         .collect::<Vec<String>>()
-        .join(",");
+        .join("&");
 
-    let qs = match selected_genres_set.len() {
-        0 => "".to_string(),
-        _ => format!("?genres={}", qs_values),
-    };
-
-    let link = format!("titles{}", qs);
-
+    let interrogation = if queries.len() == 0 { "" } else { "?" };
+    let link = format!("titles{}{}", interrogation, queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
     let data = serde_json::json!({
         "assets": endpoints.assets,
         "genres": serde_json::json!(filter_genres),
-        "languages": languages["data"],
+        "languages": serde_json::json!(filter_languages),
         "formats": formats["data"],
         "titles": titles["data"],
     });

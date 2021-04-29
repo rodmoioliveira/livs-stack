@@ -38,3 +38,11 @@ pub struct Language {
     pub id: Option<i64>,
     pub language: String,
 }
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "sets_formats")]
+pub struct SetFormat {
+    pub format: i16,
+    pub genre_set: String,
+    pub language_set: String,
+}

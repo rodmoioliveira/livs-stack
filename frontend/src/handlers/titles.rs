@@ -5,6 +5,15 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
+fn ids_comma_joiner(set: &HashSet<i64>) -> String {
+    let mut ids: Vec<i64> = set.clone().into_iter().collect();
+    ids.sort();
+    ids.iter()
+        .map(|id| id.to_string())
+        .collect::<Vec<String>>()
+        .join(",")
+}
+
 // TODO: MUST REFACTOR THIS WHOLE FILE!
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -67,23 +76,8 @@ pub async fn all(
     let languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
     let genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
 
-    let languages_qs: String = set_languages
-        .clone()
-        .into_iter()
-        .collect::<Vec<i64>>()
-        .iter()
-        .map(|id| id.to_string())
-        .collect::<Vec<String>>()
-        .join(",");
-
-    let genres_qs: String = set_genres
-        .clone()
-        .into_iter()
-        .collect::<Vec<i64>>()
-        .iter()
-        .map(|id| id.to_string())
-        .collect::<Vec<String>>()
-        .join(",");
+    let languages_qs: String = ids_comma_joiner(&set_languages);
+    let genres_qs: String = ids_comma_joiner(&set_genres);
 
     let qs_genres = match set_genres.len() {
         0 => "".to_string(),
@@ -107,14 +101,7 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let mut ids: Vec<i64> = set.clone().into_iter().collect();
-            ids.sort();
-            let qs_values: String = ids
-                .iter()
-                .map(|id| id.to_string())
-                .collect::<Vec<String>>()
-                .join(",");
-
+            let qs_values = ids_comma_joiner(&set);
             let interrogation = if qs_languages == "" { "" } else { "?" };
             let and = if qs_languages == "" { "" } else { "&" };
 
@@ -147,14 +134,7 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let mut ids: Vec<i64> = set.clone().into_iter().collect();
-            ids.sort();
-            let qs_values: String = ids
-                .iter()
-                .map(|id| id.to_string())
-                .collect::<Vec<String>>()
-                .join(",");
-
+            let qs_values = ids_comma_joiner(&set);
             let interrogation = if qs_genres == "" { "" } else { "?" };
             let and = if qs_genres == "" { "" } else { "&" };
 

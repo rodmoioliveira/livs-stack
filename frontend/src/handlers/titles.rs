@@ -14,6 +14,14 @@ fn ids_comma_joiner(set: &HashSet<i64>) -> String {
         .join(",")
 }
 
+fn ids_set(s: Option<String>) -> HashSet<i64> {
+    s.unwrap_or("0".to_string())
+        .split(",")
+        .map(|s| s.parse::<i64>().unwrap())
+        .filter(|id| id != &0_i64)
+        .collect::<HashSet<i64>>()
+}
+
 // TODO: MUST REFACTOR THIS WHOLE FILE!
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -57,27 +65,12 @@ pub async fn all(
     )?;
     let formats = utils::fetch(endpoints.backend_url("formats?order_by=format"), &client)?;
 
-    let set_genres = filter_qs
-        .clone()
-        .genres
-        .unwrap_or("0".to_string())
-        .split(",")
-        .map(|s| s.parse::<i64>().unwrap())
-        .filter(|id| id != &0_i64)
-        .collect::<HashSet<i64>>();
-    let set_languages = filter_qs
-        .clone()
-        .languages
-        .unwrap_or("0".to_string())
-        .split(",")
-        .map(|s| s.parse::<i64>().unwrap())
-        .filter(|id| id != &0_i64)
-        .collect::<HashSet<i64>>();
-    let languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
-    let genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
-
+    let set_genres = ids_set(filter_qs.clone().genres);
+    let set_languages = ids_set(filter_qs.clone().languages);
     let languages_qs: String = ids_comma_joiner(&set_languages);
     let genres_qs: String = ids_comma_joiner(&set_genres);
+    let languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
+    let genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
 
     let qs_genres = match set_genres.len() {
         0 => "".to_string(),

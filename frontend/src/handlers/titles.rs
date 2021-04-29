@@ -71,6 +71,22 @@ pub struct Format {
     pub format: String,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Title {
+    pub id: Option<i64>,
+    pub isbn: String,
+    pub author: i64,
+    pub edition: i16,
+    pub format: i16,
+    pub language: i64,
+    pub genre: i64,
+    pub pages: i16,
+    pub publisher: i64,
+    pub summary: String,
+    pub title: String,
+    pub year: i16,
+}
+
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
@@ -111,7 +127,7 @@ pub async fn all(
         _ => format!("formats={}", formats_qs),
     };
 
-    let filter_genres = all_genres
+    let mut filter_genres = all_genres
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
@@ -173,7 +189,7 @@ pub async fn all(
         })
         .collect::<Vec<Filter>>();
 
-    let filter_formats = all_formats
+    let mut filter_formats = all_formats
         .iter()
         .map(|format| {
             let id = format.id.unwrap();
@@ -207,6 +223,46 @@ pub async fn all(
     let queries = derive_query(vec![qs_genres, qs_languages, qs_formats]);
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
+    let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
+
+    let format_computed_set = all_titles
+        .clone()
+        .iter()
+        .map(|t| t.format as i64)
+        .collect::<HashSet<i64>>();
+    let language_computed_set = all_titles
+        .clone()
+        .iter()
+        .map(|t| t.language as i64)
+        .collect::<HashSet<i64>>();
+    let genre_computed_set = all_titles
+        .clone()
+        .iter()
+        .map(|t| t.genre as i64)
+        .collect::<HashSet<i64>>();
+
+    let genres_is_active = set_genres.len() > 0;
+    let language_is_active = set_languages.len() > 0;
+    let format_is_active = set_formats.len() > 0;
+
+    println!("formats active?: {}", format_is_active);
+    println!("FORMATS: {:?}", format_computed_set);
+    println!("language active?: {}", language_is_active);
+    println!("LANGUAGE: {:?}", language_computed_set);
+    println!("genre active?: {}", genres_is_active);
+    println!("GENRE: {:?}", genre_computed_set);
+
+    if language_is_active {
+        // filter out formats and genres
+        filter_genres = filter_genres
+            .into_iter()
+            .filter(|f| genre_computed_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
+        filter_formats = filter_formats
+            .into_iter()
+            .filter(|f| format_computed_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
+    }
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

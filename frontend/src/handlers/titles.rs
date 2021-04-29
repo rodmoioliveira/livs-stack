@@ -5,6 +5,15 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
+fn derive_query(v: Vec<String>) -> String {
+    let mut q = v.into_iter().filter(|q| *q != "").collect::<Vec<String>>();
+    q.sort();
+    let q = q.join("&");
+    let question_mark = if q.len() == 0 { "" } else { "?" };
+
+    format!("{}{}", question_mark, q)
+}
+
 fn set_to_vec(set: &HashSet<i64>) -> Vec<i64> {
     set.clone().into_iter().collect()
 }
@@ -104,14 +113,8 @@ pub async fn all(
                 _ => format!("genres={}", qs_values),
             };
 
-            let queries: String = vec![qs_genres, qs_languages.clone()]
-                .into_iter()
-                .filter(|q| *q != "")
-                .collect::<Vec<String>>()
-                .join("&");
-
-            let interrogation = if queries.len() == 0 { "" } else { "?" };
-            let link = format!("/titles{}{}", interrogation, queries);
+            let queries = derive_query(vec![qs_genres, qs_languages.clone()]);
+            let link = format!("/titles{}", queries);
 
             Filter {
                 id,
@@ -141,14 +144,8 @@ pub async fn all(
                 _ => format!("languages={}", qs_values),
             };
 
-            let queries: String = vec![qs_genres.clone(), qs_languages]
-                .into_iter()
-                .filter(|q| *q != "")
-                .collect::<Vec<String>>()
-                .join("&");
-
-            let interrogation = if queries.len() == 0 { "" } else { "?" };
-            let link = format!("/titles{}{}", interrogation, queries);
+            let queries = derive_query(vec![qs_genres.clone(), qs_languages]);
+            let link = format!("/titles{}", queries);
 
             Filter {
                 id,
@@ -160,14 +157,8 @@ pub async fn all(
         })
         .collect::<Vec<Filter>>();
 
-    let queries: String = vec![qs_genres, qs_languages]
-        .into_iter()
-        .filter(|q| *q != "")
-        .collect::<Vec<String>>()
-        .join("&");
-
-    let interrogation = if queries.len() == 0 { "" } else { "?" };
-    let link = format!("titles{}{}", interrogation, queries);
+    let queries = derive_query(vec![qs_genres, qs_languages]);
+    let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
     let data = serde_json::json!({

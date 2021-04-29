@@ -65,6 +65,12 @@ pub struct Language {
     pub language: String,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Format {
+    pub id: Option<i64>,
+    pub format: String,
+}
+
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
@@ -80,10 +86,15 @@ pub async fn all(
 
     let set_genres = ids_set(filter_qs.clone().genres);
     let set_languages = ids_set(filter_qs.clone().languages);
+    let set_formats = ids_set(filter_qs.clone().formats);
+
     let languages_qs: String = ids_comma_joiner(&set_languages);
     let genres_qs: String = ids_comma_joiner(&set_genres);
+    let formats_qs: String = ids_comma_joiner(&set_formats);
+
     let all_languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
     let all_genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
+    let all_formats: Vec<Format> = serde_json::from_value(formats["data"].clone()).unwrap();
 
     let qs_genres = match set_genres.len() {
         0 => "".to_string(),
@@ -93,6 +104,11 @@ pub async fn all(
     let qs_languages = match set_languages.len() {
         0 => "".to_string(),
         _ => format!("languages={}", languages_qs),
+    };
+
+    let qs_formats = match set_formats.len() {
+        0 => "".to_string(),
+        _ => format!("formats={}", formats_qs),
     };
 
     let filter_genres = all_genres
@@ -113,7 +129,7 @@ pub async fn all(
                 _ => format!("genres={}", qs_values),
             };
 
-            let queries = derive_query(vec![qs_genres, qs_languages.clone()]);
+            let queries = derive_query(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
             Filter {
@@ -144,7 +160,7 @@ pub async fn all(
                 _ => format!("languages={}", qs_values),
             };
 
-            let queries = derive_query(vec![qs_genres.clone(), qs_languages]);
+            let queries = derive_query(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
             Filter {
@@ -157,7 +173,38 @@ pub async fn all(
         })
         .collect::<Vec<Filter>>();
 
-    let queries = derive_query(vec![qs_genres, qs_languages]);
+    let filter_formats = all_formats
+        .iter()
+        .map(|format| {
+            let id = format.id.unwrap();
+            let selected = set_formats.contains(&format.id.unwrap());
+            let mut set = set_formats.clone();
+
+            match selected {
+                true => set.remove(&id),
+                false => set.insert(id),
+            };
+
+            let qs_values = ids_comma_joiner(&set);
+            let qs_formats = match qs_values.len() {
+                0 => "".to_string(),
+                _ => format!("formats={}", qs_values),
+            };
+
+            let queries = derive_query(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
+            let link = format!("/titles{}", queries);
+
+            Filter {
+                id,
+                name: "format".to_string(),
+                selected,
+                value: format.format.clone(),
+                link,
+            }
+        })
+        .collect::<Vec<Filter>>();
+
+    let queries = derive_query(vec![qs_genres, qs_languages, qs_formats]);
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
@@ -165,7 +212,7 @@ pub async fn all(
         "assets": endpoints.assets,
         "genres": serde_json::json!(filter_genres),
         "languages": serde_json::json!(filter_languages),
-        "formats": formats["data"],
+        "formats": serde_json::json!(filter_formats),
         "titles": titles["data"],
     });
 

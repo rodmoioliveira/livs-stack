@@ -17,6 +17,9 @@ DROP VIEW IF EXISTS copies_used;
 DROP VIEW IF EXISTS genres_count;
 DROP VIEW IF EXISTS inventory_quantities;
 DROP VIEW IF EXISTS titles_info;
+DROP VIEW IF EXISTS sets_genres;
+DROP VIEW IF EXISTS sets_formats;
+DROP VIEW IF EXISTS sets_languages;
 
 BEGIN TRANSACTION;
 
@@ -249,6 +252,33 @@ CREATE OR REPLACE VIEW titles_avg_rate as (
   FROM reviews
   GROUP BY title_id
   ORDER BY rate DESC
+);
+
+CREATE OR REPLACE VIEW sets_genres as (
+  SELECT
+    genre,
+    ARRAY_AGG (DISTINCT format) AS format_set,
+    ARRAY_AGG (DISTINCT language) AS language_set
+  FROM titles
+  GROUP BY genre
+);
+
+CREATE OR REPLACE VIEW sets_languages as (
+  SELECT
+    language,
+    ARRAY_AGG (DISTINCT format) AS format_set,
+    ARRAY_AGG (DISTINCT genre) AS genres_set
+  FROM titles
+  GROUP BY language
+);
+
+CREATE OR REPLACE VIEW sets_formats as (
+  SELECT
+    format,
+    ARRAY_AGG (DISTINCT genre) AS format_set,
+    ARRAY_AGG (DISTINCT language) AS language_set
+  FROM titles
+  GROUP BY format
 );
 
 CREATE OR REPLACE VIEW titles_info as (

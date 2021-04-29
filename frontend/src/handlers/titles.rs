@@ -99,15 +99,19 @@ pub async fn all(
             };
 
             let qs_values = ids_comma_joiner(&set);
-            let interrogation = if qs_languages == "" { "" } else { "?" };
-            let and = if qs_languages == "" { "" } else { "&" };
-
-            let qs = match set.len() {
-                0 => format!("{}{}", interrogation, qs_languages),
-                _ => format!("?genres={}{}{}", qs_values, and, qs_languages),
+            let qs_genres = match qs_values.len() {
+                0 => "".to_string(),
+                _ => format!("genres={}", qs_values),
             };
 
-            let link = format!("/titles{}", qs);
+            let queries: String = vec![qs_genres, qs_languages.clone()]
+                .into_iter()
+                .filter(|q| *q != "")
+                .collect::<Vec<String>>()
+                .join("&");
+
+            let interrogation = if queries.len() == 0 { "" } else { "?" };
+            let link = format!("/titles{}{}", interrogation, queries);
 
             Filter {
                 id,
@@ -132,15 +136,19 @@ pub async fn all(
             };
 
             let qs_values = ids_comma_joiner(&set);
-            let interrogation = if qs_genres == "" { "" } else { "?" };
-            let and = if qs_genres == "" { "" } else { "&" };
-
-            let qs = match set.len() {
-                0 => format!("{}{}", interrogation, qs_genres),
-                _ => format!("?languages={}{}{}", qs_values, and, qs_genres),
+            let qs_languages = match qs_values.len() {
+                0 => "".to_string(),
+                _ => format!("languages={}", qs_values),
             };
 
-            let link = format!("/titles{}", qs);
+            let queries: String = vec![qs_genres.clone(), qs_languages]
+                .into_iter()
+                .filter(|q| *q != "")
+                .collect::<Vec<String>>()
+                .join("&");
+
+            let interrogation = if queries.len() == 0 { "" } else { "?" };
+            let link = format!("/titles{}{}", interrogation, queries);
 
             Filter {
                 id,

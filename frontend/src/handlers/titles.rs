@@ -5,8 +5,12 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
+fn set_to_vec(set: &HashSet<i64>) -> Vec<i64> {
+    set.clone().into_iter().collect()
+}
+
 fn ids_comma_joiner(set: &HashSet<i64>) -> String {
-    let mut ids: Vec<i64> = set.clone().into_iter().collect();
+    let mut ids: Vec<i64> = set_to_vec(&set);
     ids.sort();
     ids.iter()
         .map(|id| id.to_string())
@@ -69,8 +73,8 @@ pub async fn all(
     let set_languages = ids_set(filter_qs.clone().languages);
     let languages_qs: String = ids_comma_joiner(&set_languages);
     let genres_qs: String = ids_comma_joiner(&set_genres);
-    let languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
-    let genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
+    let all_languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
+    let all_genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
 
     let qs_genres = match set_genres.len() {
         0 => "".to_string(),
@@ -82,7 +86,7 @@ pub async fn all(
         _ => format!("languages={}", languages_qs),
     };
 
-    let filter_genres = genres
+    let filter_genres = all_genres
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
@@ -115,7 +119,7 @@ pub async fn all(
         })
         .collect::<Vec<Filter>>();
 
-    let filter_languages = languages
+    let filter_languages = all_languages
         .iter()
         .map(|language| {
             let id = language.id.unwrap();

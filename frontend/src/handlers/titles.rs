@@ -158,7 +158,7 @@ pub async fn all(
         })
         .collect::<Vec<Filter>>();
 
-    let filter_languages = all_languages
+    let mut filter_languages = all_languages
         .iter()
         .map(|language| {
             let id = language.id.unwrap();
@@ -245,12 +245,14 @@ pub async fn all(
     let language_is_active = set_languages.len() > 0;
     let format_is_active = set_formats.len() > 0;
 
+    println!("=========================");
     println!("formats active?: {}", format_is_active);
     println!("FORMATS: {:?}", format_computed_set);
     println!("language active?: {}", language_is_active);
     println!("LANGUAGE: {:?}", language_computed_set);
     println!("genre active?: {}", genres_is_active);
     println!("GENRE: {:?}", genre_computed_set);
+    println!("=========================");
 
     if language_is_active {
         // filter out formats and genres
@@ -261,6 +263,30 @@ pub async fn all(
         filter_formats = filter_formats
             .into_iter()
             .filter(|f| format_computed_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
+    }
+
+    if format_is_active {
+        // filter out languages and genres
+        filter_genres = filter_genres
+            .into_iter()
+            .filter(|f| genre_computed_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
+        filter_languages = filter_languages
+            .into_iter()
+            .filter(|f| language_computed_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
+    }
+
+    if genres_is_active {
+        // filter out languages and genres
+        filter_formats = filter_formats
+            .into_iter()
+            .filter(|f| format_computed_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
+        filter_languages = filter_languages
+            .into_iter()
+            .filter(|f| language_computed_set.contains(&f.id))
             .collect::<Vec<Filter>>();
     }
 

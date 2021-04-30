@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use tokio_pg_mapper_derive::PostgresMapper;
 
 #[derive(Debug, Deserialize, PostgresMapper, Serialize)]
@@ -39,7 +40,7 @@ pub struct Language {
     pub language: String,
 }
 
-#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[derive(Debug, Deserialize, PostgresMapper, Serialize, Clone)]
 #[pg_mapper(table = "sets_formats")]
 pub struct SetFormat {
     pub id: i16,
@@ -47,7 +48,7 @@ pub struct SetFormat {
     pub language_set: String,
 }
 
-#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[derive(Debug, Deserialize, PostgresMapper, Serialize, Clone)]
 #[pg_mapper(table = "sets_languages")]
 pub struct SetLanguage {
     pub id: i64,
@@ -55,7 +56,7 @@ pub struct SetLanguage {
     pub format_set: String,
 }
 
-#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[derive(Debug, Deserialize, PostgresMapper, Serialize, Clone)]
 #[pg_mapper(table = "sets_genres")]
 pub struct SetGenre {
     pub id: i64,
@@ -63,9 +64,9 @@ pub struct SetGenre {
     pub language_set: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sets {
-    pub language: Vec<SetLanguage>,
-    pub genre: Vec<SetGenre>,
-    pub format: Vec<SetFormat>,
+    pub language: HashMap<i64, SetLanguage>,
+    pub genre: HashMap<i64, SetGenre>,
+    pub format: HashMap<i16, SetFormat>,
 }

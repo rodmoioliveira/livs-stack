@@ -214,70 +214,88 @@ pub async fn all(
     let queries = utils::derive_query(vec![qs_genres, qs_languages, qs_formats]);
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
-    let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
-
-    let format_computed_set = all_titles
-        .clone()
-        .iter()
-        .map(|t| t.format as i64)
-        .collect::<HashSet<i64>>();
-    let language_computed_set = all_titles
-        .clone()
-        .iter()
-        .map(|t| t.language as i64)
-        .collect::<HashSet<i64>>();
-    let genre_computed_set = all_titles
-        .clone()
-        .iter()
-        .map(|t| t.genre as i64)
-        .collect::<HashSet<i64>>();
 
     let genres_is_active = set_genres.len() > 0;
     let language_is_active = set_languages.len() > 0;
     let format_is_active = set_formats.len() > 0;
 
     println!("=========================");
-    println!("formats active?: {}", format_is_active);
-    println!("FORMATS: {:?}", format_computed_set);
-    println!("language active?: {}", language_is_active);
-    println!("LANGUAGE: {:?}", language_computed_set);
-    println!("genre active?: {}", genres_is_active);
-    println!("GENRE: {:?}", genre_computed_set);
+    println!(
+        "formats => active?: {}, values: {:#?}",
+        format_is_active, set_formats
+    );
+    println!(
+        "languages => active?: {}, values: {:#?}",
+        language_is_active, set_languages
+    );
+    println!(
+        "genres => active?: {}, values: {:#?}",
+        genres_is_active, set_genres
+    );
     println!("=========================");
 
     if language_is_active {
-        // filter out formats and genres
+        // TODO: get mutiple ids
+        let id = set_languages
+            .into_iter()
+            .collect::<Vec<i64>>()
+            .first()
+            .unwrap()
+            .clone();
+
+        // TODO: get sets for the mutiples ids and intersect the sets
+        let g_set = &all_sets.language.get(&id).unwrap().genre;
+        let f_set = &all_sets.language.get(&id).unwrap().format;
+
         filter_genres = filter_genres
             .into_iter()
-            .filter(|f| genre_computed_set.contains(&f.id))
+            .filter(|f| g_set.contains(&f.id))
             .collect::<Vec<Filter>>();
         filter_formats = filter_formats
             .into_iter()
-            .filter(|f| format_computed_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
-    }
-
-    if format_is_active {
-        // filter out languages and genres
-        filter_genres = filter_genres
-            .into_iter()
-            .filter(|f| genre_computed_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
-        filter_languages = filter_languages
-            .into_iter()
-            .filter(|f| language_computed_set.contains(&f.id))
+            .filter(|f| f_set.contains(&f.id))
             .collect::<Vec<Filter>>();
     }
 
     if genres_is_active {
-        // filter out languages and genres
+        let id = set_genres
+            .into_iter()
+            .collect::<Vec<i64>>()
+            .first()
+            .unwrap()
+            .clone();
+
+        let l_set = &all_sets.genre.get(&id).unwrap().language;
+        let f_set = &all_sets.genre.get(&id).unwrap().format;
+
+        filter_languages = filter_languages
+            .into_iter()
+            .filter(|f| l_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
         filter_formats = filter_formats
             .into_iter()
-            .filter(|f| format_computed_set.contains(&f.id))
+            .filter(|f| f_set.contains(&f.id))
+            .collect::<Vec<Filter>>();
+    }
+
+    if format_is_active {
+        let id = set_formats
+            .into_iter()
+            .collect::<Vec<i64>>()
+            .first()
+            .unwrap()
+            .clone();
+
+        let g_set = &all_sets.format.get(&id).unwrap().genre;
+        let l_set = &all_sets.format.get(&id).unwrap().language;
+
+        filter_genres = filter_genres
+            .into_iter()
+            .filter(|f| g_set.contains(&f.id))
             .collect::<Vec<Filter>>();
         filter_languages = filter_languages
             .into_iter()
-            .filter(|f| language_computed_set.contains(&f.id))
+            .filter(|f| l_set.contains(&f.id))
             .collect::<Vec<Filter>>();
     }
 

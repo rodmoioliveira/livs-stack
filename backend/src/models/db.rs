@@ -48,9 +48,42 @@ pub struct Set {
     pub language: String,
 }
 
+impl Set {
+    pub fn to_vec(self) -> SetVec {
+        let format: Vec<i64> = self
+            .format
+            .split(",")
+            .map(|s| s.parse::<i64>().unwrap())
+            .collect();
+        let genre: Vec<i64> = self
+            .genre
+            .split(",")
+            .map(|s| s.parse::<i64>().unwrap())
+            .collect();
+        let language: Vec<i64> = self
+            .language
+            .split(",")
+            .map(|s| s.parse::<i64>().unwrap())
+            .collect();
+
+        SetVec {
+            format,
+            genre,
+            language,
+        }
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct SetVec {
+    pub format: Vec<i64>,
+    pub genre: Vec<i64>,
+    pub language: Vec<i64>,
+}
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sets {
-    pub language: HashMap<String, Set>,
-    pub genre: HashMap<String, Set>,
-    pub format: HashMap<String, Set>,
+    pub language: HashMap<String, SetVec>,
+    pub genre: HashMap<String, SetVec>,
+    pub format: HashMap<String, SetVec>,
 }

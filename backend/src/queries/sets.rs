@@ -15,12 +15,12 @@ pub async fn all(client: &Client) -> Result<models::db::Sets, errors::MyError> {
     let format: Vec<models::db::Set> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    let format_hash: HashMap<String, models::db::Set> =
+    let format_hash: HashMap<String, models::db::SetVec> =
         format
             .clone()
             .into_iter()
             .fold(HashMap::new(), |mut acc, cur| {
-                acc.entry(cur.format.clone()).or_insert(cur);
+                acc.entry(cur.format.clone()).or_insert(cur.to_vec());
                 acc
             });
 
@@ -36,12 +36,12 @@ pub async fn all(client: &Client) -> Result<models::db::Sets, errors::MyError> {
     let genre: Vec<models::db::Set> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    let genre_hash: HashMap<String, models::db::Set> =
+    let genre_hash: HashMap<String, models::db::SetVec> =
         genre
             .clone()
             .into_iter()
             .fold(HashMap::new(), |mut acc, cur| {
-                acc.entry(cur.genre.clone()).or_insert(cur);
+                acc.entry(cur.genre.clone()).or_insert(cur.to_vec());
                 acc
             });
 
@@ -57,12 +57,12 @@ pub async fn all(client: &Client) -> Result<models::db::Sets, errors::MyError> {
     let language: Vec<models::db::Set> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    let language_hash: HashMap<String, models::db::Set> =
+    let language_hash: HashMap<String, models::db::SetVec> =
         language
             .clone()
             .into_iter()
             .fold(HashMap::new(), |mut acc, cur| {
-                acc.entry(cur.language.clone()).or_insert(cur);
+                acc.entry(cur.language.clone()).or_insert(cur.to_vec());
                 acc
             });
 

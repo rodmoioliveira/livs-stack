@@ -3,7 +3,7 @@ use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 fn derive_query(v: Vec<String>) -> String {
     let mut q = v.into_iter().filter(|q| *q != "").collect::<Vec<String>>();
@@ -87,12 +87,27 @@ pub struct Title {
     pub year: i16,
 }
 
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Set {
+    pub format: HashSet<i64>,
+    pub genre: HashSet<i64>,
+    pub language: HashSet<i64>,
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct Sets {
+    pub language: HashMap<String, Set>,
+    pub genre: HashMap<String, Set>,
+    pub format: HashMap<String, Set>,
+}
+
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
     endpoints: web::Data<models::types::Endpoints>,
     web::Query(filter_qs): web::Query<Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
+    let sets = utils::fetch(endpoints.backend_url("sets"), &client)?;
     let genres = utils::fetch(endpoints.backend_url("genres?order_by=genre"), &client)?;
     let languages = utils::fetch(
         endpoints.backend_url("languages?order_by=language"),
@@ -111,6 +126,9 @@ pub async fn all(
     let all_languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
     let all_genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
     let all_formats: Vec<Format> = serde_json::from_value(formats["data"].clone()).unwrap();
+    let all_sets: Sets = serde_json::from_value(sets["data"].clone()).unwrap();
+
+    println!("{:#?}", all_sets);
 
     let qs_genres = match set_genres.len() {
         0 => "".to_string(),

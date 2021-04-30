@@ -96,9 +96,9 @@ pub struct Set {
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sets {
-    pub language: HashMap<String, Set>,
-    pub genre: HashMap<String, Set>,
-    pub format: HashMap<String, Set>,
+    pub language: HashMap<i64, Set>,
+    pub genre: HashMap<i64, Set>,
+    pub format: HashMap<i64, Set>,
 }
 
 pub async fn all(

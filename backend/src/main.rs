@@ -1,5 +1,5 @@
 use actix_web::{error, middleware, web, App, HttpResponse, HttpServer};
-use backend::handlers::{formats, genres, languages, root, sets_formats, titles};
+use backend::handlers::{formats, genres, languages, root, sets, titles};
 use backend::{db, errors};
 use dotenv::dotenv;
 use std::env;
@@ -110,13 +110,7 @@ async fn main() -> std::io::Result<()> {
                             .route(web::put().to(languages::update)),
                     ),
             )
-            .service(
-                web::scope("/sets")
-                    .service(web::resource("/formats").route(web::get().to(sets_formats::all)))
-                    .service(
-                        web::resource("/formats/{id}").route(web::get().to(sets_formats::one)),
-                    ),
-            )
+            .service(web::scope("/sets").service(web::resource("").route(web::get().to(sets::all))))
     })
     .bind(localhost)?
     .run()

@@ -41,32 +41,16 @@ pub struct Language {
 }
 
 #[derive(Debug, Deserialize, PostgresMapper, Serialize, Clone)]
-#[pg_mapper(table = "sets_formats")]
-pub struct SetFormat {
-    pub id: i16,
-    pub genre_set: String,
-    pub language_set: String,
-}
-
-#[derive(Debug, Deserialize, PostgresMapper, Serialize, Clone)]
-#[pg_mapper(table = "sets_languages")]
-pub struct SetLanguage {
-    pub id: i64,
-    pub genre_set: String,
-    pub format_set: String,
-}
-
-#[derive(Debug, Deserialize, PostgresMapper, Serialize, Clone)]
-#[pg_mapper(table = "sets_genres")]
-pub struct SetGenre {
-    pub id: i64,
-    pub format_set: String,
-    pub language_set: String,
+#[pg_mapper(table = "sets_formats,sets_languages,sets_genres")]
+pub struct Set {
+    pub format: String,
+    pub genre: String,
+    pub language: String,
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sets {
-    pub language: HashMap<i64, SetLanguage>,
-    pub genre: HashMap<i64, SetGenre>,
-    pub format: HashMap<i16, SetFormat>,
+    pub language: HashMap<String, Set>,
+    pub genre: HashMap<String, Set>,
+    pub format: HashMap<String, Set>,
 }

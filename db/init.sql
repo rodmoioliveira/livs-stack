@@ -256,27 +256,27 @@ CREATE OR REPLACE VIEW titles_avg_rate as (
 
 CREATE OR REPLACE VIEW sets_genres as (
   SELECT
-    genre as id,
-    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT format), ',') AS format_set,
-    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT language), ',') AS language_set
+    genre::text,
+    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT format), ',') AS format,
+    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT language), ',') AS language
   FROM titles
   GROUP BY genre
 );
 
 CREATE OR REPLACE VIEW sets_languages as (
   SELECT
-    language as id,
-    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT format), ',') AS format_set,
-    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT genre), ',') AS genre_set
+    language::text,
+    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT format), ',') AS format,
+    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT genre), ',') AS genre
   FROM titles
   GROUP BY language
 );
 
 CREATE OR REPLACE VIEW sets_formats as (
   SELECT
-    format as id,
-    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT genre), ',') AS genre_set,
-    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT language), ',') AS language_set
+    format::text,
+    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT genre), ',') AS genre,
+    ARRAY_TO_STRING (ARRAY_AGG (DISTINCT language), ',') AS language
   FROM titles
   GROUP BY format
 );

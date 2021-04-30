@@ -12,15 +12,15 @@ pub async fn all(client: &Client) -> Result<models::db::Sets, errors::MyError> {
         .query(&stmt, &[])
         .await
         .map_err(errors::MyError::PGError)?;
-    let format: Vec<models::db::SetFormat> =
+    let format: Vec<models::db::Set> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    let format_hash: HashMap<i16, models::db::SetFormat> =
+    let format_hash: HashMap<String, models::db::Set> =
         format
             .clone()
             .into_iter()
             .fold(HashMap::new(), |mut acc, cur| {
-                acc.entry(cur.id).or_insert(cur);
+                acc.entry(cur.format.clone()).or_insert(cur);
                 acc
             });
 
@@ -33,15 +33,15 @@ pub async fn all(client: &Client) -> Result<models::db::Sets, errors::MyError> {
         .query(&stmt, &[])
         .await
         .map_err(errors::MyError::PGError)?;
-    let genre: Vec<models::db::SetGenre> =
+    let genre: Vec<models::db::Set> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    let genre_hash: HashMap<i64, models::db::SetGenre> =
+    let genre_hash: HashMap<String, models::db::Set> =
         genre
             .clone()
             .into_iter()
             .fold(HashMap::new(), |mut acc, cur| {
-                acc.entry(cur.id).or_insert(cur);
+                acc.entry(cur.genre.clone()).or_insert(cur);
                 acc
             });
 
@@ -54,15 +54,15 @@ pub async fn all(client: &Client) -> Result<models::db::Sets, errors::MyError> {
         .query(&stmt, &[])
         .await
         .map_err(errors::MyError::PGError)?;
-    let language: Vec<models::db::SetLanguage> =
+    let language: Vec<models::db::Set> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    let language_hash: HashMap<i64, models::db::SetLanguage> =
+    let language_hash: HashMap<String, models::db::Set> =
         language
             .clone()
             .into_iter()
             .fold(HashMap::new(), |mut acc, cur| {
-                acc.entry(cur.id).or_insert(cur);
+                acc.entry(cur.language.clone()).or_insert(cur);
                 acc
             });
 

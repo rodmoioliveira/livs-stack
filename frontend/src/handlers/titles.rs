@@ -281,9 +281,11 @@ pub async fn all(
         });
     }
 
+    println!("========================");
     println!("g_sets {:?}", g_sets);
     println!("l_sets {:?}", l_sets);
     println!("f_sets {:?}", f_sets);
+    println!("========================");
 
     let l_itersec = l_sets.iter().fold(all_languages_set, |acc, hs| {
         acc.intersection(hs).cloned().collect()
@@ -298,6 +300,7 @@ pub async fn all(
     println!("l_itersec {:?}", l_itersec);
     println!("f_itersec {:?}", f_itersec);
     println!("g_itersec {:?}", g_itersec);
+    println!("========================");
 
     filter_genres = filter_genres
         .into_iter()
@@ -316,6 +319,8 @@ pub async fn all(
     // http://localhost:8083/titles?formats=4&genres=3,32&languages=5
     // travel -> french -> digital access code -> business & money
     // travel -> french -> arts & photography
+    // http://localhost:8083/titles?formats=1&languages=6
+    // Audible Audiobook -> German
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

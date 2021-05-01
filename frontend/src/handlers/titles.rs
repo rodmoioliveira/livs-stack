@@ -222,6 +222,15 @@ pub async fn all(
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
+    let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
+    let res_format_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.format as i64).collect();
+    let res_genre_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.genre as i64).collect();
+    let res_language_set: HashSet<i64> = all_titles
+        .clone()
+        .iter()
+        .map(|i| i.language as i64)
+        .collect();
+
     let genres_is_active = qs_set_genres.len() > 0;
     let language_is_active = qs_set_languages.len() > 0;
     let format_is_active = qs_set_formats.len() > 0;
@@ -304,23 +313,56 @@ pub async fn all(
 
     filter_genres = filter_genres
         .into_iter()
-        .filter(|f| g_itersec.contains(&f.id) || qs_set_genres.contains(&f.id))
+        .filter(|f| {
+            // HANDLE... sometimes to much, sometimes to less
+            g_itersec.contains(&f.id)
+                // DONT REMOVE FILTERS IN URL QUERY
+                || qs_set_genres.contains(&f.id)
+                // DONT REMOVE IF PRESENT IN RESULTS
+                || res_genre_set.contains(&f.id)
+        })
+        // .filter(|f| {
+        //     let a: HashSet<i64> = g_itersec.intersection(&res_genre_set).cloned().collect();
+        //     return a.contains(&f.id);
+        // })
         .collect::<Vec<Filter>>();
+
     filter_languages = filter_languages
         .into_iter()
-        .filter(|f| l_itersec.contains(&f.id) || qs_set_languages.contains(&f.id))
+        .filter(|f| {
+            l_itersec.contains(&f.id)
+                || qs_set_languages.contains(&f.id)
+                || res_language_set.contains(&f.id)
+        })
+        // .filter(|f| {
+        //     let a: HashSet<i64> = l_itersec.intersection(&res_language_set).cloned().collect();
+        //     return a.contains(&f.id);
+        // })
         .collect::<Vec<Filter>>();
+
     filter_formats = filter_formats
         .into_iter()
-        .filter(|f| f_itersec.contains(&f.id) || qs_set_formats.contains(&f.id))
+        .filter(|f| {
+            f_itersec.contains(&f.id)
+                || qs_set_formats.contains(&f.id)
+                || res_format_set.contains(&f.id)
+        })
+        // .filter(|f| {
+        //     let a: HashSet<i64> = f_itersec.intersection(&res_format_set).cloned().collect();
+        //     return a.contains(&f.id);
+        // })
         .collect::<Vec<Filter>>();
 
     // TODO: fix this case!
     // http://localhost:8083/titles?formats=4&genres=3,32&languages=5
     // travel -> french -> digital access code -> business & money
     // travel -> french -> arts & photography
+    //
     // http://localhost:8083/titles?formats=1&languages=6
     // Audible Audiobook -> German
+    //
+    // http://localhost:8083/titles?formats=4&genres=1,32&languages=5
+    // Remove travel!
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

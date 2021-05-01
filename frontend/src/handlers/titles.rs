@@ -58,6 +58,34 @@ pub struct Title {
 }
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct SetVec {
+    pub format: Vec<HashSet<i64>>,
+    pub genre: Vec<HashSet<i64>>,
+    pub language: Vec<HashSet<i64>>,
+}
+
+impl SetVec {
+    fn union(&mut self) {
+        let format = self
+            .format
+            .iter()
+            .fold(HashSet::new(), |acc, hs| acc.union(hs).cloned().collect());
+        let genre = self
+            .genre
+            .iter()
+            .fold(HashSet::new(), |acc, hs| acc.union(hs).cloned().collect());
+        let language = self
+            .language
+            .iter()
+            .fold(HashSet::new(), |acc, hs| acc.union(hs).cloned().collect());
+
+        self.format = vec![format];
+        self.genre = vec![genre];
+        self.language = vec![language];
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Set {
     pub format: HashSet<i64>,
     pub genre: HashSet<i64>,
@@ -222,14 +250,14 @@ pub async fn all(
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
-    let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
-    let res_format_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.format as i64).collect();
-    let res_genre_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.genre as i64).collect();
-    let res_language_set: HashSet<i64> = all_titles
-        .clone()
-        .iter()
-        .map(|i| i.language as i64)
-        .collect();
+    // let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
+    // let res_format_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.format as i64).collect();
+    // let res_genre_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.genre as i64).collect();
+    // let res_language_set: HashSet<i64> = all_titles
+    //     .clone()
+    //     .iter()
+    //     .map(|i| i.language as i64)
+    //     .collect();
 
     let genres_is_active = qs_set_genres.len() > 0;
     let language_is_active = qs_set_languages.len() > 0;
@@ -250,9 +278,25 @@ pub async fn all(
     // );
     // println!("=========================");
 
-    let mut g_sets: Vec<HashSet<i64>> = vec![];
-    let mut l_sets: Vec<HashSet<i64>> = vec![];
-    let mut f_sets: Vec<HashSet<i64>> = vec![];
+    // let mut g_sets: Vec<HashSet<i64>> = vec![];
+    // let mut l_sets: Vec<HashSet<i64>> = vec![];
+    // let mut f_sets: Vec<HashSet<i64>> = vec![];
+
+    let mut g_vsets = SetVec {
+        format: vec![],
+        genre: vec![],
+        language: vec![],
+    };
+    let mut l_vsets = SetVec {
+        format: vec![],
+        genre: vec![],
+        language: vec![],
+    };
+    let mut f_vsets = SetVec {
+        format: vec![],
+        genre: vec![],
+        language: vec![],
+    };
 
     if language_is_active {
         let ids = qs_set_languages.clone().into_iter();
@@ -261,8 +305,8 @@ pub async fn all(
             let g_set = &all_sets.language.get(&id).unwrap().genre;
             let f_set = &all_sets.language.get(&id).unwrap().format;
 
-            g_sets.push(g_set.clone());
-            f_sets.push(f_set.clone());
+            l_vsets.genre.push(g_set.clone());
+            l_vsets.format.push(f_set.clone());
         });
     }
 
@@ -273,8 +317,8 @@ pub async fn all(
             let l_set = &all_sets.genre.get(&id).unwrap().language;
             let f_set = &all_sets.genre.get(&id).unwrap().format;
 
-            l_sets.push(l_set.clone());
-            f_sets.push(f_set.clone());
+            g_vsets.language.push(l_set.clone());
+            g_vsets.format.push(f_set.clone());
         });
     }
 
@@ -285,72 +329,91 @@ pub async fn all(
             let g_set = &all_sets.format.get(&id).unwrap().genre;
             let l_set = &all_sets.format.get(&id).unwrap().language;
 
-            g_sets.push(g_set.clone());
-            l_sets.push(l_set.clone());
+            f_vsets.language.push(l_set.clone());
+            f_vsets.genre.push(g_set.clone());
         });
     }
 
     println!("========================");
-    println!("g_sets {:?}", g_sets);
-    println!("l_sets {:?}", l_sets);
-    println!("f_sets {:?}", f_sets);
+    println!("g_vsets {:?}", g_vsets);
+    println!("l_vsets {:?}", l_vsets);
+    println!("f_vsets {:?}", f_vsets);
+
+    g_vsets.union();
+    l_vsets.union();
+    f_vsets.union();
+
+    println!("========================");
+    println!("g_vsets {:?}", g_vsets);
+    println!("l_vsets {:?}", l_vsets);
+    println!("f_vsets {:?}", f_vsets);
     println!("========================");
 
-    let l_itersec = l_sets.iter().fold(all_languages_set, |acc, hs| {
+    let l_itersec = vec![
+        g_vsets.language.first().unwrap(),
+        f_vsets.language.first().unwrap(),
+    ]
+    .iter()
+    .filter(|hs| hs.len() > 0)
+    .fold(all_languages_set, |acc, hs| {
         acc.intersection(hs).cloned().collect()
     });
-    let f_itersec = f_sets.iter().fold(all_formats_set, |acc, hs| {
+
+    let f_itersec = vec![
+        g_vsets.format.first().unwrap(),
+        l_vsets.format.first().unwrap(),
+    ]
+    .iter()
+    .filter(|hs| hs.len() > 0)
+    .fold(all_formats_set, |acc, hs| {
         acc.intersection(hs).cloned().collect()
     });
-    let g_itersec = g_sets.iter().fold(all_genres_set, |acc, hs| {
+
+    let g_itersec = vec![
+        f_vsets.genre.first().unwrap(),
+        l_vsets.genre.first().unwrap(),
+    ]
+    .iter()
+    .filter(|hs| hs.len() > 0)
+    .fold(all_genres_set, |acc, hs| {
         acc.intersection(hs).cloned().collect()
     });
 
     println!("l_itersec {:?}", l_itersec);
     println!("f_itersec {:?}", f_itersec);
     println!("g_itersec {:?}", g_itersec);
-    println!("========================");
 
     filter_genres = filter_genres
         .into_iter()
         .filter(|f| {
-            // HANDLE... sometimes to much, sometimes to less
-            g_itersec.contains(&f.id)
-                // DONT REMOVE FILTERS IN URL QUERY
-                || qs_set_genres.contains(&f.id)
-                // DONT REMOVE IF PRESENT IN RESULTS
-                || res_genre_set.contains(&f.id)
+            if format_is_active || language_is_active {
+                g_itersec.contains(&f.id) || qs_set_genres.contains(&f.id)
+            } else {
+                true
+            }
         })
-        // .filter(|f| {
-        //     let a: HashSet<i64> = g_itersec.intersection(&res_genre_set).cloned().collect();
-        //     return a.contains(&f.id);
-        // })
         .collect::<Vec<Filter>>();
 
     filter_languages = filter_languages
         .into_iter()
         .filter(|f| {
-            l_itersec.contains(&f.id)
-                || qs_set_languages.contains(&f.id)
-                || res_language_set.contains(&f.id)
+            if format_is_active || genres_is_active {
+                l_itersec.contains(&f.id) || qs_set_languages.contains(&f.id)
+            } else {
+                true
+            }
         })
-        // .filter(|f| {
-        //     let a: HashSet<i64> = l_itersec.intersection(&res_language_set).cloned().collect();
-        //     return a.contains(&f.id);
-        // })
         .collect::<Vec<Filter>>();
 
     filter_formats = filter_formats
         .into_iter()
         .filter(|f| {
-            f_itersec.contains(&f.id)
-                || qs_set_formats.contains(&f.id)
-                || res_format_set.contains(&f.id)
+            if language_is_active || genres_is_active {
+                f_itersec.contains(&f.id) || qs_set_formats.contains(&f.id)
+            } else {
+                true
+            }
         })
-        // .filter(|f| {
-        //     let a: HashSet<i64> = f_itersec.intersection(&res_format_set).cloned().collect();
-        //     return a.contains(&f.id);
-        // })
         .collect::<Vec<Filter>>();
 
     // TODO: fix this case!

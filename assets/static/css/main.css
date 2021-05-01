@@ -171,6 +171,21 @@ h5 {
   font-weight: var(--fw-black);
 }
 
+.title__list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.title__item {
+  flex: 0 0 15em;
+  margin: 0.5em;
+  border: 1px solid var(--fourth-color);
+  padding: 1em;
+}
+
 html {
   font-size: var(--html-font-size);
 }

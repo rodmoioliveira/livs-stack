@@ -5,6 +5,7 @@
 @use 'header';
 @use 'footer';
 @use 'filters';
+@use 'titles';
 
 html {
   font-size: var(--html-font-size);

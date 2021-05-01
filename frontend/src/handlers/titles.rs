@@ -2,108 +2,14 @@ use crate::{errors, models, utils};
 use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
-use serde::{Deserialize, Serialize};
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 // TODO: MUST REFACTOR THIS WHOLE FILE!
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Filters {
-    pub formats: Option<String>,
-    pub genres: Option<String>,
-    pub languages: Option<String>,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Filter {
-    pub id: i64,
-    pub name: String,
-    pub selected: bool,
-    pub value: String,
-    pub link: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Genre {
-    pub id: Option<i64>,
-    pub genre: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Language {
-    pub id: Option<i64>,
-    pub language: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Format {
-    pub id: Option<i64>,
-    pub format: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Title {
-    pub id: Option<i64>,
-    pub isbn: String,
-    pub author: i64,
-    pub edition: i16,
-    pub format: i16,
-    pub language: i64,
-    pub genre: i64,
-    pub pages: i16,
-    pub publisher: i64,
-    pub summary: String,
-    pub title: String,
-    pub year: i16,
-}
-
-#[derive(Debug, Deserialize, Serialize, Clone)]
-pub struct SetVec {
-    pub format: Vec<HashSet<i64>>,
-    pub genre: Vec<HashSet<i64>>,
-    pub language: Vec<HashSet<i64>>,
-}
-
-impl SetVec {
-    fn union(&mut self) {
-        let format = self
-            .format
-            .iter()
-            .fold(HashSet::new(), |acc, hs| acc.union(hs).cloned().collect());
-        let genre = self
-            .genre
-            .iter()
-            .fold(HashSet::new(), |acc, hs| acc.union(hs).cloned().collect());
-        let language = self
-            .language
-            .iter()
-            .fold(HashSet::new(), |acc, hs| acc.union(hs).cloned().collect());
-
-        self.format = vec![format];
-        self.genre = vec![genre];
-        self.language = vec![language];
-    }
-}
-
-#[derive(Debug, Deserialize, Serialize, Clone)]
-pub struct Set {
-    pub format: HashSet<i64>,
-    pub genre: HashSet<i64>,
-    pub language: HashSet<i64>,
-}
-
-#[derive(Debug, Deserialize, Serialize, Clone)]
-pub struct Sets {
-    pub language: HashMap<i64, Set>,
-    pub genre: HashMap<i64, Set>,
-    pub format: HashMap<i64, Set>,
-}
-
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
     endpoints: web::Data<models::types::Endpoints>,
-    web::Query(filter_qs): web::Query<Filters>,
+    web::Query(filter_qs): web::Query<models::types::Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
     let sets = utils::fetch(endpoints.backend_url("sets"), &client)?;
     let genres = utils::fetch(endpoints.backend_url("genres?order_by=genre"), &client)?;
@@ -121,9 +27,12 @@ pub async fn all(
     let genres_qs: String = utils::ids_comma_joiner(&qs_set_genres);
     let formats_qs: String = utils::ids_comma_joiner(&qs_set_formats);
 
-    let all_languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
-    let all_genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
-    let all_formats: Vec<Format> = serde_json::from_value(formats["data"].clone()).unwrap();
+    let all_languages: Vec<models::types::Language> =
+        serde_json::from_value(languages["data"].clone()).unwrap();
+    let all_genres: Vec<models::types::Genre> =
+        serde_json::from_value(genres["data"].clone()).unwrap();
+    let all_formats: Vec<models::types::Format> =
+        serde_json::from_value(formats["data"].clone()).unwrap();
 
     let all_languages_set: HashSet<i64> = all_languages
         .clone()
@@ -133,7 +42,7 @@ pub async fn all(
     let all_genres_set: HashSet<i64> = all_genres.clone().iter().map(|i| i.id.unwrap()).collect();
     let all_formats_set: HashSet<i64> = all_formats.clone().iter().map(|i| i.id.unwrap()).collect();
 
-    let all_sets: Sets = serde_json::from_value(sets["data"].clone()).unwrap();
+    let all_sets: models::types::Sets = serde_json::from_value(sets["data"].clone()).unwrap();
 
     let qs_genres = match qs_set_genres.len() {
         0 => "".to_string(),
@@ -172,7 +81,7 @@ pub async fn all(
                 utils::derive_query(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
-            Filter {
+            models::types::Filter {
                 id,
                 name: "genre".to_string(),
                 selected,
@@ -180,7 +89,7 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::types::Filter>>();
 
     let mut filter_languages = all_languages
         .iter()
@@ -204,7 +113,7 @@ pub async fn all(
                 utils::derive_query(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
-            Filter {
+            models::types::Filter {
                 id,
                 name: "language".to_string(),
                 selected,
@@ -212,7 +121,7 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::types::Filter>>();
 
     let mut filter_formats = all_formats
         .iter()
@@ -236,7 +145,7 @@ pub async fn all(
                 utils::derive_query(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
             let link = format!("/titles{}", queries);
 
-            Filter {
+            models::types::Filter {
                 id,
                 name: "format".to_string(),
                 selected,
@@ -244,13 +153,14 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::types::Filter>>();
 
     let queries = utils::derive_query(vec![qs_genres, qs_languages, qs_formats]);
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
-    let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
+    let all_titles: Vec<models::types::Title> =
+        serde_json::from_value(titles["data"].clone()).unwrap();
     let res_format_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.format as i64).collect();
     let res_genre_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.genre as i64).collect();
     let res_language_set: HashSet<i64> = all_titles
@@ -263,17 +173,17 @@ pub async fn all(
     let l_is_active = qs_set_languages.len() > 0;
     let f_is_active = qs_set_formats.len() > 0;
 
-    let mut g_vsets = SetVec {
+    let mut g_vsets = models::types::SetVec {
         format: vec![],
         genre: vec![],
         language: vec![],
     };
-    let mut l_vsets = SetVec {
+    let mut l_vsets = models::types::SetVec {
         format: vec![],
         genre: vec![],
         language: vec![],
     };
-    let mut f_vsets = SetVec {
+    let mut f_vsets = models::types::SetVec {
         format: vec![],
         genre: vec![],
         language: vec![],
@@ -365,7 +275,7 @@ pub async fn all(
 
             true
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::types::Filter>>();
 
     filter_languages = filter_languages
         .into_iter()
@@ -383,7 +293,7 @@ pub async fn all(
 
             true
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::types::Filter>>();
 
     filter_formats = filter_formats
         .into_iter()
@@ -401,7 +311,7 @@ pub async fn all(
 
             true
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::types::Filter>>();
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

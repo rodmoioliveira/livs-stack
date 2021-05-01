@@ -250,37 +250,18 @@ pub async fn all(
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
-    // let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
-    // let res_format_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.format as i64).collect();
-    // let res_genre_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.genre as i64).collect();
-    // let res_language_set: HashSet<i64> = all_titles
-    //     .clone()
-    //     .iter()
-    //     .map(|i| i.language as i64)
-    //     .collect();
+    let all_titles: Vec<Title> = serde_json::from_value(titles["data"].clone()).unwrap();
+    let res_format_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.format as i64).collect();
+    let res_genre_set: HashSet<i64> = all_titles.clone().iter().map(|i| i.genre as i64).collect();
+    let res_language_set: HashSet<i64> = all_titles
+        .clone()
+        .iter()
+        .map(|i| i.language as i64)
+        .collect();
 
-    let genres_is_active = qs_set_genres.len() > 0;
-    let language_is_active = qs_set_languages.len() > 0;
-    let format_is_active = qs_set_formats.len() > 0;
-
-    // println!("=========================");
-    // println!(
-    //     "formats => active?: {}, values: {:#?}",
-    //     format_is_active, qs_set_formats
-    // );
-    // println!(
-    //     "languages => active?: {}, values: {:#?}",
-    //     language_is_active, qs_set_languages
-    // );
-    // println!(
-    //     "genres => active?: {}, values: {:#?}",
-    //     genres_is_active, qs_set_genres
-    // );
-    // println!("=========================");
-
-    // let mut g_sets: Vec<HashSet<i64>> = vec![];
-    // let mut l_sets: Vec<HashSet<i64>> = vec![];
-    // let mut f_sets: Vec<HashSet<i64>> = vec![];
+    let g_is_active = qs_set_genres.len() > 0;
+    let l_is_active = qs_set_languages.len() > 0;
+    let f_is_active = qs_set_formats.len() > 0;
 
     let mut g_vsets = SetVec {
         format: vec![],
@@ -298,7 +279,7 @@ pub async fn all(
         language: vec![],
     };
 
-    if language_is_active {
+    if l_is_active {
         let ids = qs_set_languages.clone().into_iter();
 
         ids.for_each(|id| {
@@ -310,7 +291,7 @@ pub async fn all(
         });
     }
 
-    if genres_is_active {
+    if g_is_active {
         let ids = qs_set_genres.clone().into_iter();
 
         ids.for_each(|id| {
@@ -322,7 +303,7 @@ pub async fn all(
         });
     }
 
-    if format_is_active {
+    if f_is_active {
         let ids = qs_set_formats.clone().into_iter();
 
         ids.for_each(|id| {
@@ -334,20 +315,9 @@ pub async fn all(
         });
     }
 
-    println!("========================");
-    println!("g_vsets {:?}", g_vsets);
-    println!("l_vsets {:?}", l_vsets);
-    println!("f_vsets {:?}", f_vsets);
-
     g_vsets.union();
     l_vsets.union();
     f_vsets.union();
-
-    println!("========================");
-    println!("g_vsets {:?}", g_vsets);
-    println!("l_vsets {:?}", l_vsets);
-    println!("f_vsets {:?}", f_vsets);
-    println!("========================");
 
     let l_itersec = vec![
         g_vsets.language.first().unwrap(),
@@ -379,53 +349,59 @@ pub async fn all(
         acc.intersection(hs).cloned().collect()
     });
 
-    println!("l_itersec {:?}", l_itersec);
-    println!("f_itersec {:?}", f_itersec);
-    println!("g_itersec {:?}", g_itersec);
-
     filter_genres = filter_genres
         .into_iter()
         .filter(|f| {
-            if format_is_active || language_is_active {
-                g_itersec.contains(&f.id) || qs_set_genres.contains(&f.id)
-            } else {
-                true
-            }
+            if f_is_active || l_is_active {
+                return g_itersec.contains(&f.id) || qs_set_genres.contains(&f.id);
+            };
+
+            true
+        })
+        .filter(|f| {
+            if f_is_active && l_is_active {
+                return res_genre_set.contains(&f.id) || qs_set_genres.contains(&f.id);
+            };
+
+            true
         })
         .collect::<Vec<Filter>>();
 
     filter_languages = filter_languages
         .into_iter()
         .filter(|f| {
-            if format_is_active || genres_is_active {
-                l_itersec.contains(&f.id) || qs_set_languages.contains(&f.id)
-            } else {
-                true
-            }
+            if f_is_active || g_is_active {
+                return l_itersec.contains(&f.id) || qs_set_languages.contains(&f.id);
+            };
+
+            true
+        })
+        .filter(|f| {
+            if f_is_active && g_is_active {
+                return res_language_set.contains(&f.id) || qs_set_languages.contains(&f.id);
+            };
+
+            true
         })
         .collect::<Vec<Filter>>();
 
     filter_formats = filter_formats
         .into_iter()
         .filter(|f| {
-            if language_is_active || genres_is_active {
-                f_itersec.contains(&f.id) || qs_set_formats.contains(&f.id)
-            } else {
-                true
-            }
+            if l_is_active || g_is_active {
+                return f_itersec.contains(&f.id) || qs_set_formats.contains(&f.id);
+            };
+
+            true
+        })
+        .filter(|f| {
+            if l_is_active && g_is_active {
+                return res_format_set.contains(&f.id) || qs_set_formats.contains(&f.id);
+            };
+
+            true
         })
         .collect::<Vec<Filter>>();
-
-    // TODO: fix this case!
-    // http://localhost:8083/titles?formats=4&genres=3,32&languages=5
-    // travel -> french -> digital access code -> business & money
-    // travel -> french -> arts & photography
-    //
-    // http://localhost:8083/titles?formats=1&languages=6
-    // Audible Audiobook -> German
-    //
-    // http://localhost:8083/titles?formats=4&genres=1,32&languages=5
-    // Remove travel!
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

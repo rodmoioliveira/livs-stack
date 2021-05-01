@@ -96,9 +96,16 @@ pub async fn all(
     let all_languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
     let all_genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
     let all_formats: Vec<Format> = serde_json::from_value(formats["data"].clone()).unwrap();
-    let all_sets: Sets = serde_json::from_value(sets["data"].clone()).unwrap();
 
-    println!("{:#?}", all_sets);
+    let all_languages_set: HashSet<i64> = all_languages
+        .clone()
+        .iter()
+        .map(|i| i.id.unwrap())
+        .collect();
+    let all_genres_set: HashSet<i64> = all_genres.clone().iter().map(|i| i.id.unwrap()).collect();
+    let all_formats_set: HashSet<i64> = all_formats.clone().iter().map(|i| i.id.unwrap()).collect();
+
+    let all_sets: Sets = serde_json::from_value(sets["data"].clone()).unwrap();
 
     let qs_genres = match set_genres.len() {
         0 => "".to_string(),
@@ -219,85 +226,96 @@ pub async fn all(
     let language_is_active = set_languages.len() > 0;
     let format_is_active = set_formats.len() > 0;
 
-    println!("=========================");
-    println!(
-        "formats => active?: {}, values: {:#?}",
-        format_is_active, set_formats
-    );
-    println!(
-        "languages => active?: {}, values: {:#?}",
-        language_is_active, set_languages
-    );
-    println!(
-        "genres => active?: {}, values: {:#?}",
-        genres_is_active, set_genres
-    );
-    println!("=========================");
+    // println!("=========================");
+    // println!(
+    //     "formats => active?: {}, values: {:#?}",
+    //     format_is_active, set_formats
+    // );
+    // println!(
+    //     "languages => active?: {}, values: {:#?}",
+    //     language_is_active, set_languages
+    // );
+    // println!(
+    //     "genres => active?: {}, values: {:#?}",
+    //     genres_is_active, set_genres
+    // );
+    // println!("=========================");
+
+    let mut g_sets: Vec<HashSet<i64>> = vec![];
+    let mut l_sets: Vec<HashSet<i64>> = vec![];
+    let mut f_sets: Vec<HashSet<i64>> = vec![];
 
     if language_is_active {
-        // TODO: get mutiple ids
-        let id = set_languages
-            .into_iter()
-            .collect::<Vec<i64>>()
-            .first()
-            .unwrap()
-            .clone();
+        let ids = set_languages.into_iter();
 
-        // TODO: get sets for the mutiples ids and intersect the sets
-        let g_set = &all_sets.language.get(&id).unwrap().genre;
-        let f_set = &all_sets.language.get(&id).unwrap().format;
+        ids.for_each(|id| {
+            let g_set = &all_sets.language.get(&id).unwrap().genre;
+            let f_set = &all_sets.language.get(&id).unwrap().format;
 
-        filter_genres = filter_genres
-            .into_iter()
-            .filter(|f| g_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
-        filter_formats = filter_formats
-            .into_iter()
-            .filter(|f| f_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
+            g_sets.push(g_set.clone());
+            f_sets.push(f_set.clone());
+        });
     }
 
     if genres_is_active {
-        let id = set_genres
-            .into_iter()
-            .collect::<Vec<i64>>()
-            .first()
-            .unwrap()
-            .clone();
+        let ids = set_genres.into_iter();
 
-        let l_set = &all_sets.genre.get(&id).unwrap().language;
-        let f_set = &all_sets.genre.get(&id).unwrap().format;
+        ids.for_each(|id| {
+            let l_set = &all_sets.genre.get(&id).unwrap().language;
+            let f_set = &all_sets.genre.get(&id).unwrap().format;
 
-        filter_languages = filter_languages
-            .into_iter()
-            .filter(|f| l_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
-        filter_formats = filter_formats
-            .into_iter()
-            .filter(|f| f_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
+            l_sets.push(l_set.clone());
+            f_sets.push(f_set.clone());
+        });
     }
 
     if format_is_active {
-        let id = set_formats
-            .into_iter()
-            .collect::<Vec<i64>>()
-            .first()
-            .unwrap()
-            .clone();
+        let ids = set_formats.into_iter();
 
-        let g_set = &all_sets.format.get(&id).unwrap().genre;
-        let l_set = &all_sets.format.get(&id).unwrap().language;
+        ids.for_each(|id| {
+            let g_set = &all_sets.format.get(&id).unwrap().genre;
+            let l_set = &all_sets.format.get(&id).unwrap().language;
 
-        filter_genres = filter_genres
-            .into_iter()
-            .filter(|f| g_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
-        filter_languages = filter_languages
-            .into_iter()
-            .filter(|f| l_set.contains(&f.id))
-            .collect::<Vec<Filter>>();
+            g_sets.push(g_set.clone());
+            l_sets.push(l_set.clone());
+        });
     }
+
+    println!("g_sets {:?}", g_sets);
+    println!("l_sets {:?}", l_sets);
+    println!("f_sets {:?}", f_sets);
+
+    let l_itersec = l_sets.iter().fold(all_languages_set, |acc, hs| {
+        acc.intersection(hs).cloned().collect()
+    });
+    let f_itersec = f_sets.iter().fold(all_formats_set, |acc, hs| {
+        acc.intersection(hs).cloned().collect()
+    });
+    let g_itersec = g_sets.iter().fold(all_genres_set, |acc, hs| {
+        acc.intersection(hs).cloned().collect()
+    });
+
+    println!("l_itersec {:?}", l_itersec);
+    println!("f_itersec {:?}", f_itersec);
+    println!("g_itersec {:?}", g_itersec);
+
+    filter_genres = filter_genres
+        .into_iter()
+        .filter(|f| g_itersec.contains(&f.id))
+        .collect::<Vec<Filter>>();
+    filter_languages = filter_languages
+        .into_iter()
+        .filter(|f| l_itersec.contains(&f.id))
+        .collect::<Vec<Filter>>();
+    filter_formats = filter_formats
+        .into_iter()
+        .filter(|f| f_itersec.contains(&f.id))
+        .collect::<Vec<Filter>>();
+
+    // TODO: fix this case!
+    // http://localhost:8083/titles?formats=4&genres=3,32&languages=5
+    // travel -> french -> digital access code -> business & money
+    // travel -> french -> arts & photography
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

@@ -85,13 +85,13 @@ pub async fn all(
     )?;
     let formats = utils::fetch(endpoints.backend_url("formats?order_by=format"), &client)?;
 
-    let set_genres = utils::ids_set(filter_qs.clone().genres);
-    let set_languages = utils::ids_set(filter_qs.clone().languages);
-    let set_formats = utils::ids_set(filter_qs.clone().formats);
+    let qs_set_genres = utils::ids_set(filter_qs.clone().genres);
+    let qs_set_languages = utils::ids_set(filter_qs.clone().languages);
+    let qs_set_formats = utils::ids_set(filter_qs.clone().formats);
 
-    let languages_qs: String = utils::ids_comma_joiner(&set_languages);
-    let genres_qs: String = utils::ids_comma_joiner(&set_genres);
-    let formats_qs: String = utils::ids_comma_joiner(&set_formats);
+    let languages_qs: String = utils::ids_comma_joiner(&qs_set_languages);
+    let genres_qs: String = utils::ids_comma_joiner(&qs_set_genres);
+    let formats_qs: String = utils::ids_comma_joiner(&qs_set_formats);
 
     let all_languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
     let all_genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
@@ -107,17 +107,17 @@ pub async fn all(
 
     let all_sets: Sets = serde_json::from_value(sets["data"].clone()).unwrap();
 
-    let qs_genres = match set_genres.len() {
+    let qs_genres = match qs_set_genres.len() {
         0 => "".to_string(),
         _ => format!("genres={}", genres_qs),
     };
 
-    let qs_languages = match set_languages.len() {
+    let qs_languages = match qs_set_languages.len() {
         0 => "".to_string(),
         _ => format!("languages={}", languages_qs),
     };
 
-    let qs_formats = match set_formats.len() {
+    let qs_formats = match qs_set_formats.len() {
         0 => "".to_string(),
         _ => format!("formats={}", formats_qs),
     };
@@ -126,8 +126,8 @@ pub async fn all(
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
-            let selected = set_genres.contains(&genre.id.unwrap());
-            let mut set = set_genres.clone();
+            let selected = qs_set_genres.contains(&genre.id.unwrap());
+            let mut set = qs_set_genres.clone();
 
             match selected {
                 true => set.remove(&id),
@@ -158,8 +158,8 @@ pub async fn all(
         .iter()
         .map(|language| {
             let id = language.id.unwrap();
-            let selected = set_languages.contains(&language.id.unwrap());
-            let mut set = set_languages.clone();
+            let selected = qs_set_languages.contains(&language.id.unwrap());
+            let mut set = qs_set_languages.clone();
 
             match selected {
                 true => set.remove(&id),
@@ -190,8 +190,8 @@ pub async fn all(
         .iter()
         .map(|format| {
             let id = format.id.unwrap();
-            let selected = set_formats.contains(&format.id.unwrap());
-            let mut set = set_formats.clone();
+            let selected = qs_set_formats.contains(&format.id.unwrap());
+            let mut set = qs_set_formats.clone();
 
             match selected {
                 true => set.remove(&id),
@@ -222,22 +222,22 @@ pub async fn all(
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
-    let genres_is_active = set_genres.len() > 0;
-    let language_is_active = set_languages.len() > 0;
-    let format_is_active = set_formats.len() > 0;
+    let genres_is_active = qs_set_genres.len() > 0;
+    let language_is_active = qs_set_languages.len() > 0;
+    let format_is_active = qs_set_formats.len() > 0;
 
     // println!("=========================");
     // println!(
     //     "formats => active?: {}, values: {:#?}",
-    //     format_is_active, set_formats
+    //     format_is_active, qs_set_formats
     // );
     // println!(
     //     "languages => active?: {}, values: {:#?}",
-    //     language_is_active, set_languages
+    //     language_is_active, qs_set_languages
     // );
     // println!(
     //     "genres => active?: {}, values: {:#?}",
-    //     genres_is_active, set_genres
+    //     genres_is_active, qs_set_genres
     // );
     // println!("=========================");
 
@@ -246,7 +246,7 @@ pub async fn all(
     let mut f_sets: Vec<HashSet<i64>> = vec![];
 
     if language_is_active {
-        let ids = set_languages.into_iter();
+        let ids = qs_set_languages.clone().into_iter();
 
         ids.for_each(|id| {
             let g_set = &all_sets.language.get(&id).unwrap().genre;
@@ -258,7 +258,7 @@ pub async fn all(
     }
 
     if genres_is_active {
-        let ids = set_genres.into_iter();
+        let ids = qs_set_genres.clone().into_iter();
 
         ids.for_each(|id| {
             let l_set = &all_sets.genre.get(&id).unwrap().language;
@@ -270,7 +270,7 @@ pub async fn all(
     }
 
     if format_is_active {
-        let ids = set_formats.into_iter();
+        let ids = qs_set_formats.clone().into_iter();
 
         ids.for_each(|id| {
             let g_set = &all_sets.format.get(&id).unwrap().genre;
@@ -304,15 +304,15 @@ pub async fn all(
 
     filter_genres = filter_genres
         .into_iter()
-        .filter(|f| g_itersec.contains(&f.id))
+        .filter(|f| g_itersec.contains(&f.id) || qs_set_genres.contains(&f.id))
         .collect::<Vec<Filter>>();
     filter_languages = filter_languages
         .into_iter()
-        .filter(|f| l_itersec.contains(&f.id))
+        .filter(|f| l_itersec.contains(&f.id) || qs_set_languages.contains(&f.id))
         .collect::<Vec<Filter>>();
     filter_formats = filter_formats
         .into_iter()
-        .filter(|f| f_itersec.contains(&f.id))
+        .filter(|f| f_itersec.contains(&f.id) || qs_set_formats.contains(&f.id))
         .collect::<Vec<Filter>>();
 
     // TODO: fix this case!

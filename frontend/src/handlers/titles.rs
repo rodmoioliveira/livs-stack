@@ -59,7 +59,7 @@ pub async fn all(
         _ => format!("formats={}", formats_qs),
     };
 
-    let mut filter_genres = all_genres
+    let mut navlinks_genre = all_genres
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
@@ -81,7 +81,7 @@ pub async fn all(
                 utils::derive_query(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
-            models::types::Filter {
+            models::types::NavLink {
                 id,
                 name: "genre".to_string(),
                 selected,
@@ -89,9 +89,9 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<models::types::Filter>>();
+        .collect::<Vec<models::types::NavLink>>();
 
-    let mut filter_languages = all_languages
+    let mut navlinks_language = all_languages
         .iter()
         .map(|language| {
             let id = language.id.unwrap();
@@ -113,7 +113,7 @@ pub async fn all(
                 utils::derive_query(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
-            models::types::Filter {
+            models::types::NavLink {
                 id,
                 name: "language".to_string(),
                 selected,
@@ -121,9 +121,9 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<models::types::Filter>>();
+        .collect::<Vec<models::types::NavLink>>();
 
-    let mut filter_formats = all_formats
+    let mut navlinks_format = all_formats
         .iter()
         .map(|format| {
             let id = format.id.unwrap();
@@ -145,7 +145,7 @@ pub async fn all(
                 utils::derive_query(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
             let link = format!("/titles{}", queries);
 
-            models::types::Filter {
+            models::types::NavLink {
                 id,
                 name: "format".to_string(),
                 selected,
@@ -153,7 +153,7 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<models::types::Filter>>();
+        .collect::<Vec<models::types::NavLink>>();
 
     let queries = utils::derive_query(vec![qs_genres, qs_languages, qs_formats]);
     let link = format!("titles{}", queries);
@@ -259,7 +259,7 @@ pub async fn all(
         acc.intersection(hs).cloned().collect()
     });
 
-    filter_genres = filter_genres
+    navlinks_genre = navlinks_genre
         .into_iter()
         .filter(|f| {
             if f_is_active || l_is_active {
@@ -275,9 +275,9 @@ pub async fn all(
 
             true
         })
-        .collect::<Vec<models::types::Filter>>();
+        .collect::<Vec<models::types::NavLink>>();
 
-    filter_languages = filter_languages
+    navlinks_language = navlinks_language
         .into_iter()
         .filter(|f| {
             if f_is_active || g_is_active {
@@ -293,9 +293,9 @@ pub async fn all(
 
             true
         })
-        .collect::<Vec<models::types::Filter>>();
+        .collect::<Vec<models::types::NavLink>>();
 
-    filter_formats = filter_formats
+    navlinks_format = navlinks_format
         .into_iter()
         .filter(|f| {
             if l_is_active || g_is_active {
@@ -311,13 +311,13 @@ pub async fn all(
 
             true
         })
-        .collect::<Vec<models::types::Filter>>();
+        .collect::<Vec<models::types::NavLink>>();
 
     let data = serde_json::json!({
         "assets": endpoints.assets,
-        "genres": serde_json::json!(filter_genres),
-        "languages": serde_json::json!(filter_languages),
-        "formats": serde_json::json!(filter_formats),
+        "genres": serde_json::json!(navlinks_genre),
+        "languages": serde_json::json!(navlinks_language),
+        "formats": serde_json::json!(navlinks_format),
         "titles": titles["data"],
     });
 

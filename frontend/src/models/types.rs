@@ -38,7 +38,7 @@ pub struct Filters {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Filter {
+pub struct NavLink {
     pub id: i64,
     pub name: String,
     pub selected: bool,

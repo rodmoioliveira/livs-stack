@@ -33,6 +33,7 @@ pub async fn all(
         serde_json::from_value(genres["data"].clone()).unwrap();
     let all_formats: Vec<models::types::Format> =
         serde_json::from_value(formats["data"].clone()).unwrap();
+    let all_sets: models::types::Sets = serde_json::from_value(sets["data"].clone()).unwrap();
 
     let all_languages_set: HashSet<i64> = all_languages
         .clone()
@@ -41,8 +42,6 @@ pub async fn all(
         .collect();
     let all_genres_set: HashSet<i64> = all_genres.clone().iter().map(|i| i.id.unwrap()).collect();
     let all_formats_set: HashSet<i64> = all_formats.clone().iter().map(|i| i.id.unwrap()).collect();
-
-    let all_sets: models::types::Sets = serde_json::from_value(sets["data"].clone()).unwrap();
 
     let qs_genres = match qs_set_genres.len() {
         0 => "".to_string(),

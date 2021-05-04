@@ -41,12 +41,13 @@ pub struct Language {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Pagination {
-    pub current_page: i64,
-    pub page_count: i64,
-    pub total_count: i64,
-    pub total_pages: i64,
-    pub has_prev: bool,
     pub has_next: bool,
+    pub has_prev: bool,
+    pub items_current: i64,
+    pub items_total: i64,
+    pub limit: i64,
+    pub page_current: i64,
+    pub page_total: i64,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

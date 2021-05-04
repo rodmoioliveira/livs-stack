@@ -15,6 +15,8 @@ pub async fn all(
         per_page: 1,
         total_pages: 1,
         current_page: 1,
+        has_prev: true,
+        has_next: true,
     };
 
     Ok(

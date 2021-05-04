@@ -15,7 +15,9 @@ pub async fn all(
     let per_page = order_by_qs.limit.unwrap_or(count);
     let total_count = count + after_id;
     let total_pages = total_count / per_page;
-    let current_page = ((after_id as f64 / total_count as f64) * 10 as f64) as i64 + 1;
+    let current_page = (after_id / per_page) + 1;
+    let has_next = current_page < total_pages;
+    let has_prev = current_page > 1;
 
     // GET PAGINATION
     let pagination = models::db::Pagination {
@@ -23,6 +25,8 @@ pub async fn all(
         per_page,
         total_pages,
         total_count,
+        has_prev,
+        has_next,
     };
 
     Ok(

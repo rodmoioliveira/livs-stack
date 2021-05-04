@@ -19,6 +19,8 @@ pub async fn all(
     let has_next = current_page < total_pages;
     let has_prev = current_page > 1;
 
+    assert!(after_id % per_page == 0);
+
     // GET PAGINATION
     let pagination = models::db::Pagination {
         current_page,

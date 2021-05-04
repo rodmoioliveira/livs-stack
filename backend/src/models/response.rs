@@ -10,3 +10,18 @@ impl<T> Data<T> {
         Data { data }
     }
 }
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct DataWithPagination<T, Y> {
+    pub data: T,
+    pub pagination: Y,
+}
+
+impl<T, Y> DataWithPagination<T, Y> {
+    pub fn new(
+        data: T,
+        pagination: Y,
+    ) -> Self {
+        DataWithPagination { data, pagination }
+    }
+}

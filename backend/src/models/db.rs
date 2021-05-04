@@ -45,6 +45,8 @@ pub struct Pagination {
     pub per_page: i64,
     pub total_count: i64,
     pub total_pages: i64,
+    pub has_prev: bool,
+    pub has_next: bool,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

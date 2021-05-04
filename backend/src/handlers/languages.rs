@@ -11,9 +11,10 @@ pub async fn all(
 
     // GET PAGINATION
     let pagination = models::db::Pagination {
-        total: 1,
+        total_count: 1,
         per_page: 1,
-        page: 1,
+        total_pages: 1,
+        current_page: 1,
     };
 
     Ok(

@@ -6,11 +6,11 @@ lazy_static! {
     static ref RE: Regex = Regex::new(r"(\+|\-)(\w+)").unwrap();
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Order {
     pub order_by: Option<String>,
-    pub offset: Option<u64>,
-    pub limit: Option<u64>,
+    pub offset: Option<i64>,
+    pub limit: Option<i64>,
 }
 
 impl Order {

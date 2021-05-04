@@ -1,5 +1,6 @@
 SELECT
-  *
+  *,
+  COUNT(*) OVER() as count
 FROM
   titles
 $filters

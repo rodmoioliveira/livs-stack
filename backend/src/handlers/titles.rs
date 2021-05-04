@@ -20,7 +20,13 @@ pub async fn all(
     let has_next = page_current < page_total;
     let has_prev = page_current > 1;
 
-    assert!(after_id % limit == 0);
+    // assert!(after_id % limit == 0);
+
+    // TODO: make it work with filters
+    // http://localhost:8081/titles?genres=1,2,3,4,5,6,10,20&formats=1,2,3,4&languages=1,2,3,4,5&order_by=id&limit=5
+    // http://localhost:8081/titles?genres=1,2,3,4,5,6,10,20&formats=1,2,3,4&languages=1,2,3,4,5&order_by=id&limit=5&after_id=76
+    // http://localhost:8081/titles?genres=1,2,3,4,5,6,10,20&formats=1,2,3,4&languages=1,2,3,4,5&order_by=id&limit=5&after_id=135
+    // you still can use after_id!!!
 
     // GET PAGINATION
     let pagination = models::db::Pagination {

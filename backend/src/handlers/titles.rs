@@ -8,14 +8,21 @@ pub async fn all(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: Vec<models::db::Title> =
-        queries::titles::all(&client, order_by_qs, filter_qs).await?;
+    let (result, count) =
+        queries::titles::all(&client, order_by_qs.clone(), filter_qs.clone()).await?;
+
+    let after_id = filter_qs.after_id.unwrap_or(0);
+    let per_page = order_by_qs.limit.unwrap_or(count);
+    let total_count = count + after_id;
+    let total_pages = total_count / per_page;
+    let current_page = ((after_id as f64 / total_count as f64) * 10 as f64) as i64 + 1;
 
     // GET PAGINATION
     let pagination = models::db::Pagination {
-        total: 1,
-        per_page: 1,
-        page: 1,
+        current_page,
+        per_page,
+        total_pages,
+        total_count,
     };
 
     Ok(

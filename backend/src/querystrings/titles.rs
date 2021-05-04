@@ -1,10 +1,11 @@
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct Filters {
     pub formats: Option<String>,
     pub genres: Option<String>,
     pub languages: Option<String>,
+    pub after_id: Option<i64>,
 }
 
 impl Filters {
@@ -28,6 +29,10 @@ impl Filters {
         };
         match self.languages {
             Some(value) => filters.push(format!("language IN ({})", value)),
+            None => (),
+        };
+        match self.after_id {
+            Some(value) => filters.push(format!("id > {}", value)),
             None => (),
         };
 

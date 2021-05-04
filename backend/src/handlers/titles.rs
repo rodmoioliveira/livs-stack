@@ -23,6 +23,11 @@ pub async fn all(
     // assert!(after_id % limit == 0);
 
     // TODO: make it work with filters
+
+    // select id, row_number() over(), count(*) over() as count from titles where language = 7;
+    // Using ROW_NUMBER() function for pagination
+    // https://www.postgresqltutorial.com/postgresql-row_number/
+
     // http://localhost:8081/titles?genres=1,2,3,4,5,6,10,20&formats=1,2,3,4&languages=1,2,3,4,5&order_by=id&limit=5
     // http://localhost:8081/titles?genres=1,2,3,4,5,6,10,20&formats=1,2,3,4&languages=1,2,3,4,5&order_by=id&limit=5&after_id=76
     // http://localhost:8081/titles?genres=1,2,3,4,5,6,10,20&formats=1,2,3,4&languages=1,2,3,4,5&order_by=id&limit=5&after_id=135

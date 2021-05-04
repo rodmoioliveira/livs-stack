@@ -6,7 +6,7 @@ pub async fn all(
     client: &Client,
     order_by_qs: querystrings::core::Order,
     filter_qs: querystrings::titles::Filters,
-) -> Result<Vec<models::db::Title>, errors::MyError> {
+) -> Result<(Vec<models::db::Title>, i64), errors::MyError> {
     let _stmt = include_str!("../sql/titles/all.sql");
     let _stmt = _stmt.replace("$order_by", &order_by_qs.to_sql());
     let _stmt = _stmt.replace("$filters", &filter_qs.to_sql());
@@ -20,8 +20,15 @@ pub async fn all(
         .map_err(errors::MyError::PGError)?;
     let result: Vec<models::db::Title> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+    let totals: Vec<models::db::Count> =
+        serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    Ok(result)
+    let count = totals
+        .first()
+        .unwrap_or(&models::db::Count { count: 0 })
+        .count;
+
+    Ok((result, count))
 }
 
 pub async fn one(

@@ -38,3 +38,10 @@ pub struct Language {
     pub id: Option<i64>,
     pub language: String,
 }
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct Pagination {
+    pub total: i64,
+    pub per_page: i64,
+    pub page: i64,
+}

@@ -11,7 +11,18 @@ pub async fn all(
     let result: Vec<models::db::Title> =
         queries::titles::all(&client, order_by_qs, filter_qs).await?;
 
-    Ok(HttpResponse::Ok().json(models::response::Data::new(result)))
+    // GET PAGINATION
+    let pagination = models::db::Pagination {
+        total: 1,
+        per_page: 1,
+        page: 1,
+    };
+
+    Ok(
+        HttpResponse::Ok().json(models::response::DataWithPagination::new(
+            result, pagination,
+        )),
+    )
 }
 
 pub async fn one(

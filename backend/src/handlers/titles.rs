@@ -13,23 +13,24 @@ pub async fn all(
 
     let after_id = filter_qs.after_id.unwrap_or(0);
     let limit = order_by_qs.limit.unwrap_or(count);
-    let page_count = if count < limit { count } else { limit };
-    let total_count = count + after_id;
-    let total_pages = (total_count as f64 / limit as f64).ceil() as i64;
-    let current_page = (after_id / limit) + 1;
-    let has_next = current_page < total_pages;
-    let has_prev = current_page > 1;
+    let items_current = if count < limit { count } else { limit };
+    let items_total = count + after_id;
+    let page_total = (items_total as f64 / limit as f64).ceil() as i64;
+    let page_current = (after_id / limit) + 1;
+    let has_next = page_current < page_total;
+    let has_prev = page_current > 1;
 
     assert!(after_id % limit == 0);
 
     // GET PAGINATION
     let pagination = models::db::Pagination {
-        current_page,
-        page_count,
-        total_pages,
-        total_count,
+        page_current,
+        items_current,
+        page_total,
+        items_total,
         has_prev,
         has_next,
+        limit,
     };
 
     Ok(

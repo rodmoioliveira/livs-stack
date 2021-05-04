@@ -12,19 +12,20 @@ pub async fn all(
         queries::titles::all(&client, order_by_qs.clone(), filter_qs.clone()).await?;
 
     let after_id = filter_qs.after_id.unwrap_or(0);
-    let per_page = order_by_qs.limit.unwrap_or(count);
+    let limit = order_by_qs.limit.unwrap_or(count);
+    let page_count = if count < limit { count } else { limit };
     let total_count = count + after_id;
-    let total_pages = total_count / per_page;
-    let current_page = (after_id / per_page) + 1;
+    let total_pages = (total_count as f64 / limit as f64).ceil() as i64;
+    let current_page = (after_id / limit) + 1;
     let has_next = current_page < total_pages;
     let has_prev = current_page > 1;
 
-    assert!(after_id % per_page == 0);
+    assert!(after_id % limit == 0);
 
     // GET PAGINATION
     let pagination = models::db::Pagination {
         current_page,
-        per_page,
+        page_count,
         total_pages,
         total_count,
         has_prev,

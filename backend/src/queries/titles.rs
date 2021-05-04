@@ -20,10 +20,10 @@ pub async fn all(
         .map_err(errors::MyError::PGError)?;
     let result: Vec<models::db::Title> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
-    let totals: Vec<models::db::Count> =
+    let counts: Vec<models::db::Count> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    let count = totals
+    let count = counts
         .first()
         .unwrap_or(&models::db::Count { count: 0 })
         .count;

@@ -34,7 +34,7 @@ impl Order {
             .collect::<Vec<String>>()
             .join(", ");
 
-        let sql = format!("ORDER BY {} LIMIT {} OFFSET {};", order, limit, offset);
+        let sql = format!("ORDER BY {} LIMIT {} OFFSET {}", order, limit, offset);
 
         sql
     }

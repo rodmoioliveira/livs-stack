@@ -1,7 +1,13 @@
-SELECT
-  *,
-  COUNT(*) OVER() as count
-FROM
-  titles
-$filters
-$order_by;
+WITH
+cte AS (
+  SELECT
+    *
+  FROM
+    titles
+  $filters
+  )
+SELECT *
+FROM (
+  TABLE cte
+  $order_by
+) sub right join (select count(*) from cte) c(count) on true;

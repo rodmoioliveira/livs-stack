@@ -3,8 +3,8 @@ use actix_web::{web, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
 pub async fn all(
-    web::Query(order_by_qs): web::Query<querystrings::core::Order>,
-    web::Query(filter_qs): web::Query<querystrings::titles::Filters>,
+    web::Query(order_by_qs): web::Query<querystrings::Order>,
+    web::Query(filter_qs): web::Query<querystrings::Filters>,
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;

@@ -4,7 +4,7 @@ use tokio_pg_mapper::FromTokioPostgresRow;
 
 pub async fn all(
     client: &Client,
-    order_by_qs: querystrings::core::Order,
+    order_by_qs: querystrings::Order,
 ) -> Result<Vec<models::db::Format>, errors::MyError> {
     let _stmt = include_str!("../sql/formats/all.sql");
     let _stmt = _stmt.replace("$order_by", &order_by_qs.to_sql());

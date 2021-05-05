@@ -20,6 +20,7 @@ impl<T> JsonError<T> {
 #[derive(Display, From, Debug)]
 pub enum MyError {
     NotFound,
+    BadPagination,
     PGError(PGError),
     PGMError(PGMError),
     PoolError(PoolError),
@@ -32,6 +33,8 @@ impl ResponseError for MyError {
     fn error_response(&self) -> HttpResponse {
         match *self {
             MyError::NotFound => HttpResponse::NotFound().json(JsonError::new("Not Found")),
+            MyError::BadPagination => HttpResponse::BadRequest()
+                .json(JsonError::new("Bad pagination: offset % limit is not 0.")),
             MyError::PGError(ref err) => {
                 HttpResponse::InternalServerError().json(JsonError::new(err.to_string()))
             }

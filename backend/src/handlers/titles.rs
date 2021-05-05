@@ -21,7 +21,12 @@ pub async fn all(
     let has_next = page_current < page_total;
     let has_prev = page_current > 1;
 
-    assert!(offset % limit == 0);
+    let valid = offset % limit == 0;
+
+    if !valid {
+        return Ok(HttpResponse::BadRequest()
+            .json(errors::JsonError::new("Modulus of offset % limit is not 0")));
+    };
 
     let pagination = models::db::Pagination {
         page_current,

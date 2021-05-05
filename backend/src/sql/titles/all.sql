@@ -10,4 +10,9 @@ SELECT *
 FROM (
   TABLE cte
   $order_by
-) sub right join (select count(*) from cte) c(count) on true;
+  ) sub
+RIGHT JOIN (
+  SELECT count(*)
+  FROM cte
+) c(count)
+ON TRUE;

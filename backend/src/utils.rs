@@ -2,7 +2,7 @@ use crate::{errors, models, querystrings};
 use actix_web::Result;
 
 pub fn get_pagination(
-    order_by_qs: querystrings::core::Order,
+    order_by_qs: querystrings::Order,
     count: i64,
     items_current: i64,
 ) -> Result<models::db::Pagination, errors::MyError> {

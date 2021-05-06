@@ -21,13 +21,13 @@ pub fn get_pagination(
     let has_prev = page_current > 1;
 
     Ok(models::db::Pagination {
-        page_current,
-        items_current,
-        page_total,
-        items_total,
-        has_prev,
         has_next,
+        has_prev,
+        items_current,
+        items_total,
         limit,
+        page_current,
+        page_total,
     })
 }
 

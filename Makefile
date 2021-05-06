@@ -14,6 +14,11 @@ dev: nuke
 	cd assets && cargo watch -x run & \
 	make sass-watch
 
+test:
+	cd backend && cargo test
+	cd frontend && cargo test
+	cd assets && cargo test
+
 # TODO: make your own docker file
 sass-watch:
 	@docker run --rm -v $(shell pwd)/assets/dev/scss:/sass/ -v $(shell pwd)/assets/static/css:/css/ michalklempa/dart-sass:latest
@@ -37,4 +42,4 @@ db-csv:
 nuke:
 	@docker system prune --volumes -f
 
-.PHONY: nuke run db dev prod db-csv sass-watch up down
+.PHONY: nuke run db dev prod db-csv sass-watch up down test

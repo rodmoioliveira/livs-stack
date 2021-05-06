@@ -30,3 +30,82 @@ pub fn get_pagination(
         limit,
     })
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn pagination() -> Result<(), errors::MyError> {
+        let _anwsers = vec![
+            models::db::Pagination {
+                has_next: true,
+                has_prev: false,
+                items_current: 5,
+                items_total: 14,
+                limit: 5,
+                page_current: 1,
+                page_total: 3,
+            },
+            models::db::Pagination {
+                has_next: true,
+                has_prev: true,
+                items_current: 5,
+                items_total: 14,
+                limit: 5,
+                page_current: 2,
+                page_total: 3,
+            },
+            models::db::Pagination {
+                has_next: false,
+                has_prev: true,
+                items_current: 4,
+                items_total: 14,
+                limit: 5,
+                page_current: 3,
+                page_total: 3,
+            },
+        ];
+
+        let _qs = vec![
+            (
+                querystrings::Order {
+                    offset: Some(0),
+                    limit: Some(5),
+                    order_by: None,
+                },
+                14,
+                5,
+            ),
+            (
+                querystrings::Order {
+                    offset: Some(5),
+                    limit: Some(5),
+                    order_by: None,
+                },
+                14,
+                5,
+            ),
+            (
+                querystrings::Order {
+                    offset: Some(10),
+                    limit: Some(5),
+                    order_by: None,
+                },
+                14,
+                4,
+            ),
+        ];
+
+        let _results: Vec<models::db::Pagination> = _qs
+            .into_iter()
+            .map(|args| get_pagination(args.0, args.1, args.2).unwrap())
+            .collect();
+
+        _results.iter().zip(_anwsers.iter()).for_each(|a| {
+            assert_eq!(a.0, a.1);
+        });
+
+        Ok(())
+    }
+}

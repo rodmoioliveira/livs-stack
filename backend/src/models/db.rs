@@ -39,7 +39,7 @@ pub struct Language {
     pub language: String,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, PartialEq)]
 pub struct Pagination {
     pub has_next: bool,
     pub has_prev: bool,

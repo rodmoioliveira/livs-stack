@@ -1,4 +1,4 @@
-use crate::{errors, models, queries, querystrings};
+use crate::{errors, models, queries, querystrings, utils};
 use actix_web::{web, HttpResponse, Result};
 use deadpool_postgres::{Client, Pool};
 
@@ -7,18 +7,8 @@ pub async fn all(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let result: Vec<models::db::Language> = queries::languages::all(&client, order_by_qs).await?;
-
-    // GET PAGINATION
-    let pagination = models::db::Pagination {
-        page_current: 1,
-        items_current: 1,
-        items_total: 1,
-        page_total: 1,
-        has_prev: true,
-        has_next: true,
-        limit: 1,
-    };
+    let (result, count) = queries::languages::all(&client, order_by_qs.clone()).await?;
+    let pagination = utils::get_pagination(order_by_qs, count, result.len() as i64)?;
 
     Ok(
         HttpResponse::Ok().json(models::response::DataWithPagination::new(

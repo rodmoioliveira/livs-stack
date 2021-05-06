@@ -5,7 +5,7 @@ use tokio_pg_mapper::FromTokioPostgresRow;
 pub async fn all(
     client: &Client,
     order_by_qs: querystrings::Order,
-) -> Result<Vec<models::db::Format>, errors::MyError> {
+) -> Result<(Vec<models::db::Format>, i64), errors::MyError> {
     let _stmt = include_str!("../sql/formats/all.sql");
     let _stmt = _stmt.replace("$order_by", &order_by_qs.to_sql());
     let stmt = client
@@ -18,8 +18,15 @@ pub async fn all(
         .map_err(errors::MyError::PGError)?;
     let result: Vec<models::db::Format> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+    let counts: Vec<models::db::Count> =
+        serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
 
-    Ok(result)
+    let count = counts
+        .first()
+        .unwrap_or(&models::db::Count { count: 0 })
+        .count;
+
+    Ok((result, count))
 }
 
 pub async fn one(

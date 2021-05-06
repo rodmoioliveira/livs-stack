@@ -1,5 +1,16 @@
+WITH cte AS (
+  SELECT
+    *
+  FROM
+    languages
+)
 SELECT
   *
 FROM
-  languages
-$order_by;
+  (TABLE cte $order_by) sub
+  RIGHT JOIN (
+    SELECT
+      count(*)
+    FROM
+      cte
+  ) c(count) ON TRUE;

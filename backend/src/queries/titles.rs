@@ -18,17 +18,22 @@ pub async fn all(
         .query(&stmt, &[])
         .await
         .map_err(errors::MyError::PGError)?;
-    let result: Vec<models::db::Title> =
-        serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
     let counts: Vec<models::db::Count> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
-
     let count = counts
         .first()
         .unwrap_or(&models::db::Count { count: 0 })
         .count;
 
-    Ok((result, count))
+    match count {
+        0 => Ok((vec![], count)),
+        _ => {
+            let result: Vec<models::db::Title> =
+                serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+
+            Ok((result, count))
+        }
+    }
 }
 
 pub async fn one(

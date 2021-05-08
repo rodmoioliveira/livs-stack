@@ -1,4 +1,4 @@
-use crate::{errors, models, querystrings};
+use crate::{errors, models, querystrings, utils};
 use deadpool_postgres::Client;
 use tokio_pg_mapper::FromTokioPostgresRow;
 
@@ -8,7 +8,7 @@ pub async fn all(
     filter_qs: querystrings::Filters,
 ) -> Result<(Vec<models::db::Title>, i64), errors::MyError> {
     let _stmt = include_str!("../sql/titles/all.sql");
-    let _stmt = _stmt.replace("$order_by", &order_by_qs.to_sql());
+    let _stmt = _stmt.replace("$order_by", &order_by_qs.clone().to_sql());
     let _stmt = _stmt.replace("$filters", &filter_qs.to_sql());
     let stmt = client
         .prepare(&_stmt)
@@ -25,15 +25,20 @@ pub async fn all(
         .unwrap_or(&models::db::Count { count: 0 })
         .count;
 
-    match count {
-        0 => Ok((vec![], count)),
-        _ => {
-            let result: Vec<models::db::Title> =
-                serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+    // FIXME: GET /titles?limit=10&offset=89&formats=1,2,3,4,5
+    // {
+    // "error": "Invalid type"
+    // }
+    let limit = order_by_qs.limit.unwrap_or(count);
+    if count == 0 || limit == 0 {
+        return Ok((vec![], count));
+    };
 
-            Ok((result, count))
-        }
-    }
+    utils::handle_bad_offset(count, order_by_qs)?;
+
+    let result: Vec<models::db::Title> =
+        serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+    Ok((result, count))
 }
 
 pub async fn one(

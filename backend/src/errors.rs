@@ -21,6 +21,7 @@ impl<T> JsonError<T> {
 pub enum MyError {
     NotFound,
     BadPagination,
+    BadOffset,
     PGError(PGError),
     PGMError(PGMError),
     PoolError(PoolError),
@@ -35,6 +36,8 @@ impl ResponseError for MyError {
             MyError::NotFound => HttpResponse::NotFound().json(JsonError::new("Not Found")),
             MyError::BadPagination => HttpResponse::BadRequest()
                 .json(JsonError::new("Bad pagination: offset % limit is not 0.")),
+            MyError::BadOffset => HttpResponse::BadRequest()
+                .json(JsonError::new("Bad offset: page_current > page_total.")),
             MyError::PGError(ref err) => {
                 HttpResponse::InternalServerError().json(JsonError::new(err.to_string()))
             }

@@ -1,4 +1,4 @@
-use crate::{errors, models, querystrings};
+use crate::{errors, models, querystrings, utils};
 use deadpool_postgres::Client;
 use tokio_pg_mapper::FromTokioPostgresRow;
 
@@ -7,7 +7,7 @@ pub async fn all(
     order_by_qs: querystrings::Order,
 ) -> Result<(Vec<models::db::Language>, i64), errors::MyError> {
     let _stmt = include_str!("../sql/languages/all.sql");
-    let _stmt = _stmt.replace("$order_by", &order_by_qs.to_sql());
+    let _stmt = _stmt.replace("$order_by", &order_by_qs.clone().to_sql());
     let stmt = client
         .prepare(&_stmt)
         .await
@@ -23,15 +23,16 @@ pub async fn all(
         .unwrap_or(&models::db::Count { count: 0 })
         .count;
 
-    match count {
-        0 => Ok((vec![], count)),
-        _ => {
-            let result: Vec<models::db::Language> =
-                serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+    let limit = order_by_qs.limit.unwrap_or(count);
+    if count == 0 || limit == 0 {
+        return Ok((vec![], count));
+    };
 
-            Ok((result, count))
-        }
-    }
+    utils::handle_bad_offset(count, order_by_qs)?;
+
+    let result: Vec<models::db::Language> =
+        serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;
+    Ok((result, count))
 }
 
 pub async fn one(

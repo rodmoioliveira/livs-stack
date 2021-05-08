@@ -9,6 +9,18 @@ pub fn get_pagination(
     let offset = order_by_qs.offset.unwrap_or(0);
     let limit = order_by_qs.limit.unwrap_or(count);
 
+    if limit == 0 {
+        return Ok(models::db::Pagination {
+            has_next: false,
+            has_prev: false,
+            items_current: 0,
+            items_total: 0,
+            limit: 0,
+            page_current: 0,
+            page_total: 0,
+        });
+    };
+
     let valid = offset % limit == 0;
     if !valid {
         return Err(errors::MyError::BadPagination);

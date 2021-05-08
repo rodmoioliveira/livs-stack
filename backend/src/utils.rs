@@ -1,6 +1,23 @@
 use crate::{errors, models, querystrings};
 use actix_web::Result;
 
+pub fn handle_bad_offset(
+    count: i64,
+    order_by_qs: querystrings::Order,
+) -> Result<(), errors::MyError> {
+    let offset = order_by_qs.offset.unwrap_or(0);
+    let limit = order_by_qs.limit.unwrap_or(count);
+
+    let has_items = count > 0;
+    let page_total = (count as f64 / limit as f64).ceil() as i64;
+    let page_current = if !has_items { 0 } else { (offset / limit) + 1 };
+
+    match page_current > page_total {
+        true => Err(errors::MyError::BadOffset),
+        false => Ok(()),
+    }
+}
+
 pub fn get_pagination(
     order_by_qs: querystrings::Order,
     count: i64,
@@ -26,9 +43,10 @@ pub fn get_pagination(
         return Err(errors::MyError::BadPagination);
     };
 
-    let items_total = count;
-    let page_total = (items_total as f64 / limit as f64).ceil() as i64;
-    let page_current = (offset / limit) + 1;
+    let has_items = count > 0;
+    let page_total = (count as f64 / limit as f64).ceil() as i64;
+    let page_current = if !has_items { 0 } else { (offset / limit) + 1 };
+
     let has_next = page_current < page_total;
     let has_prev = page_current > 1;
 
@@ -36,7 +54,7 @@ pub fn get_pagination(
         has_next,
         has_prev,
         items_current,
-        items_total,
+        items_total: count,
         limit,
         page_current,
         page_total,

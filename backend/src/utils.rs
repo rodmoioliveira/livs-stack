@@ -1,9 +1,23 @@
 use crate::{errors, models, querystrings};
 use actix_web::Result;
 
+pub fn handle_bad_pagination(
+    count: i64,
+    order_by_qs: &querystrings::Order,
+) -> Result<(), errors::MyError> {
+    let offset = order_by_qs.offset.unwrap_or(0);
+    let limit = order_by_qs.limit.unwrap_or(count);
+    let valid = offset % limit == 0;
+
+    match valid {
+        true => Ok(()),
+        false => Err(errors::MyError::BadPagination),
+    }
+}
+
 pub fn handle_bad_offset(
     count: i64,
-    order_by_qs: querystrings::Order,
+    order_by_qs: &querystrings::Order,
 ) -> Result<(), errors::MyError> {
     let offset = order_by_qs.offset.unwrap_or(0);
     let limit = order_by_qs.limit.unwrap_or(count);

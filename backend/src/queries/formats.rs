@@ -28,7 +28,8 @@ pub async fn all(
         return Ok((vec![], count));
     };
 
-    utils::handle_bad_offset(count, order_by_qs)?;
+    utils::handle_bad_pagination(count, &order_by_qs)?;
+    utils::handle_bad_offset(count, &order_by_qs)?;
 
     let result: Vec<models::db::Format> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;

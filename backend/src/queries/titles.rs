@@ -25,16 +25,13 @@ pub async fn all(
         .unwrap_or(&models::db::Count { count: 0 })
         .count;
 
-    // FIXME: GET /titles?limit=10&offset=89&formats=1,2,3,4,5
-    // {
-    // "error": "Invalid type"
-    // }
     let limit = order_by_qs.limit.unwrap_or(count);
     if count == 0 || limit == 0 {
         return Ok((vec![], count));
     };
 
-    utils::handle_bad_offset(count, order_by_qs)?;
+    utils::handle_bad_pagination(count, &order_by_qs)?;
+    utils::handle_bad_offset(count, &order_by_qs)?;
 
     let result: Vec<models::db::Title> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;

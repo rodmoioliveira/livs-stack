@@ -2,8 +2,8 @@ use crate::{errors, models, querystrings, utils};
 use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
+use std::collections::HashSet;
 
-// TODO: MUST REFACTOR THIS WHOLE FILE!
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
@@ -47,13 +47,11 @@ pub async fn all(
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
-            let selected = set_genres.contains(&genre.id.unwrap());
-            let mut set = set_genres.clone();
 
-            match selected {
-                true => set.remove(&id),
-                false => set.insert(id),
-            };
+            let selected = set_genres.contains(&id);
+            let mut s = HashSet::new();
+            s.insert(id);
+            let set: HashSet<i64> = set_genres.symmetric_difference(&s).cloned().collect();
 
             let qp_genres = utils::derive_query_params("genres", &set);
             let link = utils::derive_link(
@@ -75,13 +73,11 @@ pub async fn all(
         .iter()
         .map(|language| {
             let id = language.id.unwrap();
-            let selected = set_languages.contains(&language.id.unwrap());
-            let mut set = set_languages.clone();
 
-            match selected {
-                true => set.remove(&id),
-                false => set.insert(id),
-            };
+            let selected = set_languages.contains(&id);
+            let mut s = HashSet::new();
+            s.insert(id);
+            let set: HashSet<i64> = set_languages.symmetric_difference(&s).cloned().collect();
 
             let qp_languages = utils::derive_query_params("languages", &set);
             let link = utils::derive_link(
@@ -103,13 +99,11 @@ pub async fn all(
         .iter()
         .map(|format| {
             let id = format.id.unwrap();
-            let selected = set_formats.contains(&format.id.unwrap());
-            let mut set = set_formats.clone();
 
-            match selected {
-                true => set.remove(&id),
-                false => set.insert(id),
-            };
+            let selected = set_formats.contains(&id);
+            let mut s = HashSet::new();
+            s.insert(id);
+            let set: HashSet<i64> = set_formats.symmetric_difference(&s).cloned().collect();
 
             let qp_formats = utils::derive_query_params("formats", &set);
             let link = utils::derive_link(

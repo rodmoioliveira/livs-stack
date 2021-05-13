@@ -17,30 +17,28 @@ pub async fn all(
     let qp_genres: String = utils::derive_query_params("genres", &set_genres);
     let qp_formats: String = utils::derive_query_params("formats", &set_formats);
 
-    let all_genres: Vec<models::Genre> = serde_json::from_value(
+    let all_genres: Vec<models::Genre> =
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
             .get("data")
             .cloned()
-            .unwrap(),
-    )
+            .map(|v| serde_json::from_value(v).unwrap_or(vec![]))
+            .unwrap();
+
+    let all_languages: Vec<models::Language> = utils::fetch(
+        endpoints.backend_url("/languages?order_by=language"),
+        &client,
+    )?
+    .get("data")
+    .cloned()
+    .map(|v| serde_json::from_value(v).unwrap_or(vec![]))
     .unwrap();
-    let all_languages: Vec<models::Language> = serde_json::from_value(
-        utils::fetch(
-            endpoints.backend_url("/languages?order_by=language"),
-            &client,
-        )?
-        .get("data")
-        .cloned()
-        .unwrap(),
-    )
-    .unwrap();
-    let all_formats: Vec<models::Format> = serde_json::from_value(
+
+    let all_formats: Vec<models::Format> =
         utils::fetch(endpoints.backend_url("/formats?order_by=format"), &client)?
             .get("data")
             .cloned()
-            .unwrap(),
-    )
-    .unwrap();
+            .map(|v| serde_json::from_value(v).unwrap_or(vec![]))
+            .unwrap();
 
     let filter_genres = all_genres
         .iter()

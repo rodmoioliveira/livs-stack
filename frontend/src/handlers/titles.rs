@@ -8,6 +8,7 @@ pub async fn all(
     client: web::Data<Client>,
     endpoints: web::Data<models::Endpoints>,
     web::Query(filter_qs): web::Query<querystrings::Filters>,
+    web::Query(order_by): web::Query<querystrings::Order>,
 ) -> Result<HttpResponse, errors::MyError> {
     let set_genres = utils::ids_set(filter_qs.clone().genres);
     let set_languages = utils::ids_set(filter_qs.clone().languages);
@@ -16,6 +17,49 @@ pub async fn all(
     let qp_languages: String = utils::derive_query_params("languages", &set_languages);
     let qp_genres: String = utils::derive_query_params("genres", &set_genres);
     let qp_formats: String = utils::derive_query_params("formats", &set_formats);
+    let qp_offset: String = order_by
+        .offset
+        .map(|value| Some(value.to_string()))
+        .map(utils::ids_set)
+        .as_ref()
+        .map(|value| utils::derive_query_params("offset", value))
+        .unwrap_or("offset=0".to_string());
+    let qp_limit: String = order_by
+        .limit
+        .map(|value| Some(value.to_string()))
+        .map(utils::ids_set)
+        .as_ref()
+        .map(|value| utils::derive_query_params("limit", value))
+        .unwrap_or("limit=20".to_string());
+
+    let titles_link = utils::derive_link(
+        "/titles",
+        vec![
+            qp_formats.clone(),
+            qp_genres.clone(),
+            qp_languages.clone(),
+            qp_limit.clone(),
+            qp_offset.clone(),
+        ],
+    );
+    let titles = utils::fetch(endpoints.backend_url(&titles_link), &client)?;
+
+    // TODO: from pagination, derive all links...
+    let pagination = titles
+        .get("pagination")
+        .cloned()
+        .map(serde_json::from_value::<models::Pagination>)
+        .unwrap_or(Ok(models::Pagination {
+            has_next: false,
+            has_prev: false,
+            items_current: 0,
+            items_total: 0,
+            limit: 0,
+            page_current: 0,
+            page_total: 0,
+        }))
+        .unwrap();
+    println!("{:#?}", pagination);
 
     let all_genres: Vec<models::Genre> =
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
@@ -105,9 +149,6 @@ pub async fn all(
             }
         })
         .collect::<Vec<models::Filter>>();
-
-    let link = utils::derive_link("/titles", vec![qp_genres, qp_languages, qp_formats]);
-    let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

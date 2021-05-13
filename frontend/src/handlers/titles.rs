@@ -21,29 +21,14 @@ pub async fn all(
     let set_languages = utils::ids_set(filter_qs.clone().languages);
     let set_formats = utils::ids_set(filter_qs.clone().formats);
 
-    let languages_qs: String = utils::ids_comma_joiner(&set_languages);
-    let genres_qs: String = utils::ids_comma_joiner(&set_genres);
-    let formats_qs: String = utils::ids_comma_joiner(&set_formats);
+    let qs_languages: String = utils::ids_comma_joiner("languages", &set_languages);
+    let qs_genres: String = utils::ids_comma_joiner("genres", &set_genres);
+    let qs_formats: String = utils::ids_comma_joiner("formats", &set_formats);
 
     let all_languages: Vec<models::Language> =
         serde_json::from_value(languages["data"].clone()).unwrap();
     let all_genres: Vec<models::Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
     let all_formats: Vec<models::Format> = serde_json::from_value(formats["data"].clone()).unwrap();
-
-    let qs_genres = match genres_qs.len() {
-        0 => "".to_string(),
-        _ => format!("genres={}", genres_qs),
-    };
-
-    let qs_languages = match languages_qs.len() {
-        0 => "".to_string(),
-        _ => format!("languages={}", languages_qs),
-    };
-
-    let qs_formats = match formats_qs.len() {
-        0 => "".to_string(),
-        _ => format!("formats={}", formats_qs),
-    };
 
     let filter_genres = all_genres
         .iter()
@@ -57,12 +42,7 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_values = utils::ids_comma_joiner(&set);
-            let qs_genres = match qs_values.len() {
-                0 => "".to_string(),
-                _ => format!("genres={}", qs_values),
-            };
-
+            let qs_genres = utils::ids_comma_joiner("genres", &set);
             let qs = utils::derive_qs(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
             let link = format!("/titles{}", qs);
 
@@ -88,12 +68,7 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_values = utils::ids_comma_joiner(&set);
-            let qs_languages = match qs_values.len() {
-                0 => "".to_string(),
-                _ => format!("languages={}", qs_values),
-            };
-
+            let qs_languages = utils::ids_comma_joiner("languages", &set);
             let qs = utils::derive_qs(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
             let link = format!("/titles{}", qs);
 
@@ -119,12 +94,7 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_values = utils::ids_comma_joiner(&set);
-            let qs_formats = match qs_values.len() {
-                0 => "".to_string(),
-                _ => format!("formats={}", qs_values),
-            };
-
+            let qs_formats = utils::ids_comma_joiner("formats", &set);
             let qs = utils::derive_qs(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
             let link = format!("/titles{}", qs);
 

@@ -28,13 +28,22 @@ fn set_to_vec(set: &HashSet<i64>) -> Vec<i64> {
     set.clone().into_iter().collect()
 }
 
-pub fn ids_comma_joiner(set: &HashSet<i64>) -> String {
+pub fn ids_comma_joiner(
+    query_attr: &str,
+    set: &HashSet<i64>,
+) -> String {
     let mut ids: Vec<i64> = set_to_vec(&set);
     ids.sort();
-    ids.iter()
+    let ids_string = ids
+        .iter()
         .map(|id| id.to_string())
         .collect::<Vec<String>>()
-        .join(",")
+        .join(",");
+
+    match ids_string.len() {
+        0 => "".to_string(),
+        _ => format!("{}={}", query_attr, ids_string),
+    }
 }
 
 pub fn ids_set(s: Option<String>) -> HashSet<i64> {

@@ -53,8 +53,13 @@ pub async fn all(
 
     let pages: Vec<models::Page> = (0..pagination.page_total)
         .map(|v| {
-            let qp_limit = format!("limit={}", pagination.limit);
-            let qp_offset = format!("offset={}", v * pagination.limit);
+            let mut qp_limit = "".to_string();
+            let mut qp_offset = "".to_string();
+
+            if v > 0 {
+                qp_limit = format!("limit={}", pagination.limit);
+                qp_offset = format!("offset={}", v * pagination.limit);
+            }
 
             let link = utils::derive_link(
                 "/titles",

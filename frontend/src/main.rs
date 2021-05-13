@@ -24,7 +24,7 @@ async fn main() -> io::Result<()> {
     let handlebars_ref = web::Data::new(handlebars);
 
     let client = Client::builder().build().unwrap();
-    let endpoints = models::types::Endpoints::new();
+    let endpoints = models::Endpoints::new();
 
     HttpServer::new(move || {
         App::new()

@@ -6,7 +6,7 @@ use reqwest::blocking::Client;
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
-    endpoints: web::Data<models::types::Endpoints>,
+    endpoints: web::Data<models::Endpoints>,
 ) -> Result<HttpResponse, errors::MyError> {
     let res = utils::fetch(endpoints.backend_url("languages"), &client)?;
     let data = serde_json::json!({

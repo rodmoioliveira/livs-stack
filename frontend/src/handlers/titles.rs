@@ -2,7 +2,6 @@ use crate::{errors, models, querystrings, utils};
 use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
-use std::collections::HashSet;
 
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
@@ -47,11 +46,7 @@ pub async fn all(
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
-
-            let mut s = HashSet::new();
-            s.insert(id);
-            let set: HashSet<i64> = set_genres.symmetric_difference(&s).cloned().collect();
-
+            let set = utils::get_sym_diff(id, &set_genres);
             let qp_genres = utils::derive_query_params("genres", &set);
             let link = utils::derive_link(
                 "/titles",
@@ -72,11 +67,7 @@ pub async fn all(
         .iter()
         .map(|language| {
             let id = language.id.unwrap();
-
-            let mut s = HashSet::new();
-            s.insert(id);
-            let set: HashSet<i64> = set_languages.symmetric_difference(&s).cloned().collect();
-
+            let set = utils::get_sym_diff(id, &set_languages);
             let qp_languages = utils::derive_query_params("languages", &set);
             let link = utils::derive_link(
                 "/titles",
@@ -97,11 +88,7 @@ pub async fn all(
         .iter()
         .map(|format| {
             let id = format.id.unwrap();
-
-            let mut s = HashSet::new();
-            s.insert(id);
-            let set: HashSet<i64> = set_formats.symmetric_difference(&s).cloned().collect();
-
+            let set = utils::get_sym_diff(id, &set_formats);
             let qp_formats = utils::derive_query_params("formats", &set);
             let link = utils::derive_link(
                 "/titles",

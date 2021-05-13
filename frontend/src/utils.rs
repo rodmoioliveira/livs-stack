@@ -56,3 +56,12 @@ pub fn ids_set(s: Option<String>) -> HashSet<i64> {
         .filter(|id| id != &0_i64)
         .collect::<HashSet<i64>>()
 }
+
+pub fn get_sym_diff(
+    id: i64,
+    set: &HashSet<i64>,
+) -> HashSet<i64> {
+    let mut s = HashSet::new();
+    s.insert(id);
+    set.symmetric_difference(&s).cloned().collect()
+}

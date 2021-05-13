@@ -2,7 +2,6 @@ use crate::{errors, models, utils};
 use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
-use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
 fn derive_query(v: Vec<String>) -> String {
@@ -36,46 +35,11 @@ fn ids_set(s: Option<String>) -> HashSet<i64> {
 }
 
 // TODO: MUST REFACTOR THIS WHOLE FILE!
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Filters {
-    pub formats: Option<String>,
-    pub genres: Option<String>,
-    pub languages: Option<String>,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Filter {
-    pub id: i64,
-    pub name: String,
-    pub selected: bool,
-    pub value: String,
-    pub link: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Genre {
-    pub id: Option<i64>,
-    pub genre: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Language {
-    pub id: Option<i64>,
-    pub language: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Format {
-    pub id: Option<i64>,
-    pub format: String,
-}
-
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
     endpoints: web::Data<models::Endpoints>,
-    web::Query(filter_qs): web::Query<Filters>,
+    web::Query(filter_qs): web::Query<models::Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
     let genres = utils::fetch(endpoints.backend_url("genres?order_by=genre"), &client)?;
     let languages = utils::fetch(
@@ -92,9 +56,10 @@ pub async fn all(
     let genres_qs: String = ids_comma_joiner(&set_genres);
     let formats_qs: String = ids_comma_joiner(&set_formats);
 
-    let all_languages: Vec<Language> = serde_json::from_value(languages["data"].clone()).unwrap();
-    let all_genres: Vec<Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
-    let all_formats: Vec<Format> = serde_json::from_value(formats["data"].clone()).unwrap();
+    let all_languages: Vec<models::Language> =
+        serde_json::from_value(languages["data"].clone()).unwrap();
+    let all_genres: Vec<models::Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
+    let all_formats: Vec<models::Format> = serde_json::from_value(formats["data"].clone()).unwrap();
 
     let qs_genres = match set_genres.len() {
         0 => "".to_string(),
@@ -132,7 +97,7 @@ pub async fn all(
             let queries = derive_query(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
-            Filter {
+            models::Filter {
                 id,
                 name: "genre".to_string(),
                 selected,
@@ -140,7 +105,7 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::Filter>>();
 
     let filter_languages = all_languages
         .iter()
@@ -163,7 +128,7 @@ pub async fn all(
             let queries = derive_query(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
-            Filter {
+            models::Filter {
                 id,
                 name: "language".to_string(),
                 selected,
@@ -171,7 +136,7 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::Filter>>();
 
     let filter_formats = all_formats
         .iter()
@@ -194,7 +159,7 @@ pub async fn all(
             let queries = derive_query(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
             let link = format!("/titles{}", queries);
 
-            Filter {
+            models::Filter {
                 id,
                 name: "format".to_string(),
                 selected,
@@ -202,7 +167,7 @@ pub async fn all(
                 link,
             }
         })
-        .collect::<Vec<Filter>>();
+        .collect::<Vec<models::Filter>>();
 
     let queries = derive_query(vec![qs_genres, qs_languages, qs_formats]);
     let link = format!("titles{}", queries);

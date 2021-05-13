@@ -1,4 +1,39 @@
+use serde::{Deserialize, Serialize};
 use std::env;
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Filters {
+    pub formats: Option<String>,
+    pub genres: Option<String>,
+    pub languages: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Filter {
+    pub id: i64,
+    pub name: String,
+    pub selected: bool,
+    pub value: String,
+    pub link: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Genre {
+    pub id: Option<i64>,
+    pub genre: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Language {
+    pub id: Option<i64>,
+    pub language: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Format {
+    pub id: Option<i64>,
+    pub format: String,
+}
 
 #[derive(Debug, Clone)]
 pub struct Endpoints {

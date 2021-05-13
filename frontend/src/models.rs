@@ -2,13 +2,6 @@ use serde::{Deserialize, Serialize};
 use std::env;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct Filters {
-    pub formats: Option<String>,
-    pub genres: Option<String>,
-    pub languages: Option<String>,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Filter {
     pub id: i64,
     pub name: String,

@@ -1,4 +1,4 @@
-use crate::{errors, models, utils};
+use crate::{errors, models, querystrings, utils};
 use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
@@ -8,7 +8,7 @@ pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
     endpoints: web::Data<models::Endpoints>,
-    web::Query(filter_qs): web::Query<models::Filters>,
+    web::Query(filter_qs): web::Query<querystrings::Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
     let genres = utils::fetch(endpoints.backend_url("genres?order_by=genre"), &client)?;
     let languages = utils::fetch(

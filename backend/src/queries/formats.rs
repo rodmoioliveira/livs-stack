@@ -23,13 +23,13 @@ pub async fn all(
         .unwrap_or(&models::db::Count { count: 0 })
         .count;
 
+    let offset = order_by_qs.offset.unwrap_or(0);
     let limit = order_by_qs.limit.unwrap_or(count);
     if count == 0 || limit == 0 {
         return Ok((vec![], count));
     };
 
-    utils::handle_bad_pagination(count, &order_by_qs)?;
-    utils::handle_bad_offset(count, &order_by_qs)?;
+    utils::handle_pagination(count, offset, limit)?;
 
     let result: Vec<models::db::Format> =
         serde_postgres::from_rows(&rows).map_err(errors::MyError::PGSerdeError)?;

@@ -30,17 +30,17 @@ pub async fn all(
     let all_genres: Vec<models::Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
     let all_formats: Vec<models::Format> = serde_json::from_value(formats["data"].clone()).unwrap();
 
-    let qs_genres = match set_genres.len() {
+    let qs_genres = match genres_qs.len() {
         0 => "".to_string(),
         _ => format!("genres={}", genres_qs),
     };
 
-    let qs_languages = match set_languages.len() {
+    let qs_languages = match languages_qs.len() {
         0 => "".to_string(),
         _ => format!("languages={}", languages_qs),
     };
 
-    let qs_formats = match set_formats.len() {
+    let qs_formats = match formats_qs.len() {
         0 => "".to_string(),
         _ => format!("formats={}", formats_qs),
     };

@@ -2,37 +2,6 @@ use crate::{errors, models, utils};
 use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
-use std::collections::HashSet;
-
-fn derive_query(v: Vec<String>) -> String {
-    let mut q = v.into_iter().filter(|q| *q != "").collect::<Vec<String>>();
-    q.sort();
-    let q = q.join("&");
-    let question_mark = if q.len() == 0 { "" } else { "?" };
-
-    format!("{}{}", question_mark, q)
-}
-
-fn set_to_vec(set: &HashSet<i64>) -> Vec<i64> {
-    set.clone().into_iter().collect()
-}
-
-fn ids_comma_joiner(set: &HashSet<i64>) -> String {
-    let mut ids: Vec<i64> = set_to_vec(&set);
-    ids.sort();
-    ids.iter()
-        .map(|id| id.to_string())
-        .collect::<Vec<String>>()
-        .join(",")
-}
-
-fn ids_set(s: Option<String>) -> HashSet<i64> {
-    s.unwrap_or("0".to_string())
-        .split(",")
-        .map(|s| s.parse::<i64>().unwrap())
-        .filter(|id| id != &0_i64)
-        .collect::<HashSet<i64>>()
-}
 
 // TODO: MUST REFACTOR THIS WHOLE FILE!
 pub async fn all(
@@ -48,13 +17,13 @@ pub async fn all(
     )?;
     let formats = utils::fetch(endpoints.backend_url("formats?order_by=format"), &client)?;
 
-    let set_genres = ids_set(filter_qs.clone().genres);
-    let set_languages = ids_set(filter_qs.clone().languages);
-    let set_formats = ids_set(filter_qs.clone().formats);
+    let set_genres = utils::ids_set(filter_qs.clone().genres);
+    let set_languages = utils::ids_set(filter_qs.clone().languages);
+    let set_formats = utils::ids_set(filter_qs.clone().formats);
 
-    let languages_qs: String = ids_comma_joiner(&set_languages);
-    let genres_qs: String = ids_comma_joiner(&set_genres);
-    let formats_qs: String = ids_comma_joiner(&set_formats);
+    let languages_qs: String = utils::ids_comma_joiner(&set_languages);
+    let genres_qs: String = utils::ids_comma_joiner(&set_genres);
+    let formats_qs: String = utils::ids_comma_joiner(&set_formats);
 
     let all_languages: Vec<models::Language> =
         serde_json::from_value(languages["data"].clone()).unwrap();
@@ -88,13 +57,14 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_values = ids_comma_joiner(&set);
+            let qs_values = utils::ids_comma_joiner(&set);
             let qs_genres = match qs_values.len() {
                 0 => "".to_string(),
                 _ => format!("genres={}", qs_values),
             };
 
-            let queries = derive_query(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
+            let queries =
+                utils::derive_query(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
             models::Filter {
@@ -119,13 +89,14 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_values = ids_comma_joiner(&set);
+            let qs_values = utils::ids_comma_joiner(&set);
             let qs_languages = match qs_values.len() {
                 0 => "".to_string(),
                 _ => format!("languages={}", qs_values),
             };
 
-            let queries = derive_query(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
+            let queries =
+                utils::derive_query(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
             let link = format!("/titles{}", queries);
 
             models::Filter {
@@ -150,13 +121,14 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_values = ids_comma_joiner(&set);
+            let qs_values = utils::ids_comma_joiner(&set);
             let qs_formats = match qs_values.len() {
                 0 => "".to_string(),
                 _ => format!("formats={}", qs_values),
             };
 
-            let queries = derive_query(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
+            let queries =
+                utils::derive_query(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
             let link = format!("/titles{}", queries);
 
             models::Filter {
@@ -169,7 +141,7 @@ pub async fn all(
         })
         .collect::<Vec<models::Filter>>();
 
-    let queries = derive_query(vec![qs_genres, qs_languages, qs_formats]);
+    let queries = utils::derive_query(vec![qs_genres, qs_languages, qs_formats]);
     let link = format!("titles{}", queries);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 

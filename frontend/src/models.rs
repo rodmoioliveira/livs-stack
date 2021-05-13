@@ -1,6 +1,17 @@
 use serde::{Deserialize, Serialize};
 use std::env;
 
+#[derive(Debug, Deserialize, Serialize, PartialEq)]
+pub struct Pagination {
+    pub has_next: bool,
+    pub has_prev: bool,
+    pub items_current: i64,
+    pub items_total: i64,
+    pub limit: i64,
+    pub page_current: i64,
+    pub page_total: i64,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Filter {
     pub id: i64,

@@ -7,8 +7,8 @@ pub async fn all(
     db_pool: web::Data<Pool>,
 ) -> Result<HttpResponse, errors::MyError> {
     let client: Client = db_pool.get().await.map_err(errors::MyError::PoolError)?;
-    let (result, count) = queries::languages::all(&client, order_by_qs.clone()).await?;
-    let pagination = utils::get_pagination(order_by_qs, count, result.len() as i64)?;
+    let (result, count) = queries::languages::all(&client, &order_by_qs).await?;
+    let pagination = utils::get_pagination(&order_by_qs, count, result.len() as i64)?;
 
     Ok(
         HttpResponse::Ok().json(models::response::DataWithPagination::new(

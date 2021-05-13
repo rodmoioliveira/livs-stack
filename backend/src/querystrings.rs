@@ -14,13 +14,14 @@ pub struct Order {
 }
 
 impl Order {
-    pub fn to_sql(self) -> String {
+    pub fn to_sql(&self) -> String {
         let limit = match self.limit {
             Some(value) => format!("{}", value),
             None => "NULL".to_string(),
         };
         let offset = self.offset.unwrap_or(0);
         let order: String = self
+            .clone()
             .order_by
             .unwrap_or("id".to_string())
             .split(",")
@@ -48,10 +49,11 @@ pub struct Filters {
 }
 
 impl Filters {
-    pub fn to_sql(self) -> String {
+    pub fn to_sql(&self) -> String {
         let mut filters: Vec<String> = vec![];
+        let copy = self.clone();
 
-        match self.formats {
+        match copy.formats {
             Some(value) => {
                 let formats = value
                     .split(",")
@@ -62,11 +64,11 @@ impl Filters {
             }
             None => (),
         };
-        match self.genres {
+        match copy.genres {
             Some(value) => filters.push(format!("genre IN ({})", value)),
             None => (),
         };
-        match self.languages {
+        match copy.languages {
             Some(value) => filters.push(format!("language IN ({})", value)),
             None => (),
         };

@@ -22,7 +22,7 @@ pub fn handle_pagination(
 }
 
 pub fn get_pagination(
-    order_by_qs: querystrings::Order,
+    order_by_qs: &querystrings::Order,
     count: i64,
     items_current: i64,
 ) -> Result<models::db::Pagination, errors::MyError> {
@@ -132,7 +132,7 @@ mod test {
 
         let _results: Vec<models::db::Pagination> = _qs
             .into_iter()
-            .map(|args| get_pagination(args.0, args.1, args.2).unwrap())
+            .map(|args| get_pagination(&args.0, args.1, args.2).unwrap())
             .collect();
 
         _results.iter().zip(_anwsers.iter()).for_each(|a| {

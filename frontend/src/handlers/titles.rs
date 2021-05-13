@@ -44,7 +44,6 @@ pub async fn all(
     );
     let titles = utils::fetch(endpoints.backend_url(&titles_link), &client)?;
 
-    // TODO: from pagination, derive all links...
     let pagination = titles
         .get("pagination")
         .cloned()
@@ -59,7 +58,28 @@ pub async fn all(
             page_total: 0,
         }))
         .unwrap();
-    println!("{:#?}", pagination);
+
+    let pages: Vec<models::Page> = (0..pagination.page_total)
+        .map(|v| {
+            let qp_limit = format!("limit={}", pagination.limit);
+            let qp_offset = format!("offset={}", v * pagination.limit);
+
+            let link = utils::derive_link(
+                "/titles",
+                vec![
+                    qp_formats.clone(),
+                    qp_genres.clone(),
+                    qp_languages.clone(),
+                    qp_limit,
+                    qp_offset,
+                ],
+            );
+            models::Page {
+                number: v + 1,
+                link,
+            }
+        })
+        .collect();
 
     let all_genres: Vec<models::Genre> =
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
@@ -152,9 +172,10 @@ pub async fn all(
 
     let data = serde_json::json!({
         "assets": endpoints.assets,
+        "formats": serde_json::json!(filter_formats),
         "genres": serde_json::json!(filter_genres),
         "languages": serde_json::json!(filter_languages),
-        "formats": serde_json::json!(filter_formats),
+        "pages": serde_json::json!(pages),
         "titles": titles["data"],
     });
 

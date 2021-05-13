@@ -13,6 +13,12 @@ pub struct Pagination {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Page {
+    pub number: i64,
+    pub link: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Filter {
     pub id: i64,
     pub name: String,

@@ -1,4 +1,16 @@
 <section class="display">
+  <nav>
+    <ul>
+      {{#each pages}}
+      <li>
+        <a href="{{ link }}">
+          {{ number }}
+        </a>
+      </li>
+      {{/each}}
+    </ul>
+  </nav>
+
   <ul>
     {{#each titles}}
     <li>

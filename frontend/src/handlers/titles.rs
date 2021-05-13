@@ -74,7 +74,7 @@ pub struct Format {
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
-    endpoints: web::Data<models::types::Endpoints>,
+    endpoints: web::Data<models::Endpoints>,
     web::Query(filter_qs): web::Query<Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
     let genres = utils::fetch(endpoints.backend_url("genres?order_by=genre"), &client)?;

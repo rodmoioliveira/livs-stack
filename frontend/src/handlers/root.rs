@@ -4,7 +4,7 @@ use handlebars::Handlebars;
 
 pub async fn index(
     hb: web::Data<Handlebars<'_>>,
-    endpoints: web::Data<models::types::Endpoints>,
+    endpoints: web::Data<models::Endpoints>,
 ) -> Result<HttpResponse, errors::MyError> {
     let data = serde_json::json!({
         "assets": endpoints.assets,

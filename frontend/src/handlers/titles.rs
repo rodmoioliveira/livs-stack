@@ -10,6 +10,14 @@ pub async fn all(
     endpoints: web::Data<models::Endpoints>,
     web::Query(filter_qs): web::Query<querystrings::Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
+    let set_genres = utils::ids_set(filter_qs.clone().genres);
+    let set_languages = utils::ids_set(filter_qs.clone().languages);
+    let set_formats = utils::ids_set(filter_qs.clone().formats);
+
+    let qs_languages: String = utils::ids_comma_joiner("languages", &set_languages);
+    let qs_genres: String = utils::ids_comma_joiner("genres", &set_genres);
+    let qs_formats: String = utils::ids_comma_joiner("formats", &set_formats);
+
     let all_genres: Vec<models::Genre> = serde_json::from_value(
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
             .get("data")
@@ -34,14 +42,6 @@ pub async fn all(
             .unwrap(),
     )
     .unwrap();
-
-    let set_genres = utils::ids_set(filter_qs.clone().genres);
-    let set_languages = utils::ids_set(filter_qs.clone().languages);
-    let set_formats = utils::ids_set(filter_qs.clone().formats);
-
-    let qs_languages: String = utils::ids_comma_joiner("languages", &set_languages);
-    let qs_genres: String = utils::ids_comma_joiner("genres", &set_genres);
-    let qs_formats: String = utils::ids_comma_joiner("formats", &set_formats);
 
     let filter_genres = all_genres
         .iter()

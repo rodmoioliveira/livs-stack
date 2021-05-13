@@ -45,13 +45,13 @@ impl Endpoints {
         &self,
         route: &str,
     ) -> String {
-        format!("{}/{}", self.backend, route)
+        format!("{}{}", self.backend, route)
     }
 
     pub fn assets_url(
         &self,
         route: &str,
     ) -> String {
-        format!("{}/{}", self.assets, route)
+        format!("{}{}", self.assets, route)
     }
 }

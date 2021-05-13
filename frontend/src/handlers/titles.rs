@@ -48,15 +48,7 @@ pub async fn all(
         .get("pagination")
         .cloned()
         .map(serde_json::from_value::<models::Pagination>)
-        .unwrap_or(Ok(models::Pagination {
-            has_next: false,
-            has_prev: false,
-            items_current: 0,
-            items_total: 0,
-            limit: 0,
-            page_current: 0,
-            page_total: 0,
-        }))
+        .unwrap_or(Ok(models::Pagination::default()))
         .unwrap();
 
     let pages: Vec<models::Page> = (0..pagination.page_total)

@@ -12,6 +12,20 @@ pub struct Pagination {
     pub page_total: i64,
 }
 
+impl Pagination {
+    pub fn default() -> Self {
+        Pagination {
+            has_next: false,
+            has_prev: false,
+            items_current: 0,
+            items_total: 0,
+            limit: 0,
+            page_current: 0,
+            page_total: 0,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Page {
     pub number: i64,

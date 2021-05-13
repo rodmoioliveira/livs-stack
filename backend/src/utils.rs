@@ -30,15 +30,7 @@ pub fn get_pagination(
     let limit = order_by_qs.limit.unwrap_or(count);
 
     if limit == 0 {
-        return Ok(models::db::Pagination {
-            has_next: false,
-            has_prev: false,
-            items_current: 0,
-            items_total: 0,
-            limit: 0,
-            page_current: 0,
-            page_total: 0,
-        });
+        return Ok(models::db::Pagination::default());
     };
 
     let valid = offset % limit == 0;

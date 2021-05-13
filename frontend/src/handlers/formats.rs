@@ -8,7 +8,7 @@ pub async fn all(
     client: web::Data<Client>,
     endpoints: web::Data<models::Endpoints>,
 ) -> Result<HttpResponse, errors::MyError> {
-    let res = utils::fetch(endpoints.backend_url("formats"), &client)?;
+    let res = utils::fetch(endpoints.backend_url("/formats"), &client)?;
     let data = serde_json::json!({
         "assets": endpoints.assets,
         "formats": res["data"],

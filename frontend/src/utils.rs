@@ -15,13 +15,20 @@ pub fn fetch(
         .map_err(errors::MyError::ReqwestError)?)
 }
 
-pub fn derive_qs(v: Vec<String>) -> String {
-    let mut q = v.into_iter().filter(|q| *q != "").collect::<Vec<String>>();
+pub fn derive_link(
+    path: &str,
+    queries_ids: Vec<String>,
+) -> String {
+    let mut q = queries_ids
+        .into_iter()
+        .filter(|q| *q != "")
+        .collect::<Vec<String>>();
     q.sort();
     let q = q.join("&");
     let question_mark = if q.len() == 0 { "" } else { "?" };
 
-    format!("{}{}", question_mark, q)
+    let qs = format!("{}{}", question_mark, q);
+    format!("{}{}", path, qs)
 }
 
 fn set_to_vec(set: &HashSet<i64>) -> Vec<i64> {

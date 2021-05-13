@@ -10,12 +10,12 @@ pub async fn all(
     endpoints: web::Data<models::Endpoints>,
     web::Query(filter_qs): web::Query<querystrings::Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
-    let genres = utils::fetch(endpoints.backend_url("genres?order_by=genre"), &client)?;
+    let genres = utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?;
     let languages = utils::fetch(
-        endpoints.backend_url("languages?order_by=language"),
+        endpoints.backend_url("/languages?order_by=language"),
         &client,
     )?;
-    let formats = utils::fetch(endpoints.backend_url("formats?order_by=format"), &client)?;
+    let formats = utils::fetch(endpoints.backend_url("/formats?order_by=format"), &client)?;
 
     let set_genres = utils::ids_set(filter_qs.clone().genres);
     let set_languages = utils::ids_set(filter_qs.clone().languages);
@@ -43,8 +43,10 @@ pub async fn all(
             };
 
             let qs_genres = utils::ids_comma_joiner("genres", &set);
-            let qs = utils::derive_qs(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
-            let link = format!("/titles{}", qs);
+            let link = utils::derive_link(
+                "/titles",
+                vec![qs_genres, qs_languages.clone(), qs_formats.clone()],
+            );
 
             models::Filter {
                 id,
@@ -69,8 +71,10 @@ pub async fn all(
             };
 
             let qs_languages = utils::ids_comma_joiner("languages", &set);
-            let qs = utils::derive_qs(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
-            let link = format!("/titles{}", qs);
+            let link = utils::derive_link(
+                "/titles",
+                vec![qs_genres.clone(), qs_languages, qs_formats.clone()],
+            );
 
             models::Filter {
                 id,
@@ -95,8 +99,10 @@ pub async fn all(
             };
 
             let qs_formats = utils::ids_comma_joiner("formats", &set);
-            let qs = utils::derive_qs(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
-            let link = format!("/titles{}", qs);
+            let link = utils::derive_link(
+                "/titles",
+                vec![qs_genres.clone(), qs_languages.clone(), qs_formats],
+            );
 
             models::Filter {
                 id,
@@ -108,8 +114,7 @@ pub async fn all(
         })
         .collect::<Vec<models::Filter>>();
 
-    let qs = utils::derive_qs(vec![qs_genres, qs_languages, qs_formats]);
-    let link = format!("titles{}", qs);
+    let link = utils::derive_link("/titles", vec![qs_genres, qs_languages, qs_formats]);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
     let data = serde_json::json!({

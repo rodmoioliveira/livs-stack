@@ -10,12 +10,30 @@ pub async fn all(
     endpoints: web::Data<models::Endpoints>,
     web::Query(filter_qs): web::Query<querystrings::Filters>,
 ) -> Result<HttpResponse, errors::MyError> {
-    let genres = utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?;
-    let languages = utils::fetch(
-        endpoints.backend_url("/languages?order_by=language"),
-        &client,
-    )?;
-    let formats = utils::fetch(endpoints.backend_url("/formats?order_by=format"), &client)?;
+    let all_genres: Vec<models::Genre> = serde_json::from_value(
+        utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
+            .get("data")
+            .cloned()
+            .unwrap(),
+    )
+    .unwrap();
+    let all_languages: Vec<models::Language> = serde_json::from_value(
+        utils::fetch(
+            endpoints.backend_url("/languages?order_by=language"),
+            &client,
+        )?
+        .get("data")
+        .cloned()
+        .unwrap(),
+    )
+    .unwrap();
+    let all_formats: Vec<models::Format> = serde_json::from_value(
+        utils::fetch(endpoints.backend_url("/formats?order_by=format"), &client)?
+            .get("data")
+            .cloned()
+            .unwrap(),
+    )
+    .unwrap();
 
     let set_genres = utils::ids_set(filter_qs.clone().genres);
     let set_languages = utils::ids_set(filter_qs.clone().languages);
@@ -24,11 +42,6 @@ pub async fn all(
     let qs_languages: String = utils::ids_comma_joiner("languages", &set_languages);
     let qs_genres: String = utils::ids_comma_joiner("genres", &set_genres);
     let qs_formats: String = utils::ids_comma_joiner("formats", &set_formats);
-
-    let all_languages: Vec<models::Language> =
-        serde_json::from_value(languages["data"].clone()).unwrap();
-    let all_genres: Vec<models::Genre> = serde_json::from_value(genres["data"].clone()).unwrap();
-    let all_formats: Vec<models::Format> = serde_json::from_value(formats["data"].clone()).unwrap();
 
     let filter_genres = all_genres
         .iter()

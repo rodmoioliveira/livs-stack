@@ -21,8 +21,9 @@ pub async fn all(
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
             .get("data")
             .cloned()
-            .map(|v| serde_json::from_value(v).unwrap_or(vec![]))
-            .unwrap();
+            .map(serde_json::from_value)
+            .unwrap()
+            .unwrap_or(vec![]);
 
     let all_languages: Vec<models::Language> = utils::fetch(
         endpoints.backend_url("/languages?order_by=language"),
@@ -30,15 +31,17 @@ pub async fn all(
     )?
     .get("data")
     .cloned()
-    .map(|v| serde_json::from_value(v).unwrap_or(vec![]))
-    .unwrap();
+    .map(serde_json::from_value)
+    .unwrap()
+    .unwrap_or(vec![]);
 
     let all_formats: Vec<models::Format> =
         utils::fetch(endpoints.backend_url("/formats?order_by=format"), &client)?
             .get("data")
             .cloned()
-            .map(|v| serde_json::from_value(v).unwrap_or(vec![]))
-            .unwrap();
+            .map(serde_json::from_value)
+            .unwrap()
+            .unwrap_or(vec![]);
 
     let filter_genres = all_genres
         .iter()

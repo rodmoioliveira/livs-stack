@@ -63,9 +63,8 @@ pub async fn all(
                 _ => format!("genres={}", qs_values),
             };
 
-            let queries =
-                utils::derive_query(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
-            let link = format!("/titles{}", queries);
+            let qs = utils::derive_qs(vec![qs_genres, qs_languages.clone(), qs_formats.clone()]);
+            let link = format!("/titles{}", qs);
 
             models::Filter {
                 id,
@@ -95,9 +94,8 @@ pub async fn all(
                 _ => format!("languages={}", qs_values),
             };
 
-            let queries =
-                utils::derive_query(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
-            let link = format!("/titles{}", queries);
+            let qs = utils::derive_qs(vec![qs_genres.clone(), qs_languages, qs_formats.clone()]);
+            let link = format!("/titles{}", qs);
 
             models::Filter {
                 id,
@@ -127,9 +125,8 @@ pub async fn all(
                 _ => format!("formats={}", qs_values),
             };
 
-            let queries =
-                utils::derive_query(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
-            let link = format!("/titles{}", queries);
+            let qs = utils::derive_qs(vec![qs_genres.clone(), qs_languages.clone(), qs_formats]);
+            let link = format!("/titles{}", qs);
 
             models::Filter {
                 id,
@@ -141,8 +138,8 @@ pub async fn all(
         })
         .collect::<Vec<models::Filter>>();
 
-    let queries = utils::derive_query(vec![qs_genres, qs_languages, qs_formats]);
-    let link = format!("titles{}", queries);
+    let qs = utils::derive_qs(vec![qs_genres, qs_languages, qs_formats]);
+    let link = format!("titles{}", qs);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
     let data = serde_json::json!({

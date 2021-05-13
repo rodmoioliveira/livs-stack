@@ -15,7 +15,7 @@ pub fn fetch(
         .map_err(errors::MyError::ReqwestError)?)
 }
 
-pub fn derive_query(v: Vec<String>) -> String {
+pub fn derive_qs(v: Vec<String>) -> String {
     let mut q = v.into_iter().filter(|q| *q != "").collect::<Vec<String>>();
     q.sort();
     let q = q.join("&");

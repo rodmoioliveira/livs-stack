@@ -48,7 +48,6 @@ pub async fn all(
         .map(|genre| {
             let id = genre.id.unwrap();
 
-            let selected = set_genres.contains(&id);
             let mut s = HashSet::new();
             s.insert(id);
             let set: HashSet<i64> = set_genres.symmetric_difference(&s).cloned().collect();
@@ -62,7 +61,7 @@ pub async fn all(
             models::Filter {
                 id,
                 name: "genre".to_string(),
-                selected,
+                selected: !set.contains(&id),
                 value: genre.genre.clone(),
                 link,
             }
@@ -74,7 +73,6 @@ pub async fn all(
         .map(|language| {
             let id = language.id.unwrap();
 
-            let selected = set_languages.contains(&id);
             let mut s = HashSet::new();
             s.insert(id);
             let set: HashSet<i64> = set_languages.symmetric_difference(&s).cloned().collect();
@@ -88,7 +86,7 @@ pub async fn all(
             models::Filter {
                 id,
                 name: "language".to_string(),
-                selected,
+                selected: !set.contains(&id),
                 value: language.language.clone(),
                 link,
             }
@@ -100,7 +98,6 @@ pub async fn all(
         .map(|format| {
             let id = format.id.unwrap();
 
-            let selected = set_formats.contains(&id);
             let mut s = HashSet::new();
             s.insert(id);
             let set: HashSet<i64> = set_formats.symmetric_difference(&s).cloned().collect();
@@ -114,7 +111,7 @@ pub async fn all(
             models::Filter {
                 id,
                 name: "format".to_string(),
-                selected,
+                selected: !set.contains(&id),
                 value: format.format.clone(),
                 link,
             }

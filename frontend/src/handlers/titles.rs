@@ -14,9 +14,9 @@ pub async fn all(
     let set_languages = utils::ids_set(filter_qs.clone().languages);
     let set_formats = utils::ids_set(filter_qs.clone().formats);
 
-    let qs_languages: String = utils::ids_comma_joiner("languages", &set_languages);
-    let qs_genres: String = utils::ids_comma_joiner("genres", &set_genres);
-    let qs_formats: String = utils::ids_comma_joiner("formats", &set_formats);
+    let qp_languages: String = utils::derive_query_params("languages", &set_languages);
+    let qp_genres: String = utils::derive_query_params("genres", &set_genres);
+    let qp_formats: String = utils::derive_query_params("formats", &set_formats);
 
     let all_genres: Vec<models::Genre> = serde_json::from_value(
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
@@ -55,10 +55,10 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_genres = utils::ids_comma_joiner("genres", &set);
+            let qp_genres = utils::derive_query_params("genres", &set);
             let link = utils::derive_link(
                 "/titles",
-                vec![qs_genres, qs_languages.clone(), qs_formats.clone()],
+                vec![qp_genres, qp_languages.clone(), qp_formats.clone()],
             );
 
             models::Filter {
@@ -83,10 +83,10 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_languages = utils::ids_comma_joiner("languages", &set);
+            let qp_languages = utils::derive_query_params("languages", &set);
             let link = utils::derive_link(
                 "/titles",
-                vec![qs_genres.clone(), qs_languages, qs_formats.clone()],
+                vec![qp_genres.clone(), qp_languages, qp_formats.clone()],
             );
 
             models::Filter {
@@ -111,10 +111,10 @@ pub async fn all(
                 false => set.insert(id),
             };
 
-            let qs_formats = utils::ids_comma_joiner("formats", &set);
+            let qp_formats = utils::derive_query_params("formats", &set);
             let link = utils::derive_link(
                 "/titles",
-                vec![qs_genres.clone(), qs_languages.clone(), qs_formats],
+                vec![qp_genres.clone(), qp_languages.clone(), qp_formats],
             );
 
             models::Filter {
@@ -127,7 +127,7 @@ pub async fn all(
         })
         .collect::<Vec<models::Filter>>();
 
-    let link = utils::derive_link("/titles", vec![qs_genres, qs_languages, qs_formats]);
+    let link = utils::derive_link("/titles", vec![qp_genres, qp_languages, qp_formats]);
     let titles = utils::fetch(endpoints.backend_url(&link), &client)?;
 
     let data = serde_json::json!({

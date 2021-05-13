@@ -31,15 +31,11 @@ pub fn derive_link(
     format!("{}{}", path, qs)
 }
 
-fn set_to_vec(set: &HashSet<i64>) -> Vec<i64> {
-    set.clone().into_iter().collect()
-}
-
-pub fn ids_comma_joiner(
+pub fn derive_query_params(
     query_attr: &str,
     set: &HashSet<i64>,
 ) -> String {
-    let mut ids: Vec<i64> = set_to_vec(&set);
+    let mut ids: Vec<i64> = set.clone().into_iter().collect();
     ids.sort();
     let ids_string = ids
         .iter()

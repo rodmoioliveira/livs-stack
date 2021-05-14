@@ -18,7 +18,23 @@ DROP VIEW IF EXISTS genres_count;
 DROP VIEW IF EXISTS inventory_quantities;
 DROP VIEW IF EXISTS titles_info;
 
+DROP FUNCTION IF EXISTS random_between;
+
 BEGIN TRANSACTION;
+
+/*
+ * ===========================
+ * FUNCTIONS
+ * ===========================
+ */
+
+CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
+  RETURNS INT AS
+$$
+BEGIN
+  RETURN floor(random()* (high-low + 1) + low);
+END;
+$$ language 'plpgsql' STRICT;
 
 /*
  * ===========================
@@ -117,9 +133,36 @@ CREATE TABLE IF NOT EXISTS titles (
   year SMALLINT NOT NULL
 );
 
-COPY titles(id, isbn, author, edition, format, language, genre, pages, publisher, summary, title, year)
-FROM
-  '/csv/titles.csv' DELIMITER ',' CSV HEADER;
+INSERT INTO titles(
+  isbn,
+  author,
+  edition,
+  format,
+  language,
+  genre,
+  pages,
+  publisher,
+  summary,
+  title,
+  year
+)
+SELECT
+  LEFT(MD5(RANDOM()::text), 10),
+  random_between(1,50),
+  random_between(1,10),
+  random_between(1,10),
+  random_between(1,7),
+  random_between(1,32),
+  random_between(50,700),
+  random_between(1,44),
+  LEFT(MD5(RANDOM()::text), 1000),
+  LEFT(MD5(RANDOM()::text), 255),
+  random_between(1977,2021)
+FROM GENERATE_SERIES(1, 10000) s(i);
+
+/* COPY titles(id, isbn, author, edition, format, language, genre, pages, publisher, summary, title, year) */
+/* FROM */
+/*   '/csv/titles.csv' DELIMITER ',' CSV HEADER; */
 
 /*
  * ===========================

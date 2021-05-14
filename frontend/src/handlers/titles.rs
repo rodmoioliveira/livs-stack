@@ -109,7 +109,6 @@ pub async fn all(
             false => "".to_string(),
         },
         value: "prev".to_string(),
-        selected: false,
     };
 
     let next = models::PageControl {
@@ -135,7 +134,6 @@ pub async fn all(
             false => "".to_string(),
         },
         value: "next".to_string(),
-        selected: false,
     };
 
     let page_control_prev = vec![prev];

@@ -39,7 +39,6 @@ pub struct PageControl {
     pub active: bool,
     pub link: String,
     pub value: String,
-    pub selected: bool,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

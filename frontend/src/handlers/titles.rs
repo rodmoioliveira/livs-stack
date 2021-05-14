@@ -38,8 +38,8 @@ pub async fn all(
             qp_formats.clone(),
             qp_genres.clone(),
             qp_languages.clone(),
-            qp_limit.clone(),
-            qp_offset.clone(),
+            qp_limit,
+            qp_offset,
         ],
     );
     let titles = utils::fetch(endpoints.backend_url(&titles_link), &client)?;

@@ -71,8 +71,12 @@ pub async fn all(
                     qp_offset,
                 ],
             );
+
+            let page_number = v + 1;
+
             models::Page {
-                number: v + 1,
+                number: page_number,
+                selected: pagination.page_current == page_number,
                 link,
             }
         })

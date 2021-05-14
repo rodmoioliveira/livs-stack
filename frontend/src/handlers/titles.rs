@@ -30,7 +30,7 @@ pub async fn all(
         .map(utils::ids_set)
         .as_ref()
         .map(|value| utils::derive_query_params("limit", value))
-        .unwrap_or("limit=50".to_string());
+        .unwrap_or("limit=25".to_string());
 
     let titles_link = utils::derive_link(
         "/titles",

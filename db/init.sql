@@ -19,6 +19,7 @@ DROP VIEW IF EXISTS inventory_quantities;
 DROP VIEW IF EXISTS titles_info;
 
 DROP FUNCTION IF EXISTS random_between;
+DROP FUNCTION IF EXISTS random_text;
 
 BEGIN TRANSACTION;
 
@@ -28,6 +29,7 @@ BEGIN TRANSACTION;
  * ===========================
  */
 
+/* https://www.postgresqltutorial.com/postgresql-random-range/ */
 CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
   RETURNS INT AS
 $$
@@ -35,6 +37,20 @@ BEGIN
   RETURN floor(random()* (high-low + 1) + low);
 END;
 $$ language 'plpgsql' STRICT;
+
+/* https://www.simononsoftware.com/random-string-in-postgresql/ */
+CREATE OR REPLACE FUNCTION random_text(INTEGER)
+  RETURNS TEXT
+  LANGUAGE SQL AS
+$$
+SELECT UPPER(
+  SUBSTRING(
+    (SELECT string_agg(md5(random()::TEXT), '')
+      FROM generate_series(
+        1,
+        CEIL($1 / 32.)::integer)
+    ), 1, $1) );
+$$;
 
 /*
  * ===========================
@@ -155,8 +171,8 @@ SELECT
   random_between(1,32),
   random_between(50,700),
   random_between(1,44),
-  LEFT(MD5(RANDOM()::text), 1000),
-  LEFT(MD5(RANDOM()::text), 255),
+  random_text(500),
+  random_text(50),
   random_between(1977,2021)
 FROM GENERATE_SERIES(1, 10000) s(i);
 

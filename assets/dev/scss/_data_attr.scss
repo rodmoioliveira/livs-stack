@@ -12,3 +12,14 @@
 [data-page-active='false'] {
   pointer-events: none;
 }
+
+[data-control-active='false'] {
+  cursor: not-allowed;
+}
+
+[data-control-active='false'] > a {
+  border: 1px solid var(--fifth-color);
+  color: var(--fifth-color);
+  display: inline-block;
+  pointer-events: none;
+}

@@ -77,11 +77,69 @@ pub async fn all(
             models::Page {
                 active: pagination.page_current != page_number,
                 link,
-                number: page_number,
+                value: page_number.to_string(),
                 selected: pagination.page_current == page_number,
             }
         })
         .collect();
+
+    let prev = models::PageControl {
+        active: pagination.has_prev,
+        link: match pagination.has_prev {
+            true => {
+                let qp_limit = format!("limit={}", pagination.limit);
+                let qp_offset = format!(
+                    "offset={}",
+                    (pagination.page_current - 2) * pagination.limit
+                );
+
+                let link = utils::derive_link(
+                    "/titles",
+                    vec![
+                        qp_formats.clone(),
+                        qp_genres.clone(),
+                        qp_languages.clone(),
+                        qp_limit,
+                        qp_offset,
+                    ],
+                );
+
+                link
+            }
+            false => "".to_string(),
+        },
+        value: "prev".to_string(),
+        selected: false,
+    };
+
+    let next = models::PageControl {
+        active: pagination.has_next,
+        link: match pagination.has_next {
+            true => {
+                let qp_limit = format!("limit={}", pagination.limit);
+                let qp_offset = format!("offset={}", pagination.page_current * pagination.limit);
+
+                let link = utils::derive_link(
+                    "/titles",
+                    vec![
+                        qp_formats.clone(),
+                        qp_genres.clone(),
+                        qp_languages.clone(),
+                        qp_limit,
+                        qp_offset,
+                    ],
+                );
+
+                link
+            }
+            false => "".to_string(),
+        },
+        value: "next".to_string(),
+        selected: false,
+    };
+
+    let page_control_prev = vec![prev];
+    let page_control_next = vec![next];
 
     let all_genres: Vec<models::Genre> =
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?
@@ -177,6 +235,8 @@ pub async fn all(
         "formats": serde_json::json!(filter_formats),
         "genres": serde_json::json!(filter_genres),
         "languages": serde_json::json!(filter_languages),
+        "page_control_next": serde_json::json!(page_control_next),
+        "page_control_prev": serde_json::json!(page_control_prev),
         "pages": serde_json::json!(pages),
         "titles": titles["data"],
     });

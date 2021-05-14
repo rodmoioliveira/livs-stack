@@ -100,6 +100,7 @@ h5 {
   --second-color: #ce1212;
   --third-color: #810000;
   --fourth-color: #1b1717;
+  --fifth-color: #c4c4c4;
 }
 
 .header {
@@ -199,6 +200,17 @@ h5 {
 }
 
 [data-page-active=false] {
+  pointer-events: none;
+}
+
+[data-control-active=false] {
+  cursor: not-allowed;
+}
+
+[data-control-active=false] > a {
+  border: 1px solid var(--fifth-color);
+  color: var(--fifth-color);
+  display: inline-block;
   pointer-events: none;
 }
 

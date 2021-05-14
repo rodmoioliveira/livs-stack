@@ -175,6 +175,7 @@ h5 {
   padding: 0;
   display: flex;
   margin-left: 1em;
+  flex-wrap: wrap;
 }
 
 .pages__link {
@@ -195,6 +196,10 @@ h5 {
   color: var(--first-color);
   background: var(--third-color);
   font-weight: var(--fw-black);
+}
+
+[data-page-active=false] {
+  pointer-events: none;
 }
 
 .display {

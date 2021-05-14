@@ -75,9 +75,10 @@ pub async fn all(
             let page_number = v + 1;
 
             models::Page {
+                active: pagination.page_current != page_number,
+                link,
                 number: page_number,
                 selected: pagination.page_current == page_number,
-                link,
             }
         })
         .collect();

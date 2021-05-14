@@ -1,14 +1,39 @@
 <nav class="pages__nav">
   <ul class="pages__list">
+    {{#each page_control_prev}}
+    <li class="pages__item" data-control-active="{{ active }}">
+      <a
+        class="pages__link"
+        href="{{ link }}"
+        title="Previous Page"
+        data-page-selected="{{ selected }}"
+      >
+        {{ value }}
+      </a>
+    </li>
+    {{/each}}
     {{#each pages}}
     <li class="pages__item">
       <a
         class="pages__link"
         href="{{ link }}"
+        title="Page {{ value }}"
         data-page-active="{{ active }}"
         data-page-selected="{{ selected }}"
       >
-        {{ number }}
+        {{ value }}
+      </a>
+    </li>
+    {{/each}}
+    {{#each page_control_next}}
+    <li class="pages__item" data-control-active="{{ active }}">
+      <a
+        class="pages__link"
+        href="{{ link }}"
+        title="Next Page"
+        data-page-selected="{{ selected }}"
+      >
+        {{ value }}
       </a>
     </li>
     {{/each}}

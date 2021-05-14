@@ -1,0 +1,22 @@
+.pages__nav {
+  font-size: 0.8em;
+}
+
+.pages__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  margin-left: 1em;
+  // justify-content: center;
+}
+
+// .pages__item {}
+
+.pages__link {
+  text-decoration: none;
+  color: var(--fourth-color);
+  padding: 0.5em 1em;
+  margin: 1em 0.2em;
+  display: block;
+  border: 1px solid var(--fourth-color);
+}

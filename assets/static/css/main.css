@@ -166,9 +166,39 @@ h5 {
   color: var(--fourth-color);
 }
 
-[data-selected=true] {
+.pages__nav {
+  font-size: 0.8em;
+}
+
+.pages__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  margin-left: 1em;
+}
+
+.pages__link {
+  text-decoration: none;
+  color: var(--fourth-color);
+  padding: 0.5em 1em;
+  margin: 1em 0.2em;
+  display: block;
+  border: 1px solid var(--fourth-color);
+}
+
+[data-filter-selected=true] {
   color: var(--third-color);
   font-weight: var(--fw-black);
+}
+
+[data-page-selected=true] {
+  color: var(--first-color);
+  background: var(--third-color);
+  font-weight: var(--fw-black);
+}
+
+.display {
+  flex: 1;
 }
 
 html {

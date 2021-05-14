@@ -1,0 +1,10 @@
+[data-filter-selected='true'] {
+  color: var(--third-color);
+  font-weight: var(--fw-black);
+}
+
+[data-page-selected='true'] {
+  color: var(--first-color);
+  background: var(--third-color);
+  font-weight: var(--fw-black);
+}

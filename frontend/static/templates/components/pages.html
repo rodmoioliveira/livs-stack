@@ -1,0 +1,15 @@
+<nav class="pages__nav">
+  <ul class="pages__list">
+    {{#each pages}}
+    <li class="pages__item">
+      <a
+        class="pages__link"
+        href="{{ link }}"
+        data-page-selected="{{ selected }}"
+      >
+        {{ number }}
+      </a>
+    </li>
+    {{/each}}
+  </ul>
+</nav>

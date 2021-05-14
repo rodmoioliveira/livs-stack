@@ -1,26 +1,12 @@
-<section class="display">
-  <nav>
-    <ul>
-      {{#each pages}}
-      <li>
-        <a href="{{ link }}" data-selected="{{ selected }}">
-          {{ number }}
-        </a>
-      </li>
-      {{/each}}
-    </ul>
-  </nav>
-
-  <ul>
-    {{#each titles}}
-    <li>
-      <p>id: {{ id }}</p>
-      <p>isbn: {{ isbn }}</p>
-      <p>Title: {{ title }}</p>
-      <p>Format: {{ format }}</p>
-      <p>Language: {{ language }}</p>
-      <p>Genre: {{ genre }}</p>
-    </li>
-    {{/each}}
-  </ul>
-</section>
+<ul>
+  {{#each titles}}
+  <li>
+    <p>id: {{ id }}</p>
+    <p>isbn: {{ isbn }}</p>
+    <p>Title: {{ title }}</p>
+    <p>Format: {{ format }}</p>
+    <p>Language: {{ language }}</p>
+    <p>Genre: {{ genre }}</p>
+  </li>
+  {{/each}}
+</ul>

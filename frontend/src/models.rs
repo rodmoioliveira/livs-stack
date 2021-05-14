@@ -29,6 +29,7 @@ impl Pagination {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Page {
     pub number: i64,
+    pub selected: bool,
     pub link: String,
 }
 

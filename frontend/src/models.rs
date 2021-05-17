@@ -26,6 +26,7 @@ impl Pagination {
     }
 }
 
+// TODO: review necessity of fields in this struct...
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Page {
     pub active: bool,

@@ -49,6 +49,22 @@ pub fn derive_query_params(
     }
 }
 
+pub fn derive_limit_offset(
+    predicate: bool,
+    limit: i64,
+    offset: i64,
+) -> (String, String) {
+    let mut qp_limit = "".to_string();
+    let mut qp_offset = "".to_string();
+
+    if predicate {
+        qp_limit = format!("limit={}", limit);
+        qp_offset = format!("offset={}", offset);
+    }
+
+    (qp_limit, qp_offset)
+}
+
 pub fn ids_set(s: Option<String>) -> HashSet<i64> {
     s.unwrap_or("0".to_string())
         .split(",")

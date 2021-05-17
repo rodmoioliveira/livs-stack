@@ -53,13 +53,8 @@ pub async fn all(
 
     let pages: Vec<models::Page> = (0..pagination.page_total)
         .map(|v| {
-            let mut qp_limit = "".to_string();
-            let mut qp_offset = "".to_string();
-
-            if v > 0 {
-                qp_limit = format!("limit={}", pagination.limit);
-                qp_offset = format!("offset={}", v * pagination.limit);
-            }
+            let (qp_limit, qp_offset) =
+                utils::derive_limit_offset(v > 0, pagination.limit, v * pagination.limit);
 
             let link = utils::derive_link(
                 "/titles",
@@ -142,10 +137,10 @@ pub async fn all(
         active: pagination.has_prev,
         link: match pagination.has_prev {
             true => {
-                let qp_limit = format!("limit={}", pagination.limit);
-                let qp_offset = format!(
-                    "offset={}",
-                    (pagination.page_current - 2) * pagination.limit
+                let (qp_limit, qp_offset) = utils::derive_limit_offset(
+                    pagination.page_current != 2,
+                    pagination.limit,
+                    (pagination.page_current - 2) * pagination.limit,
                 );
 
                 let link = utils::derive_link(
@@ -170,8 +165,11 @@ pub async fn all(
         active: pagination.has_next,
         link: match pagination.has_next {
             true => {
-                let qp_limit = format!("limit={}", pagination.limit);
-                let qp_offset = format!("offset={}", pagination.page_current * pagination.limit);
+                let (qp_limit, qp_offset) = utils::derive_limit_offset(
+                    true,
+                    pagination.limit,
+                    pagination.page_current * pagination.limit,
+                );
 
                 let link = utils::derive_link(
                     "/titles",

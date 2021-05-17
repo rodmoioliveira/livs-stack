@@ -79,24 +79,26 @@ pub async fn all(
         })
         .collect();
 
-    let mut copy: Vec<models::Page> = pages.clone();
-    let _first = copy.remove(0);
-    let _last = copy.pop().unwrap();
-    let test: Vec<models::Page> = copy
+    let mut pages_copy: Vec<models::Page> = pages.clone();
+    let _first = pages_copy.remove(0);
+    let _last = pages_copy.pop().unwrap();
+
+    let inner_pages: Vec<models::Page> = pages_copy
         .iter()
         .cloned()
         .filter(|p| {
             let is_edge =
                 pagination.page_current < 5 || pagination.page_current > pagination.page_total - 4;
             let offset_range = if is_edge { 4 } else { 3 };
+
             p.number > pagination.page_current - offset_range
                 && p.number < pagination.page_current + offset_range
         })
         .collect();
 
-    let mut test_copy = test.clone();
-    let _first_2 = test_copy.remove(0);
-    let _last_2 = test_copy.pop().unwrap();
+    let mut inner_pages_copy = inner_pages.clone();
+    let _first_2 = inner_pages_copy.remove(0);
+    let _last_2 = inner_pages_copy.pop().unwrap();
 
     let first_ellipsis: Vec<models::Page> = if _first_2.number - _first.number > 1 {
         vec![models::Page {
@@ -124,14 +126,13 @@ pub async fn all(
     let result: Vec<models::Page> = vec![
         vec![_first],
         first_ellipsis,
-        test,
+        inner_pages,
         second_ellipsis,
         vec![_last],
     ]
     .into_iter()
     .flatten()
     .collect();
-    println!("{:?}", result);
 
     let prev = models::PageControl {
         active: pagination.has_prev,

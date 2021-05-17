@@ -3,6 +3,126 @@ use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
 
+pub fn derive_pages(
+    items_total: i64,
+    limit: i64,
+    page_current: i64,
+    page_total: i64,
+    qps: Vec<String>,
+) -> Vec<models::Page> {
+    let mut pages: Vec<models::Page> = (0..page_total)
+        .map(|v| {
+            let (qp_limit, qp_offset) = utils::derive_limit_offset(v > 0, limit, v * limit);
+
+            let link = utils::derive_link(
+                "/titles",
+                vec![qp_limit, qp_offset]
+                    .into_iter()
+                    .chain(qps.clone().into_iter())
+                    .collect::<Vec<String>>(),
+            );
+
+            let page_number = v + 1;
+
+            models::Page {
+                active: page_current != page_number,
+                link,
+                number: page_number,
+                selected: page_current == page_number,
+                value: page_number.to_string(),
+            }
+        })
+        .collect();
+
+    if pages.len() > 3 {
+        let mut pages_copy: Vec<models::Page> = pages.clone();
+        let first = pages_copy.remove(0);
+        let last = pages_copy.pop().unwrap();
+
+        let inner_pages: Vec<models::Page> = pages_copy
+            .iter()
+            .cloned()
+            .filter(|p| {
+                let is_edge = page_current < 5 || page_current > page_total - 4;
+                let offset_range = if is_edge { 4 } else { 3 };
+
+                p.number > page_current - offset_range && p.number < page_current + offset_range
+            })
+            .collect();
+
+        let mut inner_pages_copy = inner_pages.clone();
+        let first_2 = inner_pages_copy.remove(0);
+        let last_2 = inner_pages_copy.pop().unwrap();
+
+        let first_ellipsis: Vec<models::Page> = if first_2.number - first.number > 1 {
+            let mut offset = limit * (page_current - 6);
+            let is_out_of_bound = offset <= 0;
+            offset = if is_out_of_bound { 0 } else { offset };
+            let (qp_limit, qp_offset) = utils::derive_limit_offset(!is_out_of_bound, limit, offset);
+
+            let link = utils::derive_link(
+                "/titles",
+                vec![qp_limit, qp_offset]
+                    .into_iter()
+                    .chain(qps.clone().into_iter())
+                    .collect::<Vec<String>>(),
+            );
+
+            vec![models::Page {
+                active: true,
+                link,
+                number: 0,
+                selected: false,
+                value: "...".to_string(),
+            }]
+        } else {
+            vec![]
+        };
+
+        let second_ellipsis: Vec<models::Page> = if last.number - last_2.number > 1 {
+            let mut offset = limit * (page_current + 4);
+            let is_out_of_bound = offset >= items_total;
+            offset = if is_out_of_bound {
+                offset - limit
+            } else {
+                offset
+            };
+            let (qp_limit, qp_offset) = utils::derive_limit_offset(true, limit, offset);
+
+            let link = utils::derive_link(
+                "/titles",
+                vec![qp_limit, qp_offset]
+                    .into_iter()
+                    .chain(qps.clone().into_iter())
+                    .collect::<Vec<String>>(),
+            );
+
+            vec![models::Page {
+                active: true,
+                link,
+                number: 0,
+                selected: false,
+                value: "...".to_string(),
+            }]
+        } else {
+            vec![]
+        };
+
+        pages = vec![
+            vec![first],
+            first_ellipsis,
+            inner_pages,
+            second_ellipsis,
+            vec![last],
+        ]
+        .into_iter()
+        .flatten()
+        .collect();
+    }
+
+    pages
+}
+
 pub async fn all(
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
@@ -51,128 +171,13 @@ pub async fn all(
         .unwrap_or(Ok(models::Pagination::default()))
         .unwrap();
 
-    let mut pages: Vec<models::Page> = (0..pagination.page_total)
-        .map(|v| {
-            let (qp_limit, qp_offset) =
-                utils::derive_limit_offset(v > 0, pagination.limit, v * pagination.limit);
-
-            let link = utils::derive_link(
-                "/titles",
-                vec![
-                    qp_formats.clone(),
-                    qp_genres.clone(),
-                    qp_languages.clone(),
-                    qp_limit,
-                    qp_offset,
-                ],
-            );
-
-            let page_number = v + 1;
-
-            models::Page {
-                active: pagination.page_current != page_number,
-                link,
-                number: page_number,
-                selected: pagination.page_current == page_number,
-                value: page_number.to_string(),
-            }
-        })
-        .collect();
-
-    if pages.len() > 3 {
-        let mut pages_copy: Vec<models::Page> = pages.clone();
-        let first = pages_copy.remove(0);
-        let last = pages_copy.pop().unwrap();
-
-        let inner_pages: Vec<models::Page> = pages_copy
-            .iter()
-            .cloned()
-            .filter(|p| {
-                let is_edge = pagination.page_current < 5
-                    || pagination.page_current > pagination.page_total - 4;
-                let offset_range = if is_edge { 4 } else { 3 };
-
-                p.number > pagination.page_current - offset_range
-                    && p.number < pagination.page_current + offset_range
-            })
-            .collect();
-
-        let mut inner_pages_copy = inner_pages.clone();
-        let first_2 = inner_pages_copy.remove(0);
-        let last_2 = inner_pages_copy.pop().unwrap();
-
-        let first_ellipsis: Vec<models::Page> = if first_2.number - first.number > 1 {
-            let mut offset = pagination.limit * (pagination.page_current - 6);
-            let is_out_of_bound = offset <= 0;
-            offset = if is_out_of_bound { 0 } else { offset };
-            let (qp_limit, qp_offset) =
-                utils::derive_limit_offset(!is_out_of_bound, pagination.limit, offset);
-
-            let link = utils::derive_link(
-                "/titles",
-                vec![
-                    qp_formats.clone(),
-                    qp_genres.clone(),
-                    qp_languages.clone(),
-                    qp_limit,
-                    qp_offset,
-                ],
-            );
-
-            vec![models::Page {
-                active: true,
-                link,
-                number: 0,
-                selected: false,
-                value: "...".to_string(),
-            }]
-        } else {
-            vec![]
-        };
-
-        let second_ellipsis: Vec<models::Page> = if last.number - last_2.number > 1 {
-            let mut offset = pagination.limit * (pagination.page_current + 4);
-            let is_out_of_bound = offset >= pagination.items_total;
-            offset = if is_out_of_bound {
-                offset - pagination.limit
-            } else {
-                offset
-            };
-            let (qp_limit, qp_offset) = utils::derive_limit_offset(true, pagination.limit, offset);
-
-            let link = utils::derive_link(
-                "/titles",
-                vec![
-                    qp_formats.clone(),
-                    qp_genres.clone(),
-                    qp_languages.clone(),
-                    qp_limit,
-                    qp_offset,
-                ],
-            );
-
-            vec![models::Page {
-                active: true,
-                link,
-                number: 0,
-                selected: false,
-                value: "...".to_string(),
-            }]
-        } else {
-            vec![]
-        };
-
-        pages = vec![
-            vec![first],
-            first_ellipsis,
-            inner_pages,
-            second_ellipsis,
-            vec![last],
-        ]
-        .into_iter()
-        .flatten()
-        .collect();
-    }
+    let pages = derive_pages(
+        pagination.items_total,
+        pagination.limit,
+        pagination.page_current,
+        pagination.page_total,
+        vec![qp_formats.clone(), qp_genres.clone(), qp_languages.clone()],
+    );
 
     let prev = models::PageControl {
         active: pagination.has_prev,

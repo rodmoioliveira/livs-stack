@@ -103,7 +103,7 @@ pub async fn all(
 
         let first_ellipsis: Vec<models::Page> = if first_2.number - first.number > 1 {
             let mut offset = pagination.limit * (pagination.page_current - 6);
-            let is_out_of_bound = offset < 0;
+            let is_out_of_bound = offset <= 0;
             offset = if is_out_of_bound { 0 } else { offset };
             let (qp_limit, qp_offset) =
                 utils::derive_limit_offset(!is_out_of_bound, pagination.limit, offset);

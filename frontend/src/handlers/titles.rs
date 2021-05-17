@@ -102,10 +102,27 @@ pub async fn all(
         let last_2 = inner_pages_copy.pop().unwrap();
 
         let first_ellipsis: Vec<models::Page> = if first_2.number - first.number > 1 {
+            let mut offset = pagination.limit * (pagination.page_current - 6);
+            let is_out_of_bound = offset < 0;
+            offset = if is_out_of_bound { 0 } else { offset };
+            let (qp_limit, qp_offset) =
+                utils::derive_limit_offset(!is_out_of_bound, pagination.limit, offset);
+
+            let link = utils::derive_link(
+                "/titles",
+                vec![
+                    qp_formats.clone(),
+                    qp_genres.clone(),
+                    qp_languages.clone(),
+                    qp_limit,
+                    qp_offset,
+                ],
+            );
+
             vec![models::Page {
-                active: false,
-                link: "".to_string(),
-                number: 2,
+                active: true,
+                link,
+                number: 0,
                 selected: false,
                 value: "...".to_string(),
             }]
@@ -114,10 +131,30 @@ pub async fn all(
         };
 
         let second_ellipsis: Vec<models::Page> = if last.number - last_2.number > 1 {
+            let mut offset = pagination.limit * (pagination.page_current + 4);
+            let is_out_of_bound = offset >= pagination.items_total;
+            offset = if is_out_of_bound {
+                offset - pagination.limit
+            } else {
+                offset
+            };
+            let (qp_limit, qp_offset) = utils::derive_limit_offset(true, pagination.limit, offset);
+
+            let link = utils::derive_link(
+                "/titles",
+                vec![
+                    qp_formats.clone(),
+                    qp_genres.clone(),
+                    qp_languages.clone(),
+                    qp_limit,
+                    qp_offset,
+                ],
+            );
+
             vec![models::Page {
-                active: false,
-                link: "".to_string(),
-                number: 2,
+                active: true,
+                link,
+                number: 0,
                 selected: false,
                 value: "...".to_string(),
             }]

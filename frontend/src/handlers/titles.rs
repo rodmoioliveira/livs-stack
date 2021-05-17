@@ -77,11 +77,66 @@ pub async fn all(
             models::Page {
                 active: pagination.page_current != page_number,
                 link,
-                value: page_number.to_string(),
+                number: page_number,
                 selected: pagination.page_current == page_number,
+                value: page_number.to_string(),
             }
         })
         .collect();
+
+    let mut copy: Vec<models::Page> = pages.clone();
+    let _first = copy.remove(0);
+    let _last = copy.pop().unwrap();
+    let test: Vec<models::Page> = copy
+        .iter()
+        .cloned()
+        .filter(|p| {
+            let is_edge =
+                pagination.page_current < 5 || pagination.page_current > pagination.page_total - 4;
+            let offset_range = if is_edge { 4 } else { 3 };
+            p.number > pagination.page_current - offset_range
+                && p.number < pagination.page_current + offset_range
+        })
+        .collect();
+
+    let mut test_copy = test.clone();
+    let _first_2 = test_copy.remove(0);
+    let _last_2 = test_copy.pop().unwrap();
+
+    let first_ellipsis: Vec<models::Page> = if _first_2.number - _first.number > 1 {
+        vec![models::Page {
+            active: false,
+            link: "".to_string(),
+            number: 2,
+            selected: false,
+            value: "...".to_string(),
+        }]
+    } else {
+        vec![]
+    };
+    let second_ellipsis: Vec<models::Page> = if _last.number - _last_2.number > 1 {
+        vec![models::Page {
+            active: false,
+            link: "".to_string(),
+            number: 2,
+            selected: false,
+            value: "...".to_string(),
+        }]
+    } else {
+        vec![]
+    };
+
+    let result: Vec<models::Page> = vec![
+        vec![_first],
+        first_ellipsis,
+        test,
+        second_ellipsis,
+        vec![_last],
+    ]
+    .into_iter()
+    .flatten()
+    .collect();
+    println!("{:?}", result);
 
     let prev = models::PageControl {
         active: pagination.has_prev,
@@ -235,7 +290,7 @@ pub async fn all(
         "languages": serde_json::json!(filter_languages),
         "page_control_next": serde_json::json!(page_control_next),
         "page_control_prev": serde_json::json!(page_control_prev),
-        "pages": serde_json::json!(pages),
+        "pages": serde_json::json!(result),
         "titles": titles["data"],
     });
 

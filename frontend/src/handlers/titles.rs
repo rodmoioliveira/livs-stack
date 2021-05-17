@@ -51,7 +51,7 @@ pub async fn all(
         .unwrap_or(Ok(models::Pagination::default()))
         .unwrap();
 
-    let pages: Vec<models::Page> = (0..pagination.page_total)
+    let mut pages: Vec<models::Page> = (0..pagination.page_total)
         .map(|v| {
             let (qp_limit, qp_offset) =
                 utils::derive_limit_offset(v > 0, pagination.limit, v * pagination.limit);
@@ -79,60 +79,63 @@ pub async fn all(
         })
         .collect();
 
-    let mut pages_copy: Vec<models::Page> = pages.clone();
-    let _first = pages_copy.remove(0);
-    let _last = pages_copy.pop().unwrap();
+    if pages.len() > 3 {
+        let mut pages_copy: Vec<models::Page> = pages.clone();
+        let first = pages_copy.remove(0);
+        let last = pages_copy.pop().unwrap();
 
-    let inner_pages: Vec<models::Page> = pages_copy
-        .iter()
-        .cloned()
-        .filter(|p| {
-            let is_edge =
-                pagination.page_current < 5 || pagination.page_current > pagination.page_total - 4;
-            let offset_range = if is_edge { 4 } else { 3 };
+        let inner_pages: Vec<models::Page> = pages_copy
+            .iter()
+            .cloned()
+            .filter(|p| {
+                let is_edge = pagination.page_current < 5
+                    || pagination.page_current > pagination.page_total - 4;
+                let offset_range = if is_edge { 4 } else { 3 };
 
-            p.number > pagination.page_current - offset_range
-                && p.number < pagination.page_current + offset_range
-        })
+                p.number > pagination.page_current - offset_range
+                    && p.number < pagination.page_current + offset_range
+            })
+            .collect();
+
+        let mut inner_pages_copy = inner_pages.clone();
+        let first_2 = inner_pages_copy.remove(0);
+        let last_2 = inner_pages_copy.pop().unwrap();
+
+        let first_ellipsis: Vec<models::Page> = if first_2.number - first.number > 1 {
+            vec![models::Page {
+                active: false,
+                link: "".to_string(),
+                number: 2,
+                selected: false,
+                value: "...".to_string(),
+            }]
+        } else {
+            vec![]
+        };
+
+        let second_ellipsis: Vec<models::Page> = if last.number - last_2.number > 1 {
+            vec![models::Page {
+                active: false,
+                link: "".to_string(),
+                number: 2,
+                selected: false,
+                value: "...".to_string(),
+            }]
+        } else {
+            vec![]
+        };
+
+        pages = vec![
+            vec![first],
+            first_ellipsis,
+            inner_pages,
+            second_ellipsis,
+            vec![last],
+        ]
+        .into_iter()
+        .flatten()
         .collect();
-
-    let mut inner_pages_copy = inner_pages.clone();
-    let _first_2 = inner_pages_copy.remove(0);
-    let _last_2 = inner_pages_copy.pop().unwrap();
-
-    let first_ellipsis: Vec<models::Page> = if _first_2.number - _first.number > 1 {
-        vec![models::Page {
-            active: false,
-            link: "".to_string(),
-            number: 2,
-            selected: false,
-            value: "...".to_string(),
-        }]
-    } else {
-        vec![]
-    };
-    let second_ellipsis: Vec<models::Page> = if _last.number - _last_2.number > 1 {
-        vec![models::Page {
-            active: false,
-            link: "".to_string(),
-            number: 2,
-            selected: false,
-            value: "...".to_string(),
-        }]
-    } else {
-        vec![]
-    };
-
-    let result: Vec<models::Page> = vec![
-        vec![_first],
-        first_ellipsis,
-        inner_pages,
-        second_ellipsis,
-        vec![_last],
-    ]
-    .into_iter()
-    .flatten()
-    .collect();
+    }
 
     let prev = models::PageControl {
         active: pagination.has_prev,
@@ -289,7 +292,7 @@ pub async fn all(
         "languages": serde_json::json!(filter_languages),
         "page_control_next": serde_json::json!(page_control_next),
         "page_control_prev": serde_json::json!(page_control_prev),
-        "pages": serde_json::json!(result),
+        "pages": serde_json::json!(pages),
         "titles": titles["data"],
     });
 

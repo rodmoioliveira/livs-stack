@@ -3,6 +3,66 @@ use actix_web::{web, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
 
+pub fn derive_page_controls(
+    has_next: bool,
+    has_prev: bool,
+    limit: i64,
+    page_current: i64,
+    qps: Vec<String>,
+) -> (Vec<models::PageControl>, Vec<models::PageControl>) {
+    let prev = models::PageControl {
+        active: has_prev,
+        link: match has_prev {
+            true => {
+                let (qp_limit, qp_offset) = utils::derive_limit_offset(
+                    page_current != 2,
+                    limit,
+                    (page_current - 2) * limit,
+                );
+
+                let link = utils::derive_link(
+                    "/titles",
+                    vec![qp_limit, qp_offset]
+                        .into_iter()
+                        .chain(qps.clone().into_iter())
+                        .collect::<Vec<String>>(),
+                );
+
+                link
+            }
+            false => "".to_string(),
+        },
+        value: "prev".to_string(),
+    };
+
+    let next = models::PageControl {
+        active: has_next,
+        link: match has_next {
+            true => {
+                let (qp_limit, qp_offset) =
+                    utils::derive_limit_offset(true, limit, page_current * limit);
+
+                let link = utils::derive_link(
+                    "/titles",
+                    vec![qp_limit, qp_offset]
+                        .into_iter()
+                        .chain(qps.clone().into_iter())
+                        .collect::<Vec<String>>(),
+                );
+
+                link
+            }
+            false => "".to_string(),
+        },
+        value: "next".to_string(),
+    };
+
+    let page_control_prev = vec![prev];
+    let page_control_next = vec![next];
+
+    (page_control_prev, page_control_next)
+}
+
 pub fn derive_pages(
     items_total: i64,
     limit: i64,
@@ -179,64 +239,13 @@ pub async fn all(
         vec![qp_formats.clone(), qp_genres.clone(), qp_languages.clone()],
     );
 
-    let prev = models::PageControl {
-        active: pagination.has_prev,
-        link: match pagination.has_prev {
-            true => {
-                let (qp_limit, qp_offset) = utils::derive_limit_offset(
-                    pagination.page_current != 2,
-                    pagination.limit,
-                    (pagination.page_current - 2) * pagination.limit,
-                );
-
-                let link = utils::derive_link(
-                    "/titles",
-                    vec![
-                        qp_formats.clone(),
-                        qp_genres.clone(),
-                        qp_languages.clone(),
-                        qp_limit,
-                        qp_offset,
-                    ],
-                );
-
-                link
-            }
-            false => "".to_string(),
-        },
-        value: "prev".to_string(),
-    };
-
-    let next = models::PageControl {
-        active: pagination.has_next,
-        link: match pagination.has_next {
-            true => {
-                let (qp_limit, qp_offset) = utils::derive_limit_offset(
-                    true,
-                    pagination.limit,
-                    pagination.page_current * pagination.limit,
-                );
-
-                let link = utils::derive_link(
-                    "/titles",
-                    vec![
-                        qp_formats.clone(),
-                        qp_genres.clone(),
-                        qp_languages.clone(),
-                        qp_limit,
-                        qp_offset,
-                    ],
-                );
-
-                link
-            }
-            false => "".to_string(),
-        },
-        value: "next".to_string(),
-    };
-
-    let page_control_prev = vec![prev];
-    let page_control_next = vec![next];
+    let (page_control_prev, page_control_next) = derive_page_controls(
+        pagination.has_next,
+        pagination.has_prev,
+        pagination.limit,
+        pagination.page_current,
+        vec![qp_formats.clone(), qp_genres.clone(), qp_languages.clone()],
+    );
 
     let all_genres: Vec<models::Genre> =
         utils::fetch(endpoints.backend_url("/genres?order_by=genre"), &client)?

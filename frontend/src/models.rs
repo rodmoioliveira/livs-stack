@@ -26,12 +26,11 @@ impl Pagination {
     }
 }
 
-// TODO: review necessity of fields in this struct...
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Page {
     pub active: bool,
     pub link: String,
-    pub number: i64,
+    pub index: i64,
     pub selected: bool,
     pub value: String,
 }

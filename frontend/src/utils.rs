@@ -162,7 +162,7 @@ pub fn derive_pages(
             models::Page {
                 active: page_current != page_number,
                 link,
-                number: page_number,
+                index: page_number,
                 selected: page_current == page_number,
                 value: page_number.to_string(),
             }
@@ -181,7 +181,7 @@ pub fn derive_pages(
                 let is_edge = page_current < 5 || page_current > page_total - 4;
                 let offset_range = if is_edge { 4 } else { 3 };
 
-                p.number > page_current - offset_range && p.number < page_current + offset_range
+                p.index > page_current - offset_range && p.index < page_current + offset_range
             })
             .collect();
 
@@ -189,7 +189,7 @@ pub fn derive_pages(
         let first_2 = inner_pages_copy.remove(0);
         let last_2 = inner_pages_copy.pop().unwrap();
 
-        let first_ellipsis: Vec<models::Page> = if first_2.number - first.number > 1 {
+        let first_ellipsis: Vec<models::Page> = if first_2.index - first.index > 1 {
             let mut offset = limit * (page_current - 6);
             let is_out_of_bound = offset <= 0;
             offset = if is_out_of_bound { 0 } else { offset };
@@ -206,7 +206,7 @@ pub fn derive_pages(
             vec![models::Page {
                 active: true,
                 link,
-                number: 0,
+                index: 0,
                 selected: false,
                 value: "...".to_string(),
             }]
@@ -214,7 +214,7 @@ pub fn derive_pages(
             vec![]
         };
 
-        let second_ellipsis: Vec<models::Page> = if last.number - last_2.number > 1 {
+        let second_ellipsis: Vec<models::Page> = if last.index - last_2.index > 1 {
             let mut offset = limit * (page_current + 4);
             let is_out_of_bound = offset >= items_total;
             offset = if is_out_of_bound {
@@ -235,7 +235,7 @@ pub fn derive_pages(
             vec![models::Page {
                 active: true,
                 link,
-                number: 0,
+                index: 0,
                 selected: false,
                 value: "...".to_string(),
             }]

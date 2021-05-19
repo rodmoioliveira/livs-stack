@@ -171,8 +171,8 @@ pub fn derive_pages(
 
     if pages.len() > 3 {
         let mut pages_copy: Vec<models::Page> = pages.clone();
-        let first = pages_copy.remove(0);
-        let last = pages_copy.pop().unwrap();
+        let page_first = pages_copy.remove(0);
+        let page_last = pages_copy.pop().unwrap();
 
         let inner_pages: Vec<models::Page> = pages_copy
             .iter()
@@ -186,10 +186,10 @@ pub fn derive_pages(
             .collect();
 
         let mut inner_pages_copy = inner_pages.clone();
-        let first_2 = inner_pages_copy.remove(0);
-        let last_2 = inner_pages_copy.pop().unwrap();
+        let page_second = inner_pages_copy.remove(0);
+        let page_penultimate = inner_pages_copy.pop().unwrap();
 
-        let first_ellipsis: Vec<models::Page> = if first_2.index - first.index > 1 {
+        let first_ellipsis: Vec<models::Page> = if page_second.index - page_first.index > 1 {
             let mut offset = limit * (page_current - 6);
             let is_out_of_bound = offset <= 0;
             offset = if is_out_of_bound { 0 } else { offset };
@@ -214,7 +214,7 @@ pub fn derive_pages(
             vec![]
         };
 
-        let second_ellipsis: Vec<models::Page> = if last.index - last_2.index > 1 {
+        let second_ellipsis: Vec<models::Page> = if page_last.index - page_penultimate.index > 1 {
             let mut offset = limit * (page_current + 4);
             let is_out_of_bound = offset >= items_total;
             offset = if is_out_of_bound {
@@ -244,11 +244,11 @@ pub fn derive_pages(
         };
 
         pages = vec![
-            vec![first],
+            vec![page_first],
             first_ellipsis,
             inner_pages,
             second_ellipsis,
-            vec![last],
+            vec![page_last],
         ]
         .into_iter()
         .flatten()

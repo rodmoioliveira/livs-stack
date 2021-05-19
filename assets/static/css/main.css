@@ -101,6 +101,7 @@ h5 {
   --third-color: #810000;
   --fourth-color: #1b1717;
   --fifth-color: #c4c4c4;
+  --btn-border-radius: 0.5em;
 }
 
 .header {
@@ -167,6 +168,28 @@ h5 {
   color: var(--fourth-color);
 }
 
+.filter-tag__nav {
+  font-size: 0.8em;
+}
+
+.filter-tag__list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  margin-left: 1em;
+  flex-wrap: wrap;
+}
+
+.filter-tag__link {
+  text-decoration: none;
+  color: var(--fourth-color);
+  padding: 0.5em 1em;
+  margin: 0.2em;
+  display: block;
+  border: 1px solid var(--fifth-color);
+  border-radius: var(--btn-border-radius);
+}
+
 .pages__nav {
   font-size: 0.8em;
 }
@@ -185,7 +208,8 @@ h5 {
   padding: 0.5em 1em;
   margin: 1em 0.2em;
   display: block;
-  border: 1px solid var(--fourth-color);
+  border: 1px solid var(--fifth-color);
+  border-radius: var(--btn-border-radius);
 }
 
 [data-filter-selected=true] {

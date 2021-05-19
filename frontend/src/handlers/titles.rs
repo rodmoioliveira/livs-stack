@@ -156,6 +156,16 @@ pub async fn all(
         })
         .collect::<Vec<models::Filter>>();
 
+    let filter_tags: Vec<models::Filter> = vec![
+        filter_formats.clone(),
+        filter_genres.clone(),
+        filter_languages.clone(),
+    ]
+    .into_iter()
+    .flatten()
+    .filter(|f| f.selected)
+    .collect();
+
     let data = serde_json::json!({
         "assets": endpoints.assets,
         "formats": serde_json::json!(filter_formats),
@@ -164,6 +174,7 @@ pub async fn all(
         "page_control_next": serde_json::json!(page_control_next),
         "page_control_prev": serde_json::json!(page_control_prev),
         "pages": serde_json::json!(pages),
+        "filter_tags": serde_json::json!(filter_tags),
         "titles": titles["data"],
     });
 

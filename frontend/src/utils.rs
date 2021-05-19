@@ -189,58 +189,65 @@ pub fn derive_pages(
         let page_second = inner_pages_copy.remove(0);
         let page_penultimate = inner_pages_copy.pop().unwrap();
 
-        let first_ellipsis: Vec<models::Page> = if page_second.index - page_first.index > 1 {
-            let mut offset = limit * (page_current - 6);
-            let is_out_of_bound = offset <= 0;
-            offset = if is_out_of_bound { 0 } else { offset };
-            let (qp_limit, qp_offset) = derive_limit_offset(!is_out_of_bound, limit, offset);
+        let discontinuous_head = page_second.index - page_first.index > 1;
+        let discontinuous_tail = page_last.index - page_penultimate.index > 1;
 
-            let link = derive_link(
-                "/titles",
-                vec![qp_limit, qp_offset]
-                    .into_iter()
-                    .chain(qps.clone().into_iter())
-                    .collect::<Vec<String>>(),
-            );
+        let first_ellipsis: Vec<models::Page> = match discontinuous_head {
+            true => {
+                let mut offset = limit * (page_current - 6);
+                let is_out_of_bound = offset <= 0;
+                offset = match is_out_of_bound {
+                    true => 0,
+                    false => offset,
+                };
+                let (qp_limit, qp_offset) = derive_limit_offset(!is_out_of_bound, limit, offset);
 
-            vec![models::Page {
-                active: true,
-                link,
-                index: 0,
-                selected: false,
-                value: "...".to_string(),
-            }]
-        } else {
-            vec![]
+                let link = derive_link(
+                    "/titles",
+                    vec![qp_limit, qp_offset]
+                        .into_iter()
+                        .chain(qps.clone().into_iter())
+                        .collect::<Vec<String>>(),
+                );
+
+                vec![models::Page {
+                    active: true,
+                    link,
+                    index: 0,
+                    selected: false,
+                    value: "...".to_string(),
+                }]
+            }
+            false => vec![],
         };
 
-        let second_ellipsis: Vec<models::Page> = if page_last.index - page_penultimate.index > 1 {
-            let mut offset = limit * (page_current + 4);
-            let is_out_of_bound = offset >= items_total;
-            offset = if is_out_of_bound {
-                offset - limit
-            } else {
-                offset
-            };
-            let (qp_limit, qp_offset) = derive_limit_offset(true, limit, offset);
+        let second_ellipsis: Vec<models::Page> = match discontinuous_tail {
+            true => {
+                let mut offset = limit * (page_current + 4);
+                let is_out_of_bound = offset >= items_total;
+                offset = match is_out_of_bound {
+                    true => offset - limit,
+                    false => offset,
+                };
+                let (qp_limit, qp_offset) = derive_limit_offset(true, limit, offset);
 
-            let link = derive_link(
-                "/titles",
-                vec![qp_limit, qp_offset]
-                    .into_iter()
-                    .chain(qps.clone().into_iter())
-                    .collect::<Vec<String>>(),
-            );
+                let link = derive_link(
+                    "/titles",
+                    vec![qp_limit, qp_offset]
+                        .into_iter()
+                        .chain(qps.clone().into_iter())
+                        .collect::<Vec<String>>(),
+                );
 
-            vec![models::Page {
-                active: true,
-                link,
-                index: 0,
-                selected: false,
-                value: "...".to_string(),
-            }]
-        } else {
-            vec![]
+                vec![models::Page {
+                    active: true,
+                    link,
+                    index: 0,
+                    selected: false,
+                    value: "...".to_string(),
+                }]
+            }
+            false => vec![],
         };
 
         pages = vec![

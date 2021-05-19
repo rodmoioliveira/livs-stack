@@ -1,0 +1,15 @@
+<nav class="filter-tag__nav">
+  <ul class="filter-tag__list">
+    {{#each filter_tags}}
+    <li class="filter-tag__item">
+      <a
+        class="filter-tag__link"
+        href="{{ link }}"
+        title="Remove filter {{ name }}:{{ value }}"
+      >
+        {{ name }}: {{ value }}
+      </a>
+    </li>
+    {{/each}}
+  </ul>
+</nav>

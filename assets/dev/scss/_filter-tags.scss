@@ -1,8 +1,8 @@
-.pages__nav {
+.filter-tag__nav {
   font-size: 0.8em;
 }
 
-.pages__list {
+.filter-tag__list {
   list-style: none;
   padding: 0;
   display: flex;
@@ -10,13 +10,13 @@
   flex-wrap: wrap;
 }
 
-// .pages__item {}
+// .filter-tag__item {}
 
-.pages__link {
+.filter-tag__link {
   text-decoration: none;
   color: var(--fourth-color);
   padding: 0.5em 1em;
-  margin: 1em 0.2em;
+  margin: 0.2em;
   display: block;
   border: 1px solid var(--fifth-color);
   border-radius: var(--btn-border-radius);

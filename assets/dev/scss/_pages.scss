@@ -1,22 +1,21 @@
-.pages__nav {
-  font-size: 0.8em;
-}
-
 .pages__list {
   list-style: none;
   padding: 0;
   display: flex;
-  margin-left: 1em;
+  font-size: 0.9em;
+  margin: 0 0 0 1em;
   flex-wrap: wrap;
 }
 
-// .pages__item {}
+.pages__item {
+  margin: 0 0.3em 0 0;
+}
 
 .pages__link {
   text-decoration: none;
   color: var(--fourth-color);
   padding: 0.5em 1em;
-  margin: 1em 0.2em;
+  margin: 0;
   display: block;
   border: 1px solid var(--fifth-color);
   border-radius: var(--btn-border-radius);

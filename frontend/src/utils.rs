@@ -215,7 +215,7 @@ pub fn derive_pages(
                     link,
                     index: 0,
                     selected: false,
-                    value: "...".to_string(),
+                    value: "<<".to_string(),
                 }]
             }
             false => vec![],
@@ -244,7 +244,7 @@ pub fn derive_pages(
                     link,
                     index: 0,
                     selected: false,
-                    value: "...".to_string(),
+                    value: ">>".to_string(),
                 }]
             }
             false => vec![],

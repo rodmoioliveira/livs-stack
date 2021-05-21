@@ -120,6 +120,19 @@ h5 {
   font-weight: var(--fw-black);
 }
 
+.banner {
+  font-size: 0.5em;
+  border-bottom: 1px solid var(--fourth-color);
+  background-color: var(--fourth-color);
+  padding: 0.5em;
+}
+
+.banner__title {
+  color: var(--first-color);
+  text-align: center;
+  font-weight: var(--fw-light);
+}
+
 .footer {
   border-top: 1px solid var(--third-color);
   border-bottom: 1px solid var(--third-color);

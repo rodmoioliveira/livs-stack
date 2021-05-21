@@ -197,9 +197,20 @@ CREATE TABLE IF NOT EXISTS inventory (
     UNIQUE (title_id, used, sku)
 );
 
-COPY inventory(id, title_id, price, quantity, used, sku, condition)
-FROM
-  '/csv/inventory.csv' DELIMITER ',' CSV HEADER;
+INSERT INTO inventory(
+  title_id,
+  price,
+  quantity
+)
+SELECT
+  i,
+  random_between(8,100),
+  random_between(1,50)
+FROM GENERATE_SERIES(1, 10000) s(i);
+
+/* COPY inventory(id, title_id, price, quantity, used, sku, condition) */
+/* FROM */
+/*   '/csv/inventory.csv' DELIMITER ',' CSV HEADER; */
 
 /*
  * ===========================
@@ -216,9 +227,24 @@ CREATE TABLE IF NOT EXISTS measures (
   CONSTRAINT fk_title_id FOREIGN KEY (title_id) REFERENCES titles(id) ON DELETE CASCADE
 );
 
-COPY measures(title_id, weight, height, width, depth)
-FROM
-  '/csv/measures.csv' DELIMITER ',' CSV HEADER;
+INSERT INTO measures(
+  title_id,
+  weight,
+  height,
+  width,
+  depth
+)
+SELECT
+  i,
+  random_between(1,50),
+  random_between(1,50),
+  random_between(1,50),
+  random_between(1,50)
+FROM GENERATE_SERIES(1, 10000) s(i);
+
+/* COPY measures(title_id, weight, height, width, depth) */
+/* FROM */
+/*   '/csv/measures.csv' DELIMITER ',' CSV HEADER; */
 
 /*
  * ===========================

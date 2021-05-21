@@ -134,8 +134,6 @@ h5 {
 }
 
 .footer {
-  border-top: 1px solid var(--third-color);
-  border-bottom: 1px solid var(--third-color);
   background-color: var(--third-color);
   font-weight: var(--fw-light);
   padding: 1em;
@@ -156,7 +154,7 @@ h5 {
 }
 
 .filters {
-  border-right: 1px solid var(--fourth-color);
+  border-right: 1px solid var(--fifth-color);
   padding-top: 1em;
   flex: 0 0 17em;
 }

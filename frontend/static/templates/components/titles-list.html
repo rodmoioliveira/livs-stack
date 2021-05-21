@@ -1,14 +1,7 @@
 {{#if titles }}
-<ul>
+<ul class="titles__list">
   {{#each titles}}
-  <li>
-    <p>id: {{ id }}</p>
-    <p>isbn: {{ isbn }}</p>
-    <p>Title: {{ title }}</p>
-    <p>Format: {{ format }}</p>
-    <p>Language: {{ language }}</p>
-    <p>Genre: {{ genre }}</p>
-  </li>
+  <li class="titles__item">{{ isbn }}</li>
   {{/each}}
 </ul>
 {{/if}}

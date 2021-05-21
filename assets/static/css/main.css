@@ -172,8 +172,7 @@ h5 {
   list-style: none;
   padding: 0;
   display: flex;
-  font-size: 0.9em;
-  margin: 0 0 0 1em;
+  margin: 0 0 1em 1em;
   flex-wrap: wrap;
 }
 
@@ -195,7 +194,6 @@ h5 {
   list-style: none;
   padding: 0;
   display: flex;
-  font-size: 0.9em;
   margin: 0 0 0 1em;
   flex-wrap: wrap;
 }
@@ -212,6 +210,23 @@ h5 {
   display: block;
   border: 1px solid var(--fifth-color);
   border-radius: var(--btn-border-radius);
+}
+
+.titles__list {
+  list-style: none;
+  padding: 0 0 0 1em;
+  margin: 1.5em 0 0 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.titles__item {
+  flex: 0 0 9em;
+  margin: 0 1em 1em 0;
+  padding: 8em 2em;
+  border: 1px solid var(--fifth-color);
+  border-radius: var(--btn-border-radius);
+  text-align: center;
 }
 
 [data-filter-selected=true] {

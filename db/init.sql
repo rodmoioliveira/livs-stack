@@ -43,7 +43,7 @@ CREATE OR REPLACE FUNCTION RANDOM_TEXT(INTEGER)
   RETURNS TEXT
   LANGUAGE SQL AS
 $$
-SELECT UPPER(
+SELECT LOWER(
   SUBSTRING(
     (SELECT string_agg(md5(random()::TEXT), '')
       FROM generate_series(
@@ -292,9 +292,20 @@ CREATE TABLE IF NOT EXISTS customers (
   email VARCHAR(100) NOT NULL
 );
 
-COPY customers(id, first_name, last_name, email)
-FROM
-  '/csv/customers.csv' DELIMITER ',' CSV HEADER;
+INSERT INTO customers(
+  first_name,
+  last_name,
+  email
+)
+SELECT
+  RANDOM_TEXT(6),
+  RANDOM_TEXT(6),
+  RANDOM_TEXT(15)
+FROM GENERATE_SERIES(1, 20000) s(i);
+
+/* COPY customers(id, first_name, last_name, email) */
+/* FROM */
+/*   '/csv/customers.csv' DELIMITER ',' CSV HEADER; */
 
 /*
  * ===========================

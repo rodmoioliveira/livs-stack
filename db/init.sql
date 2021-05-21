@@ -213,32 +213,24 @@ CREATE TABLE IF NOT EXISTS inventory (
     UNIQUE (title_id, used, sku)
 );
 
-INSERT INTO inventory(
-  title_id,
-  price,
-  quantity
-)
+INSERT INTO inventory( title_id, price, quantity)
 SELECT
-  i,
-  RANDOM_INT(8,100),
-  RANDOM_INT(1,50)
+  i, RANDOM_INT(8,100), RANDOM_INT(1,50)
 FROM GENERATE_SERIES(1, 10000) s(i);
 
-INSERT INTO inventory(
-  title_id,
-  price,
-  quantity,
-  used,
-  sku,
-  condition
-)
+INSERT INTO inventory(title_id, price, quantity, used, sku, condition)
 SELECT
-  i,
-  RANDOM_INT(8,100),
-  RANDOM_INT(1,10),
-  TRUE,
-  CONCAT ('SKU_NEW_BOOK', '_', i),
-  RANDOM_TEXT(10)
+  i, RANDOM_INT(8,100), 1, TRUE, CONCAT ('SKU_USED_BOOK', '_', i), RANDOM_TEXT(10)
+FROM GENERATE_SERIES(1, 10000) s(i);
+
+INSERT INTO inventory(title_id, price, quantity, used, sku, condition)
+SELECT
+  i, RANDOM_INT(8,100), 1, TRUE, CONCAT ('SKU_USED_BOOK', '_', i + 10000), RANDOM_TEXT(10)
+FROM GENERATE_SERIES(1, 10000) s(i);
+
+INSERT INTO inventory(title_id, price, quantity, used, sku, condition)
+SELECT
+  i, RANDOM_INT(8,100), 1, TRUE, CONCAT ('SKU_USED_BOOK', '_', i + 20000), RANDOM_TEXT(10)
 FROM GENERATE_SERIES(1, 10000) s(i);
 
 /* COPY inventory(id, title_id, price, quantity, used, sku, condition) */

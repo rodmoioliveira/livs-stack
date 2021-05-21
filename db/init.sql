@@ -18,8 +18,8 @@ DROP VIEW IF EXISTS genres_count;
 DROP VIEW IF EXISTS inventory_quantities;
 DROP VIEW IF EXISTS titles_info;
 
-DROP FUNCTION IF EXISTS random_between;
-DROP FUNCTION IF EXISTS random_text;
+DROP FUNCTION IF EXISTS RANDOM_INT;
+DROP FUNCTION IF EXISTS RANDOM_TEXT;
 
 BEGIN TRANSACTION;
 
@@ -30,7 +30,7 @@ BEGIN TRANSACTION;
  */
 
 /* https://www.postgresqltutorial.com/postgresql-random-range/ */
-CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
+CREATE OR REPLACE FUNCTION RANDOM_INT(low INT ,high INT)
   RETURNS INT AS
 $$
 BEGIN
@@ -39,7 +39,7 @@ END;
 $$ language 'plpgsql' STRICT;
 
 /* https://www.simononsoftware.com/random-string-in-postgresql/ */
-CREATE OR REPLACE FUNCTION random_text(INTEGER)
+CREATE OR REPLACE FUNCTION RANDOM_TEXT(INTEGER)
   RETURNS TEXT
   LANGUAGE SQL AS
 $$
@@ -93,9 +93,16 @@ CREATE TABLE IF NOT EXISTS publishers (
   publisher VARCHAR(255) UNIQUE NOT NULL
 );
 
-COPY publishers(id, publisher)
-FROM
-  '/csv/publishers.csv' DELIMITER ',' CSV HEADER;
+INSERT INTO publishers(
+  publisher
+)
+SELECT
+  CONCAT (RANDOM_TEXT(5), ' ', RANDOM_TEXT(5))
+FROM GENERATE_SERIES(1, 1000) s(i);
+
+/* COPY publishers(id, publisher) */
+/* FROM */
+/*   '/csv/publishers.csv' DELIMITER ',' CSV HEADER; */
 
 /*
  * ===========================
@@ -109,9 +116,18 @@ CREATE TABLE IF NOT EXISTS authors (
   last_name VARCHAR(100) NOT NULL
 );
 
-COPY authors(id, first_name, last_name)
-FROM
-  '/csv/authors.csv' DELIMITER ',' CSV HEADER;
+INSERT INTO authors(
+  first_name,
+  last_name
+)
+SELECT
+  RANDOM_TEXT(6),
+  RANDOM_TEXT(8)
+FROM GENERATE_SERIES(1, 3000) s(i);
+
+/* COPY authors(id, first_name, last_name) */
+/* FROM */
+/*   '/csv/authors.csv' DELIMITER ',' CSV HEADER; */
 
 /*
  * ===========================
@@ -164,16 +180,16 @@ INSERT INTO titles(
 )
 SELECT
   LEFT(MD5(RANDOM()::text), 10),
-  random_between(1,50),
-  random_between(1,10),
-  random_between(1,10),
-  random_between(1,7),
-  random_between(1,32),
-  random_between(50,700),
-  random_between(1,44),
-  random_text(500),
-  random_text(50),
-  random_between(1977,2021)
+  RANDOM_INT(1,3000),
+  RANDOM_INT(1,10),
+  RANDOM_INT(1,10),
+  RANDOM_INT(1,7),
+  RANDOM_INT(1,32),
+  RANDOM_INT(50,700),
+  RANDOM_INT(1,1000),
+  CONCAT_WS (' ', RANDOM_TEXT(4), RANDOM_TEXT(5), RANDOM_TEXT(6), RANDOM_TEXT(8)),
+  CONCAT_WS (' ', RANDOM_TEXT(5), RANDOM_TEXT(5)),
+  RANDOM_INT(1977,2021)
 FROM GENERATE_SERIES(1, 10000) s(i);
 
 /* COPY titles(id, isbn, author, edition, format, language, genre, pages, publisher, summary, title, year) */
@@ -204,8 +220,8 @@ INSERT INTO inventory(
 )
 SELECT
   i,
-  random_between(8,100),
-  random_between(1,50)
+  RANDOM_INT(8,100),
+  RANDOM_INT(1,50)
 FROM GENERATE_SERIES(1, 10000) s(i);
 
 /* COPY inventory(id, title_id, price, quantity, used, sku, condition) */
@@ -236,10 +252,10 @@ INSERT INTO measures(
 )
 SELECT
   i,
-  random_between(1,50),
-  random_between(1,50),
-  random_between(1,50),
-  random_between(1,50)
+  RANDOM_INT(1,50),
+  RANDOM_INT(1,50),
+  RANDOM_INT(1,50),
+  RANDOM_INT(1,50)
 FROM GENERATE_SERIES(1, 10000) s(i);
 
 /* COPY measures(title_id, weight, height, width, depth) */

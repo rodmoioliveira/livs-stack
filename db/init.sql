@@ -324,14 +324,14 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 INSERT INTO reviews(title_id, customer_id, review, rate)
 SELECT i, i, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 10000) s(i);
-/* INSERT INTO reviews(title_id, customer_id, review, rate) */
-/* SELECT i, i + 1, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9999) s(i); */
-/* INSERT INTO reviews(title_id, customer_id, review, rate) */
-/* SELECT i, i + 2, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9998) s(i); */
-/* INSERT INTO reviews(title_id, customer_id, review, rate) */
-/* SELECT i, i + 3, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9997) s(i); */
-/* INSERT INTO reviews(title_id, customer_id, review, rate) */
-/* SELECT i, i + 4, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9996) s(i); */
+INSERT INTO reviews(title_id, customer_id, review, rate)
+SELECT i, i + 1, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9999) s(i);
+INSERT INTO reviews(title_id, customer_id, review, rate)
+SELECT i, i + 2, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9998) s(i);
+INSERT INTO reviews(title_id, customer_id, review, rate)
+SELECT i, i + 3, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9997) s(i);
+INSERT INTO reviews(title_id, customer_id, review, rate)
+SELECT i, i + 4, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9996) s(i);
 
 /* COPY reviews(id, title_id, customer_id, review, rate) */
 /* FROM */

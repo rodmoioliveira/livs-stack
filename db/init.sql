@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS publishers CASCADE;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS titles CASCADE;
 
-DROP VIEW IF EXISTS titles_avg_rate;
+DROP VIEW IF EXISTS reviews_titles;
 DROP VIEW IF EXISTS copies_new;
 DROP VIEW IF EXISTS copies_used;
 DROP VIEW IF EXISTS genres_count;
@@ -322,9 +322,20 @@ CREATE TABLE IF NOT EXISTS reviews (
   UNIQUE (title_id, customer_id)
 );
 
-COPY reviews(id, title_id, customer_id, review, rate)
-FROM
-  '/csv/reviews.csv' DELIMITER ',' CSV HEADER;
+INSERT INTO reviews(title_id, customer_id, review, rate)
+SELECT i, i, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 10000) s(i);
+/* INSERT INTO reviews(title_id, customer_id, review, rate) */
+/* SELECT i, i + 1, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9999) s(i); */
+/* INSERT INTO reviews(title_id, customer_id, review, rate) */
+/* SELECT i, i + 2, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9998) s(i); */
+/* INSERT INTO reviews(title_id, customer_id, review, rate) */
+/* SELECT i, i + 3, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9997) s(i); */
+/* INSERT INTO reviews(title_id, customer_id, review, rate) */
+/* SELECT i, i + 4, RANDOM_TEXT(10), RANDOM_INT(1,5) FROM GENERATE_SERIES(1, 9996) s(i); */
+
+/* COPY reviews(id, title_id, customer_id, review, rate) */
+/* FROM */
+/*   '/csv/reviews.csv' DELIMITER ',' CSV HEADER; */
 
 /*
  * ===========================
@@ -371,10 +382,11 @@ CREATE OR REPLACE VIEW genres_count as (
   ORDER BY count DESC
 );
 
-CREATE OR REPLACE VIEW titles_avg_rate as (
+CREATE OR REPLACE VIEW reviews_titles as (
   SELECT
     title_id,
-    round(avg(rate)) AS rate
+    round(avg(rate)) AS rate,
+    count(*) AS count
   FROM reviews
   GROUP BY title_id
   ORDER BY rate DESC
@@ -400,7 +412,9 @@ CREATE OR REPLACE VIEW titles_info as (
     genres.genre,
     inventory_quantities.new as copies_new,
     inventory_quantities.used as copies_used,
-    inventory_quantities.total as copies_total
+    inventory_quantities.total as copies_total,
+    reviews_titles.rate as reviews_rate,
+    reviews_titles.count as reviews_count
   FROM titles
     JOIN authors ON titles.author = authors.id
     JOIN formats ON titles.format = formats.id
@@ -409,6 +423,7 @@ CREATE OR REPLACE VIEW titles_info as (
     JOIN publishers ON publishers.id = titles.publisher
     JOIN genres ON titles.genre = genres.id
     JOIN inventory_quantities ON titles.id = inventory_quantities.title_id
+    JOIN reviews_titles ON titles.id = reviews_titles.title_id
   ORDER BY titles.id
 );
 

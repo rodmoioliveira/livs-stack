@@ -6,6 +6,7 @@
 [data-page-selected='true'] {
   color: var(--first-color);
   background: var(--third-color);
+  border: 1px solid var(--third-color);
   font-weight: var(--fw-black);
 }
 

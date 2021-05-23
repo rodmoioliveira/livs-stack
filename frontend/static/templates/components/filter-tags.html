@@ -7,7 +7,8 @@
       href="{{ link }}"
       title="Remove filter {{ name }}:{{ value }}"
     >
-      {{ name }}: {{ value }}
+      <span class="filter-tag__remove"></span>
+      <span class="filter-tag__text">{{ name }}: {{ value }}</span>
     </a>
   </li>
   {{/each}}

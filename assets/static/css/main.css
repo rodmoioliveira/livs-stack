@@ -189,16 +189,52 @@ h5 {
 
 .filter-tag__item {
   margin: 0 0.3em 0.3em 0;
+  background-color: var(--third-color);
 }
 
 .filter-tag__link {
   text-decoration: none;
-  color: var(--fourth-color);
-  padding: 0.5em 1em;
+  color: var(--first-color);
+  padding: 0.5em 1em 0.5em 0;
   margin: 0;
   display: block;
-  border: 1px solid var(--fifth-color);
   border-radius: var(--btn-border-radius);
+  display: flex;
+}
+
+.filter-tag__text {
+  transform: translateY(-0.1em);
+}
+
+.filter-tag__remove {
+  text-align: center;
+  width: 2em;
+  display: block;
+  position: relative;
+}
+
+.filter-tag__remove::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  content: "";
+  display: block;
+  width: 1em;
+  height: 0.2em;
+  background-color: var(--first-color);
+}
+
+.filter-tag__remove::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  content: "";
+  display: block;
+  width: 1em;
+  height: 0.2em;
+  background-color: var(--first-color);
 }
 
 .pages__list {
@@ -248,6 +284,7 @@ h5 {
 [data-page-selected=true] {
   color: var(--first-color);
   background: var(--third-color);
+  border: 1px solid var(--third-color);
   font-weight: var(--fw-black);
 }
 

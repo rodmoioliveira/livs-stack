@@ -11,6 +11,8 @@
 @use 'titles';
 @use 'data_attr';
 @use 'display';
+@use 'details';
+@use 'media';
 
 html {
   font-size: var(--html-font-size);

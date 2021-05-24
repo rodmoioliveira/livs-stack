@@ -1,56 +1,62 @@
 <aside class="filters">
   <section class="filters__section">
-    <h5 class="filters__name">Genres</h5>
-    <nav class="filters__nav">
-      <ul class="filters__list">
-        {{#each genres}}
-        <li class="filters__item">
-          <a
-            class="filters__link"
-            href="{{ link }}"
-            data-filter-selected="{{ selected }}"
-          >
-            {{ value }}
-          </a>
-        </li>
-        {{/each}}
-      </ul>
-    </nav>
+    <details open="true">
+      <summary><h5 class="filters__name">Genres</h5></summary>
+      <nav class="filters__nav">
+        <ul class="filters__list">
+          {{#each genres}}
+          <li class="filters__item">
+            <a
+              class="filters__link"
+              href="{{ link }}"
+              data-filter-selected="{{ selected }}"
+            >
+              {{ value }}
+            </a>
+          </li>
+          {{/each}}
+        </ul>
+      </nav>
+    </details>
   </section>
   <section class="filters__section">
-    <h5 class="filters__name">Languages</h5>
-    <nav class="filters__nav">
-      <ul class="filters__list">
-        {{#each languages}}
-        <li class="filters__item">
-          <a
-            class="filters__link"
-            href="{{ link }}"
-            data-filter-selected="{{ selected }}"
-          >
-            {{ value }}
-          </a>
-        </li>
-        {{/each}}
-      </ul>
-    </nav>
+    <details open="true">
+      <summary><h5 class="filters__name">Languages</h5></summary>
+      <nav class="filters__nav">
+        <ul class="filters__list">
+          {{#each languages}}
+          <li class="filters__item">
+            <a
+              class="filters__link"
+              href="{{ link }}"
+              data-filter-selected="{{ selected }}"
+            >
+              {{ value }}
+            </a>
+          </li>
+          {{/each}}
+        </ul>
+      </nav>
+    </details>
   </section>
   <section class="filters__section">
-    <h5 class="filters__name">Formats</h5>
-    <nav class="filters__nav">
-      <ul class="filters__list">
-        {{#each formats}}
-        <li class="filters__item">
-          <a
-            class="filters__link"
-            href="{{ link }}"
-            data-filter-selected="{{ selected }}"
-          >
-            {{ value }}
-          </a>
-        </li>
-        {{/each}}
-      </ul>
-    </nav>
+    <details open="true">
+      <summary><h5 class="filters__name">Formats</h5></summary>
+      <nav class="filters__nav">
+        <ul class="filters__list">
+          {{#each formats}}
+          <li class="filters__item">
+            <a
+              class="filters__link"
+              href="{{ link }}"
+              data-filter-selected="{{ selected }}"
+            >
+              {{ value }}
+            </a>
+          </li>
+          {{/each}}
+        </ul>
+      </nav>
+    </details>
   </section>
 </aside>

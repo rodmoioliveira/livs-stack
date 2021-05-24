@@ -179,6 +179,10 @@ h5 {
   color: var(--fourth-color);
 }
 
+.filter-tag__title {
+  margin-top: 0;
+}
+
 .filter-tag__list {
   list-style: none;
   padding: 0;
@@ -235,6 +239,10 @@ h5 {
   width: 1em;
   height: 0.2em;
   background-color: var(--first-color);
+}
+
+.pages__title {
+  margin-top: 0;
 }
 
 .pages__list {

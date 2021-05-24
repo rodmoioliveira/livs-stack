@@ -1,0 +1,11 @@
+summary {
+  list-style: none;
+}
+
+summary:hover {
+  cursor: pointer;
+}
+
+summary::marker {
+  display: none;
+}

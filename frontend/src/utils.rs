@@ -1,7 +1,23 @@
 use crate::{errors, models};
 use actix_web::web;
+use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContext};
 use reqwest::blocking::Client;
 use std::collections::HashSet;
+
+pub fn count_active(
+    h: &Helper,
+    _: &Handlebars,
+    _: &Context,
+    _rc: &mut RenderContext,
+    out: &mut dyn Output,
+) -> HelperResult {
+    let filters = h.param(0).unwrap().value();
+    let f: Vec<models::Filter> = serde_json::from_value(filters.clone()).unwrap();
+    let count = f.into_iter().filter(|f| f.selected).count();
+
+    out.write(&count.to_string())?;
+    Ok(())
+}
 
 pub fn fetch(
     url: String,

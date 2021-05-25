@@ -17,3 +17,7 @@
 [data-control-active='false'] {
   cursor: not-allowed;
 }
+
+[data-count-active='0'] {
+  display: none;
+}

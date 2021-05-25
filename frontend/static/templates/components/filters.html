@@ -3,7 +3,12 @@
     <details open="true">
       <summary class="filters__summary">
         <span class="filters__name">Genres</span>
-        <span class="filters__count">5</span>
+        <span
+          class="filters__count"
+          data-count-active="{{ count_active filters.genres }}"
+        >
+          {{ count_active filters.genres }}
+        </span>
       </summary>
       <nav class="filters__nav">
         <ul class="filters__list">
@@ -26,7 +31,12 @@
     <details open="true">
       <summary class="filters__summary">
         <span class="filters__name">Languages</span>
-        <span class="filters__count">5</span>
+        <span
+          class="filters__count"
+          data-count-active="{{ count_active filters.languages }}"
+        >
+          {{ count_active filters.languages }}
+        </span>
       </summary>
       <nav class="filters__nav">
         <ul class="filters__list">
@@ -49,7 +59,12 @@
     <details open="true">
       <summary class="filters__summary">
         <span class="filters__name">Formats</span>
-        <span class="filters__count">5</span>
+        <span
+          class="filters__count"
+          data-count-active="{{ count_active filters.formats }}"
+        >
+          {{ count_active filters.formats }}
+        </span>
       </summary>
       <nav class="filters__nav">
         <ul class="filters__list">

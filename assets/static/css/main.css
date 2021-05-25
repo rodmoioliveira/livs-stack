@@ -179,6 +179,10 @@ h5 {
   color: var(--fourth-color);
 }
 
+.filter-tag {
+  margin: 0 0 1em 0;
+}
+
 .filter-tag__title {
   margin-top: 0;
 }
@@ -267,10 +271,14 @@ h5 {
   border-radius: var(--btn-border-radius);
 }
 
+.titles {
+  margin: 1.5em 0 0 0;
+}
+
 .titles__list {
   list-style: none;
   padding: 0;
-  margin: 1.5em 0 0 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
 }
@@ -338,7 +346,7 @@ summary::marker {
     margin: 1em 0.5em;
   }
 
-  .filter-tag__list {
+  .filter-tag {
     margin: 0 0 0.5em 0;
   }
 
@@ -365,9 +373,12 @@ summary::marker {
     flex: 0 0 8em;
   }
 
+  .titles {
+    margin-top: 1em;
+  }
+
   .titles__list {
     border-top: 1px solid var(--fifth-color);
-    margin-top: 1em;
     padding-top: 1em;
   }
 }

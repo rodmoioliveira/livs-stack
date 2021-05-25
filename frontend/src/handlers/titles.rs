@@ -168,13 +168,17 @@ pub async fn all(
 
     let data = serde_json::json!({
         "assets": endpoints.assets,
-        "formats": serde_json::json!(filter_formats),
-        "genres": serde_json::json!(filter_genres),
-        "languages": serde_json::json!(filter_languages),
-        "page_control_next": serde_json::json!(page_control_next),
-        "page_control_prev": serde_json::json!(page_control_prev),
-        "pages": serde_json::json!(pages),
-        "filter_tags": serde_json::json!(filter_tags),
+        "filters": serde_json::json!({
+            "formats": serde_json::json!(filter_formats),
+            "genres": serde_json::json!(filter_genres),
+            "languages": serde_json::json!(filter_languages),
+            "tags": serde_json::json!(filter_tags),
+        }),
+        "pagination": serde_json::json!({
+            "next": serde_json::json!(page_control_next),
+            "prev": serde_json::json!(page_control_prev),
+            "pages": serde_json::json!(pages),
+        }),
         "titles": titles["data"],
     });
 

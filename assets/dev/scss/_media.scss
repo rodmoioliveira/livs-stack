@@ -10,7 +10,7 @@
     margin: 1em 0.5em;
   }
 
-  .filter-tag__list {
+  .filter-tag {
     margin: 0 0 0.5em 0;
   }
 
@@ -37,9 +37,12 @@
     flex: 0 0 8em;
   }
 
+  .titles {
+    margin-top: 1em;
+  }
+
   .titles__list {
     border-top: 1px solid var(--fifth-color);
-    margin-top: 1em;
     padding-top: 1em;
   }
 }

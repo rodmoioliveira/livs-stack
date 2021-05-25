@@ -173,10 +173,13 @@ h5 {
 }
 
 .filters__count {
-  color: var(--first-color);
-  padding: 0.1em 0.5em;
   background-color: var(--third-color);
+  color: var(--first-color);
+  display: inline-block;
   font-size: 75%;
+  margin: 0;
+  padding: 0.2em 0.7em;
+  transform: translateY(-5%);
 }
 
 .filters__list {
@@ -331,6 +334,10 @@ h5 {
 
 [data-control-active=false] {
   cursor: not-allowed;
+}
+
+[data-count-active="0"] {
+  display: none;
 }
 
 .display {

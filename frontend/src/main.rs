@@ -3,7 +3,7 @@ use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use frontend::{
     handlers::{error, formats, genres, languages, root, titles},
-    models,
+    models, utils,
 };
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
@@ -18,6 +18,7 @@ async fn main() -> io::Result<()> {
     println!("Server running in {}", localhost);
 
     let mut handlebars = Handlebars::new();
+    handlebars.register_helper("count_active", Box::new(utils::count_active));
     handlebars
         .register_templates_directory(".html", "./static/templates")
         .unwrap();

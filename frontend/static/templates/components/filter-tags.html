@@ -1,17 +1,19 @@
 {{#if filter_tags }}
-<h5 class="filter-tag__title">Filters</h5>
-<ul class="filter-tag__list">
-  {{#each filter_tags}}
-  <li class="filter-tag__item">
-    <a
-      class="filter-tag__link"
-      href="{{ link }}"
-      title="Remove filter {{ name }}:{{ value }}"
-    >
-      <span class="filter-tag__remove"></span>
-      <span class="filter-tag__text">{{ name }}: {{ value }}</span>
-    </a>
-  </li>
-  {{/each}}
-</ul>
+<section class="filter-tags">
+  <h5 class="filter-tag__title">Filters</h5>
+  <ul class="filter-tag__list">
+    {{#each filter_tags}}
+    <li class="filter-tag__item">
+      <a
+        class="filter-tag__link"
+        href="{{ link }}"
+        title="Remove filter {{ name }}:{{ value }}"
+      >
+        <span class="filter-tag__remove"></span>
+        <span class="filter-tag__text">{{ name }}: {{ value }}</span>
+      </a>
+    </li>
+    {{/each}}
+  </ul>
+</section>
 {{/if}}

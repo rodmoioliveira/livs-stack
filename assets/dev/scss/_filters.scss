@@ -8,9 +8,19 @@
   margin: 0 0 1em 0.5em;
 }
 
-.filters__name {
+.filters__summary {
   margin: 0 0 0.2em 0;
+}
+
+.filters__name {
   font-weight: var(--fw-black);
+}
+
+.filters__count {
+  color: var(--first-color);
+  padding: 0.1em 0.5em;
+  background-color: var(--third-color);
+  font-size: 75%;
 }
 
 // .filters__nav {}

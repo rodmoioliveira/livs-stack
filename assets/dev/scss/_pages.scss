@@ -15,11 +15,21 @@
 }
 
 .pages__link {
-  text-decoration: none;
-  color: var(--fourth-color);
-  padding: 0.5em 1em;
-  margin: 0;
-  display: block;
-  border: 1px solid var(--fifth-color);
   border-radius: var(--btn-border-radius);
+  border: 1px solid var(--fifth-color);
+  color: var(--fourth-color);
+  display: block;
+  margin: 0;
+  padding: 0.5em 1em;
+  text-decoration: none;
+}
+
+.pages__span {
+  border-radius: var(--btn-border-radius);
+  border: 1px solid var(--fifth-color);
+  color: var(--fifth-color);
+  display: block;
+  margin: 0;
+  padding: 0.5em 1em;
+  text-decoration: none;
 }

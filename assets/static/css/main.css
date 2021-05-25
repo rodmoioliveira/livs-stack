@@ -68,7 +68,8 @@ h4 {
   font-size: 1.44em;
 }
 
-h5 {
+h5,
+summary {
   font-size: 1.2em;
 }
 
@@ -164,7 +165,7 @@ h5 {
 }
 
 .filters__name {
-  margin: 0;
+  margin: 0 0 0.2em 0;
   font-weight: var(--fw-black);
 }
 
@@ -262,13 +263,23 @@ h5 {
 }
 
 .pages__link {
-  text-decoration: none;
-  color: var(--fourth-color);
-  padding: 0.5em 1em;
-  margin: 0;
-  display: block;
-  border: 1px solid var(--fifth-color);
   border-radius: var(--btn-border-radius);
+  border: 1px solid var(--fifth-color);
+  color: var(--fourth-color);
+  display: block;
+  margin: 0;
+  padding: 0.5em 1em;
+  text-decoration: none;
+}
+
+.pages__span {
+  border-radius: var(--btn-border-radius);
+  border: 1px solid var(--fifth-color);
+  color: var(--fifth-color);
+  display: block;
+  margin: 0;
+  padding: 0.5em 1em;
+  text-decoration: none;
 }
 
 .titles {
@@ -312,28 +323,13 @@ h5 {
   cursor: not-allowed;
 }
 
-[data-control-active=false] > a {
-  border: 1px solid var(--fifth-color);
-  color: var(--fifth-color);
-  display: inline-block;
-  pointer-events: none;
-}
-
 .display {
   padding: 1em;
   flex: 1;
 }
 
-summary {
-  list-style: none;
-}
-
 summary:hover {
   cursor: pointer;
-}
-
-summary::marker {
-  display: none;
 }
 
 @media (max-width: 1200px) {

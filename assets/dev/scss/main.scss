@@ -14,10 +14,6 @@
 @use 'summary';
 @use 'media';
 
-html {
-  font-size: var(--html-font-size);
-}
-
 body {
   background-color: var(--first-color);
   color: var(--fourth-color);

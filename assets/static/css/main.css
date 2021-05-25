@@ -349,9 +349,13 @@ summary:hover {
   cursor: pointer;
 }
 
+html {
+  font-size: var(--html-font-size);
+}
+
 @media (max-width: 1200px) {
   html {
-    font-size: calc( 18px + (26 - 18) * ((100vw - 300px) / (1600 - 300)) );
+    font-size: calc( 18px + (20 - 18) * ((100vw - 320px) / (1200 - 320)) );
   }
 
   .display {
@@ -395,10 +399,6 @@ summary:hover {
     padding-top: 1em;
   }
 }
-html {
-  font-size: var(--html-font-size);
-}
-
 body {
   background-color: var(--first-color);
   color: var(--fourth-color);

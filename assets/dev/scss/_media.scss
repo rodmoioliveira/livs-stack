@@ -1,7 +1,11 @@
+html {
+  font-size: var(--html-font-size);
+}
+
 @media (max-width: 1200px) {
   html {
     font-size: calc(
-      18px + (26 - 18) * ((100vw - 300px) / (1600 - 300))
+      18px + (20 - 18) * ((100vw - 320px) / (1200 - 320))
     );
   }
 

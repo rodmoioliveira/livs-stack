@@ -93,7 +93,7 @@ pub async fn all(
             .unwrap()
             .unwrap_or(vec![]);
 
-    let filter_genres = all_genres
+    let mut filter_genres = all_genres
         .iter()
         .map(|genre| {
             let id = genre.id.unwrap();
@@ -113,8 +113,9 @@ pub async fn all(
             }
         })
         .collect::<Vec<models::Filter>>();
+    filter_genres.sort_by(|a, b| b.selected.partial_cmp(&a.selected).unwrap());
 
-    let filter_languages = all_languages
+    let mut filter_languages = all_languages
         .iter()
         .map(|language| {
             let id = language.id.unwrap();
@@ -134,8 +135,9 @@ pub async fn all(
             }
         })
         .collect::<Vec<models::Filter>>();
+    filter_languages.sort_by(|a, b| b.selected.partial_cmp(&a.selected).unwrap());
 
-    let filter_formats = all_formats
+    let mut filter_formats = all_formats
         .iter()
         .map(|format| {
             let id = format.id.unwrap();
@@ -155,11 +157,12 @@ pub async fn all(
             }
         })
         .collect::<Vec<models::Filter>>();
+    filter_formats.sort_by(|a, b| b.selected.partial_cmp(&a.selected).unwrap());
 
     let filter_tags: Vec<models::Filter> = vec![
-        filter_formats.clone(),
         filter_genres.clone(),
         filter_languages.clone(),
+        filter_formats.clone(),
     ]
     .into_iter()
     .flatten()

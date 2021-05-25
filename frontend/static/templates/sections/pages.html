@@ -1,8 +1,8 @@
-{{#if pages }}
+{{#if pagination.pages }}
 <section class="pages">
   <h5 class="pages__title">Pages</h5>
   <ul class="pages__list">
-    {{#each page_control_prev}}
+    {{#each pagination.prev}}
     <li class="pages__item" data-control-active="{{ active }}">
       {{#if link}}
       <a class="pages__link" href="{{ link }}" title="Previous Page">{{ value }}</a>
@@ -11,7 +11,7 @@
       {{/if}}
     </li>
     {{/each}}
-    {{#each pages}}
+    {{#each pagination.pages}}
     <li class="pages__item">
       <a
         class="pages__link"
@@ -24,7 +24,7 @@
       </a>
     </li>
     {{/each}}
-    {{#each page_control_next}}
+    {{#each pagination.next}}
     <li class="pages__item" data-control-active="{{ active }}">
       {{#if link}}
       <a class="pages__link" href="{{ link }}" title="Next Page">{{ value }}</a>

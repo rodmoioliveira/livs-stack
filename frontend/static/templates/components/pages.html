@@ -1,32 +1,34 @@
 {{#if pages }}
-<h5 class="pages__title">Pages</h5>
-<ul class="pages__list">
-  {{#each page_control_prev}}
-  <li class="pages__item" data-control-active="{{ active }}">
-    <a class="pages__link" href="{{ link }}" title="Previous Page">
-      {{ value }}
-    </a>
-  </li>
-  {{/each}}
-  {{#each pages}}
-  <li class="pages__item">
-    <a
-      class="pages__link"
-      href="{{ link }}"
-      title="Page {{ value }}"
-      data-page-active="{{ active }}"
-      data-page-selected="{{ selected }}"
-    >
-      {{ value }}
-    </a>
-  </li>
-  {{/each}}
-  {{#each page_control_next}}
-  <li class="pages__item" data-control-active="{{ active }}">
-    <a class="pages__link" href="{{ link }}" title="Next Page">
-      {{ value }}
-    </a>
-  </li>
-  {{/each}}
-</ul>
+<section class="pages">
+  <h5 class="pages__title">Pages</h5>
+  <ul class="pages__list">
+    {{#each page_control_prev}}
+    <li class="pages__item" data-control-active="{{ active }}">
+      <a class="pages__link" href="{{ link }}" title="Previous Page">
+        {{ value }}
+      </a>
+    </li>
+    {{/each}}
+    {{#each pages}}
+    <li class="pages__item">
+      <a
+        class="pages__link"
+        href="{{ link }}"
+        title="Page {{ value }}"
+        data-page-active="{{ active }}"
+        data-page-selected="{{ selected }}"
+      >
+        {{ value }}
+      </a>
+    </li>
+    {{/each}}
+    {{#each page_control_next}}
+    <li class="pages__item" data-control-active="{{ active }}">
+      <a class="pages__link" href="{{ link }}" title="Next Page">
+        {{ value }}
+      </a>
+    </li>
+    {{/each}}
+  </ul>
+</section>
 {{/if}}

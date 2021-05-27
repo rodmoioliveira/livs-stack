@@ -2,7 +2,16 @@
 <section class="titles">
   <ul class="titles__list">
     {{#each titles}}
-    <li class="titles__item">{{ isbn }}</li>
+    <li class="titles__item">
+      <img
+        alt="Cover of the book {{ title }}"
+        loading="lazy"
+        class="titles__cover"
+        src="{{ ../assets }}/static/img/420x560,ddd.png"
+      />
+      <span class="titles__name">{{ title }}</span>
+      <span class="titles__author">{{ author }}</span>
+    </li>
     {{/each}}
   </ul>
 </section>

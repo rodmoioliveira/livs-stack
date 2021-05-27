@@ -11,10 +11,23 @@
 }
 
 .titles__item {
-  flex: 0 0 9em;
   margin: 0 1em 1em 0;
-  padding: 8em 2em;
-  border: 1px solid var(--fifth-color);
-  border-radius: var(--btn-border-radius);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.titles__cover {
+  width: 13.5em;
+  height: 18em;
+}
+
+.titles__name {
+  text-align: left;
+  font-weight: var(--fw-black);
+  margin-top: 0.5rem;
+}
+
+.titles__author {
+  text-align: left;
 }

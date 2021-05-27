@@ -5,9 +5,16 @@
     {{#each pagination.prev}}
     <li class="pages__item" data-control-active="{{ active }}">
       {{#if link}}
-      <a class="pages__link" href="{{ link }}" title="Previous Page">{{ value }}</a>
+      <a
+        class="pages__link"
+        href="{{ link }}"
+        title="Previous Page"
+        >{{ value }}</a
+      >
       {{else}}
-      <span class="pages__span" title="Previous Page">{{ value }}</span>
+      <span class="pages__span" title="Previous Page">{{
+        value
+      }}</span>
       {{/if}}
     </li>
     {{/each}}
@@ -20,14 +27,19 @@
         data-page-active="{{ active }}"
         data-page-selected="{{ selected }}"
       >
-        {{ value }}
+        <span class="pages__count">{{ value }}</span>
+        <span class="pages__progress"
+          >{{ value }} of {{ ../pagination.page_total }}</span
+        >
       </a>
     </li>
     {{/each}}
     {{#each pagination.next}}
     <li class="pages__item" data-control-active="{{ active }}">
       {{#if link}}
-      <a class="pages__link" href="{{ link }}" title="Next Page">{{ value }}</a>
+      <a class="pages__link" href="{{ link }}" title="Next Page">{{
+        value
+      }}</a>
       {{else}}
       <span class="pages__span" title="Next Page">{{ value }}</span>
       {{/if}}

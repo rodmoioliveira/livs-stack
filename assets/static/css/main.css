@@ -433,6 +433,36 @@ html {
     padding-top: 1em;
   }
 }
+@media (min-width: 860px) {
+  .pages__progress {
+    display: none;
+  }
+}
+@media (max-width: 860px) {
+  .pages__count {
+    display: none;
+  }
+
+  .pages__progress {
+    display: block;
+  }
+
+  .pages__item {
+    margin: 0;
+  }
+
+  [data-page-active=true] {
+    display: none;
+  }
+
+  [data-page-active=false] {
+    margin: 0 0.3em;
+  }
+
+  [data-control-active=true] {
+    margin: 0;
+  }
+}
 body {
   background-color: var(--grey-25);
   color: var(--color-on-greys);

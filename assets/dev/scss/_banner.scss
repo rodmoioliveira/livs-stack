@@ -1,12 +1,11 @@
 .banner {
   font-size: 0.5em;
-  border-bottom: 1px solid var(--fourth-color);
-  background-color: var(--fourth-color);
+  background-color: var(--primary-light-color);
   padding: 0.5em;
 }
 
 .banner__title {
-  color: var(--first-color);
+  color: var(--text-on-secondary);
   text-align: center;
   font-weight: var(--fw-light);
 }

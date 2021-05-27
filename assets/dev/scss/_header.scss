@@ -1,6 +1,5 @@
 .header {
-  border-bottom: 1px solid var(--third-color);
-  background-color: var(--third-color);
+  background-color: var(--primary-dark-color);
   padding: 0.2em;
 }
 
@@ -9,7 +8,7 @@
 }
 
 .header__title {
-  color: var(--first-color);
+  color: var(--text-on-primary);
   text-align: center;
   font-weight: var(--fw-black);
 }

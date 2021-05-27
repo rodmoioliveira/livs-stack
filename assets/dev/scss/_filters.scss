@@ -1,7 +1,8 @@
 .filters {
-  border-right: 1px solid var(--fifth-color);
+  border-right: 1px solid var(--grey-200);
   padding-top: 1em;
   flex: 0 0 17em;
+  background-color: var(--grey-100);
 }
 
 .filters__section {
@@ -17,8 +18,10 @@
 }
 
 .filters__count {
-  background-color: var(--third-color);
-  color: var(--first-color);
+  background-color: var(--secondary-dark-color);
+  border-radius: var(--btn-border-radius);
+  color: var(--text-on-primary);
+  font-weight: var(--fw-black);
   display: inline-block;
   font-size: 75%;
   margin: 0;
@@ -38,5 +41,5 @@
 
 .filters__link {
   text-decoration: none;
-  color: var(--fourth-color);
+  color: var(--text-on-secondary);
 }

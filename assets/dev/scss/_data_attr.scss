@@ -1,12 +1,12 @@
 [data-filter-selected='true'] {
-  color: var(--third-color);
+  color: var(--secondary-dark-color);
   font-weight: var(--fw-black);
 }
 
 [data-page-selected='true'] {
-  color: var(--first-color);
-  background: var(--third-color);
-  border: 1px solid var(--third-color);
+  color: var(--text-on-primary);
+  background: var(--secondary-dark-color);
+  border: 1px solid var(--secondary-dark-color);
   font-weight: var(--fw-black);
 }
 
@@ -16,6 +16,9 @@
 
 [data-control-active='false'] {
   cursor: not-allowed;
+  border: 1px solid var(--grey-400);
+  border-radius: var(--btn-border-radius);
+  color: var(--grey-400);
 }
 
 [data-count-active='0'] {

@@ -82,6 +82,7 @@ pub async fn add(
                 &title.publisher,
                 &title.summary,
                 &title.title,
+                &title.cover,
                 &title.year,
             ],
         )
@@ -119,6 +120,7 @@ pub async fn update(
                 &title.publisher,
                 &title.summary,
                 &title.title,
+                &title.cover,
                 &title.year,
                 &id,
             ],

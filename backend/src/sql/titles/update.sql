@@ -11,6 +11,7 @@ SET
   publisher = $8,
   summary = $9,
   title = $10,
-  year = $11
+  cover = $11,
+  year = $12
 WHERE
-  id = $12 RETURNING $table_fields;
+  id = $13 RETURNING $table_fields;

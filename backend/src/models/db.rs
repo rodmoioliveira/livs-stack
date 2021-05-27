@@ -15,6 +15,7 @@ pub struct Title {
     pub publisher: i64,
     pub summary: String,
     pub title: String,
+    pub cover: String,
     pub year: i16,
 }
 

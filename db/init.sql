@@ -162,6 +162,7 @@ CREATE TABLE IF NOT EXISTS titles (
   publisher BIGSERIAL REFERENCES publishers(id) ON DELETE CASCADE,
   summary TEXT NOT NULL,
   title VARCHAR(255) NOT NULL,
+  cover VARCHAR(100) NOT NULL,
   year SMALLINT NOT NULL
 );
 
@@ -176,6 +177,7 @@ INSERT INTO titles(
   publisher,
   summary,
   title,
+  cover,
   year
 )
 SELECT
@@ -189,6 +191,7 @@ SELECT
   RANDOM_INT(1,1000),
   CONCAT_WS (' ', RANDOM_TEXT(4), RANDOM_TEXT(5), RANDOM_TEXT(6), RANDOM_TEXT(8)),
   CONCAT_WS (' ', RANDOM_TEXT(5), RANDOM_TEXT(5)),
+  '420x560,f48fb1.png',
   RANDOM_INT(1977,2021)
 FROM GENERATE_SERIES(1, 10000) s(i);
 

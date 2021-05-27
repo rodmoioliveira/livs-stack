@@ -2,6 +2,8 @@
 @use 'scales_minor_third';
 // @use 'scales_perfect_fourth';
 @use 'constants';
+@use 'theme1';
+// @use 'theme2';
 @use 'header';
 @use 'banner';
 @use 'footer';
@@ -16,6 +18,7 @@
 
 body {
   background-color: var(--grey-25);
+  color: var(--color-on-greys);
   font-family: var(--primary-font);
   margin: 0;
   padding: 0;

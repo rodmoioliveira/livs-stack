@@ -181,6 +181,7 @@ pub async fn all(
             "next": serde_json::json!(page_control_next),
             "prev": serde_json::json!(page_control_prev),
             "pages": serde_json::json!(pages),
+            "page_total": serde_json::json!(pagination.page_total),
         }),
         "titles": titles["data"],
     });

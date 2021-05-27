@@ -22,7 +22,7 @@
 
 .filter-tag__link {
   text-decoration: none;
-  color: var(--color-on-primary);
+  color: var(--color-on-secondary-dark);
   padding: 0.5em 1em 0.5em 0;
   margin: 0;
   display: block;
@@ -49,7 +49,7 @@
   display: block;
   width: 1em;
   height: 0.2em;
-  background-color: var(--color-on-primary);
+  background-color: var(--color-on-secondary-dark);
 }
 
 .filter-tag__remove::before {
@@ -61,5 +61,5 @@
   display: block;
   width: 1em;
   height: 0.2em;
-  background-color: var(--color-on-primary);
+  background-color: var(--color-on-secondary-dark);
 }

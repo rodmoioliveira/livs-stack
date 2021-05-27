@@ -191,7 +191,31 @@ SELECT
   RANDOM_INT(1,1000),
   CONCAT_WS (' ', RANDOM_TEXT(4), RANDOM_TEXT(5), RANDOM_TEXT(6), RANDOM_TEXT(8)),
   CONCAT_WS (' ', RANDOM_TEXT(5), RANDOM_TEXT(5)),
-  '420x560,f48fb1.png',
+  (
+    CASE MOD(i, 21)
+      WHEN 0  THEN '420x560,4db6ac.png'
+      WHEN 1  THEN '420x560,4dd0e1.png'
+      WHEN 2  THEN '420x560,4fc3f7.png'
+      WHEN 3  THEN '420x560,9fa8da.png'
+      WHEN 4  THEN '420x560,64b5f6.png'
+      WHEN 5  THEN '420x560,80cbc4.png'
+      WHEN 6  THEN '420x560,80deea.png'
+      WHEN 7  THEN '420x560,81c784.png'
+      WHEN 8  THEN '420x560,81d4fa.png'
+      WHEN 9  THEN '420x560,90caf9.png'
+      WHEN 10 THEN '420x560,7986cb.png'
+      WHEN 11 THEN '420x560,9575cd.png'
+      WHEN 12 THEN '420x560,a5d6a7.png'
+      WHEN 13 THEN '420x560,b39ddb.png'
+      WHEN 14 THEN '420x560,ba68c8.png'
+      WHEN 15 THEN '420x560,ce93d8.png'
+      WHEN 16 THEN '420x560,ddd.png'
+      WHEN 17 THEN '420x560,e57373.png'
+      WHEN 18 THEN '420x560,ef9a9a.png'
+      WHEN 19 THEN '420x560,f06292.png'
+      WHEN 20 THEN '420x560,f48fb1.png'
+    END
+  ),
   RANDOM_INT(1977,2021)
 FROM GENERATE_SERIES(1, 10000) s(i);
 

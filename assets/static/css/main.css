@@ -101,11 +101,11 @@ h5 {
   --primary-color: #673ab7;
   --primary-dark-color: #320b86;
   --primary-light-color: #9a67ea;
-  --text-on-primary: #fff;
+  --color-on-primary: #fff;
   --secondary-color: #ff1744;
   --secondary-dark-color: #c4001d;
   --secondary-light-color: #ff616f;
-  --text-on-secondary: #000;
+  --color-on-secondary: #000;
   --grey-25: #f9f9f9;
   --grey-50: #fafafa;
   --grey-100: #f5f5f5;
@@ -124,7 +124,7 @@ h5 {
 }
 
 .header__title {
-  color: var(--text-on-primary);
+  color: var(--color-on-primary);
   text-align: center;
   font-weight: var(--fw-black);
 }
@@ -136,7 +136,7 @@ h5 {
 }
 
 .banner__title {
-  color: var(--text-on-secondary);
+  color: var(--color-on-secondary);
   text-align: center;
   font-weight: var(--fw-light);
 }
@@ -151,14 +151,14 @@ h5 {
 .footer__text {
   text-align: center;
   margin: 0;
-  color: var(--text-on-secondary);
+  color: var(--color-on-secondary);
 }
 
 .footer__link {
   text-align: center;
   display: block;
   margin: 0 auto;
-  color: var(--text-on-secondary);
+  color: var(--color-on-secondary);
 }
 
 .filters {
@@ -183,7 +183,7 @@ h5 {
 .filters__count {
   background-color: var(--secondary-dark-color);
   border-radius: var(--btn-border-radius);
-  color: var(--text-on-primary);
+  color: var(--color-on-primary);
   font-weight: var(--fw-black);
   display: inline-block;
   font-size: 75%;
@@ -200,7 +200,7 @@ h5 {
 
 .filters__link {
   text-decoration: none;
-  color: var(--text-on-secondary);
+  color: var(--color-on-secondary);
 }
 
 .filter-tag {
@@ -227,7 +227,7 @@ h5 {
 
 .filter-tag__link {
   text-decoration: none;
-  color: var(--text-on-primary);
+  color: var(--color-on-primary);
   padding: 0.5em 1em 0.5em 0;
   margin: 0;
   display: block;
@@ -254,7 +254,7 @@ h5 {
   display: block;
   width: 1em;
   height: 0.2em;
-  background-color: var(--text-on-primary);
+  background-color: var(--color-on-primary);
 }
 
 .filter-tag__remove::before {
@@ -266,7 +266,7 @@ h5 {
   display: block;
   width: 1em;
   height: 0.2em;
-  background-color: var(--text-on-primary);
+  background-color: var(--color-on-primary);
 }
 
 .pages__title {
@@ -344,7 +344,7 @@ h5 {
 }
 
 [data-page-selected=true] {
-  color: var(--text-on-primary);
+  color: var(--color-on-primary);
   background: var(--secondary-dark-color);
   border: 1px solid var(--secondary-dark-color);
   font-weight: var(--fw-black);

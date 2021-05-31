@@ -3,7 +3,7 @@
   <h5 class="filter-tag__title">Filters</h5>
   <ul class="filter-tag__list">
     {{#each filters.tags}}
-    <li class="filter-tag__item">
+    <li class="filter-tag__item" data-filter-tag="{{ name }}">
       <a
         class="filter-tag__link"
         href="{{ link }}"

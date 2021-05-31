@@ -159,7 +159,7 @@ pub async fn all(
         .collect::<Vec<models::Filter>>();
     filter_formats.sort_by(|a, b| b.selected.partial_cmp(&a.selected).unwrap());
 
-    let filter_tags: Vec<models::Filter> = vec![
+    let mut filter_tags: Vec<models::Filter> = vec![
         filter_genres.clone(),
         filter_languages.clone(),
         filter_formats.clone(),
@@ -168,6 +168,7 @@ pub async fn all(
     .flatten()
     .filter(|f| f.selected)
     .collect();
+    utils::add_remove_all(&mut filter_tags);
 
     let data = serde_json::json!({
         "assets": endpoints.assets,

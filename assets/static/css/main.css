@@ -277,6 +277,22 @@ h5 {
   background-color: var(--color-on-secondary-dark);
 }
 
+[data-filter-tag=remove] {
+  background-color: var(--secondary-light-color);
+}
+
+[data-filter-tag=remove] > .filter-tag__link {
+  color: var(--color-on-secondary-light);
+}
+
+[data-filter-tag=remove] .filter-tag__remove::after {
+  background-color: var(--color-on-secondary-light);
+}
+
+[data-filter-tag=remove] .filter-tag__remove::before {
+  background-color: var(--color-on-secondary-light);
+}
+
 .pages__title {
   margin-top: 0;
 }

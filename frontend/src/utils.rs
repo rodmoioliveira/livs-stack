@@ -4,6 +4,20 @@ use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContex
 use reqwest::blocking::Client;
 use std::collections::HashSet;
 
+pub fn add_remove_all(filter_tags: &mut Vec<models::Filter>) {
+    if filter_tags.len() > 0 {
+        let remove_tag = models::Filter {
+            id: -1,
+            name: "remove".to_string(),
+            selected: true,
+            value: "All".to_string(),
+            link: derive_link("/titles", vec![]),
+        };
+
+        filter_tags.insert(0, remove_tag);
+    };
+}
+
 pub fn count_active(
     h: &Helper,
     _: &Handlebars,

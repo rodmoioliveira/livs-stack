@@ -46,6 +46,8 @@ pub struct Filters {
     pub formats: Option<String>,
     pub genres: Option<String>,
     pub languages: Option<String>,
+    pub title_id: Option<String>,
+    pub customer_id: Option<String>,
 }
 
 impl Filters {
@@ -54,22 +56,27 @@ impl Filters {
         let copy = self.clone();
 
         match copy.formats {
-            Some(value) => {
-                let formats = value
-                    .split(",")
-                    .map(|s| format!("{}", s.to_owned()))
-                    .collect::<Vec<String>>()
-                    .join(",");
-                filters.push(format!("format IN ({})", formats));
-            }
+            Some(value) => filters.push(format!("format IN ({})", value)),
             None => (),
         };
+
         match copy.genres {
             Some(value) => filters.push(format!("genre IN ({})", value)),
             None => (),
         };
+
         match copy.languages {
             Some(value) => filters.push(format!("language IN ({})", value)),
+            None => (),
+        };
+
+        match copy.customer_id {
+            Some(value) => filters.push(format!("customer_id IN ({})", value)),
+            None => (),
+        };
+
+        match copy.title_id {
+            Some(value) => filters.push(format!("title_id IN ({})", value)),
             None => (),
         };
 

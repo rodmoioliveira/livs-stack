@@ -3,14 +3,16 @@
   <ul class="titles__list">
     {{#each titles}}
     <li class="titles__item">
-      <img
-        alt="Cover of the book {{ title }}"
-        loading="lazy"
-        class="titles__cover"
-        src="{{ ../assets }}/static/img/{{cover}}"
-      />
-      <span class="titles__name">{{ title }}</span>
-      <span class="titles__author">{{ author }}</span>
+      <a class="titles__link" href="titles/{{ id }}">
+        <img
+          alt="Cover of the book {{ title }}"
+          loading="lazy"
+          class="titles__cover"
+          src="{{ ../assets }}/static/img/{{ cover }}"
+        />
+        <span class="titles__name">{{ title }}</span>
+        <span class="titles__author">{{ author }}</span>
+      </a>
     </li>
     {{/each}}
   </ul>

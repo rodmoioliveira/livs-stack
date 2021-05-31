@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS titles CASCADE;
 
 DROP VIEW IF EXISTS reviews_titles;
+DROP VIEW IF EXISTS reviews_join_customers;
 DROP VIEW IF EXISTS copies_new;
 DROP VIEW IF EXISTS copies_used;
 DROP VIEW IF EXISTS genres_count;
@@ -189,7 +190,9 @@ SELECT
   RANDOM_INT(1,32),
   RANDOM_INT(50,700),
   RANDOM_INT(1,1000),
-  CONCAT_WS (' ', RANDOM_TEXT(4), RANDOM_TEXT(5), RANDOM_TEXT(6), RANDOM_TEXT(8)),
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse consectetur suscipit lacinia. Suspendisse commodo lacus auctor mi aliquet, tristique accumsan est feugiat. Ut felis ex, interdum at consequat et, interdum vel quam. Vivamus nec lectus lacus. Nam interdum lorem eu nulla facilisis, ut vulputate ligula commodo. Donec sagittis scelerisque elementum. Vivamus ultrices volutpat est non commodo.
+
+Morbi sodales nibh vel rutrum tempor. Sed porta rutrum nisi, at vehicula nulla lacinia nec. Vestibulum ultrices velit quis est finibus aliquam. Nulla varius rutrum mauris, non blandit nisi dapibus at. Nunc ultricies placerat ante eu ornare. Integer a pretium sapien. Donec commodo libero euismod elit porta, eu cursus nisl iaculis.',
   CONCAT_WS (' ', RANDOM_TEXT(5), RANDOM_TEXT(5)),
   (
     CASE MOD(i, 156)
@@ -367,7 +370,7 @@ FROM GENERATE_SERIES(1, 10000) s(i);
 CREATE TABLE IF NOT EXISTS inventory (
     id BIGSERIAL PRIMARY KEY,
     title_id BIGSERIAL REFERENCES titles(id) ON DELETE CASCADE,
-    price MONEY NOT NULL,
+    price REAL NOT NULL,
     quantity BIGINT NOT NULL CHECK (quantity >= 0),
     used BOOLEAN NOT NULL DEFAULT FALSE,
     sku VARCHAR(100) DEFAULT 'SKU_NEW_BOOK' NOT NULL,
@@ -406,7 +409,8 @@ FROM GENERATE_SERIES(1, 10000) s(i);
  */
 
 CREATE TABLE IF NOT EXISTS measures (
-  title_id BIGINT PRIMARY KEY,
+  id BIGSERIAL PRIMARY KEY,
+  title_id BIGINT UNIQUE NOT NULL,
   weight REAL NOT NULL,
   height REAL NOT NULL,
   width REAL NOT NULL,
@@ -443,7 +447,7 @@ CREATE TABLE IF NOT EXISTS customers (
   id BIGSERIAL PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
   last_name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL
+  email VARCHAR(100) UNIQUE NOT NULL
 );
 
 INSERT INTO customers(
@@ -544,6 +548,19 @@ CREATE OR REPLACE VIEW reviews_titles as (
   FROM reviews
   GROUP BY title_id
   ORDER BY rate DESC
+);
+
+CREATE OR REPLACE VIEW reviews_join_customers as (
+  SELECT
+    reviews.id,
+    reviews.title_id,
+    reviews.customer_id,
+    CONCAT (customers.first_name, ' ', customers.last_name) AS customer_name,
+    reviews.review,
+    reviews.rate
+  FROM reviews
+    JOIN customers ON reviews.customer_id = customers.id
+  ORDER BY reviews.id
 );
 
 CREATE OR REPLACE VIEW titles_info as (

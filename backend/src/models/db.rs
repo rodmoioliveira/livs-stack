@@ -20,6 +20,63 @@ pub struct Title {
 }
 
 #[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "inventory")]
+pub struct Inventory {
+    pub id: Option<i64>,
+    pub title_id: i64,
+    pub price: f32,
+    pub quantity: i64,
+    pub used: bool,
+    pub sku: String,
+    pub condition: Option<String>,
+}
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "authors")]
+pub struct Author {
+    pub id: Option<i64>,
+    pub first_name: String,
+    pub last_name: String,
+}
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "reviews")]
+pub struct Review {
+    pub id: Option<i64>,
+    pub title_id: i64,
+    pub customer_id: i64,
+    pub review: String,
+    pub rate: i16,
+}
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "customers")]
+pub struct Customer {
+    pub id: Option<i64>,
+    pub first_name: String,
+    pub last_name: String,
+    pub email: String,
+}
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "measures")]
+pub struct Measure {
+    pub id: Option<i64>,
+    pub title_id: i64,
+    pub weight: f32,
+    pub height: f32,
+    pub width: f32,
+    pub depth: f32,
+}
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
+#[pg_mapper(table = "publishers")]
+pub struct Publisher {
+    pub id: Option<i64>,
+    pub publisher: String,
+}
+
+#[derive(Debug, Deserialize, PostgresMapper, Serialize)]
 #[pg_mapper(table = "formats")]
 pub struct Format {
     pub id: Option<i16>,

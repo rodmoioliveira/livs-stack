@@ -37,6 +37,7 @@ async fn main() -> io::Result<()> {
             .app_data(handlebars_ref.clone())
             .service(web::resource("/").route(web::get().to(root::index)))
             .service(web::resource("/titles").route(web::get().to(titles::all)))
+            .service(web::resource("/titles/{id}").route(web::get().to(titles::one)))
     })
     .bind(localhost)?
     .run()

@@ -1,8 +1,16 @@
 use crate::{errors, models};
-use actix_web::web;
+use actix_web::{web, HttpRequest};
 use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContext};
 use reqwest::blocking::Client;
 use std::collections::HashSet;
+
+pub fn is_mobile_user_agent(req: HttpRequest) -> bool {
+    let _user_agent = req.headers().get("user-agent");
+    // TODO: implement
+    // http://detectmobilebrowsers.com/
+    println!("{:#?}", _user_agent);
+    false
+}
 
 pub fn add_remove_all(filter_tags: &mut Vec<models::Filter>) {
     if filter_tags.len() > 0 {

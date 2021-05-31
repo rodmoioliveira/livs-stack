@@ -1,6 +1,6 @@
 <aside class="filters">
   <section class="filters__section">
-    <details open="true">
+    <details class="filters__details" {{#unless is_mobile }}open{{/unless}}>
       <summary class="filters__summary">
         <span class="filters__name">Genres</span>
         <span
@@ -28,7 +28,7 @@
     </details>
   </section>
   <section class="filters__section">
-    <details open="true">
+    <details class="filters__details" {{#unless is_mobile }}open{{/unless}}>
       <summary class="filters__summary">
         <span class="filters__name">Languages</span>
         <span
@@ -56,7 +56,7 @@
     </details>
   </section>
   <section class="filters__section">
-    <details open="true">
+    <details class="filters__details" {{#unless is_mobile }}open{{/unless}}>
       <summary class="filters__summary">
         <span class="filters__name">Formats</span>
         <span

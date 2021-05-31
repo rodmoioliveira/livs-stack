@@ -1,15 +1,18 @@
 use crate::{errors, models, querystrings, utils};
-use actix_web::{web, HttpResponse};
+use actix_web::{web, HttpRequest, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
 
 pub async fn all(
+    req: HttpRequest,
     hb: web::Data<Handlebars<'_>>,
     client: web::Data<Client>,
     endpoints: web::Data<models::Endpoints>,
     web::Query(filter_qs): web::Query<querystrings::Filters>,
     web::Query(order_by): web::Query<querystrings::Order>,
 ) -> Result<HttpResponse, errors::MyError> {
+    let is_mobile = utils::is_mobile_user_agent(req);
+
     let set_genres = utils::ids_set(filter_qs.clone().genres);
     let set_languages = utils::ids_set(filter_qs.clone().languages);
     let set_formats = utils::ids_set(filter_qs.clone().formats);
@@ -185,6 +188,7 @@ pub async fn all(
             "page_total": serde_json::json!(pagination.page_total),
         }),
         "titles": titles["data"],
+        "is_mobile": is_mobile,
     });
 
     let body = hb.render("pages/titles", &data).unwrap();

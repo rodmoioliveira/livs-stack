@@ -3,8 +3,13 @@
   {{> components/head }}
   <body>
     {{> sections/header }}
-    <h1>{{ status_code }} {{ error }}</h1>
+    {{> sections/banner }}
+    <main class="main">
+      <section class="error">
+        <h1 class="error__status">{{ status_code }}</h1>
+        <h2 class="error__message">{{ error }}</h2>
+      </section>
+    </main>
     {{> sections/footer }}
   </body>
 </html>
-

@@ -1,3 +1,4 @@
+use crate::models;
 use actix_http::{body::Body, Response};
 use actix_web::dev::ServiceResponse;
 use actix_web::http::StatusCode;
@@ -30,9 +31,15 @@ fn get_error_response<B>(
         .app_data::<web::Data<Handlebars>>()
         .map(|t| t.get_ref());
 
+    let endpoints = request
+        .app_data::<web::Data<models::Endpoints>>()
+        .map(|t| t.get_ref())
+        .unwrap();
+
     match hb {
         Some(hb) => {
             let data = serde_json::json!({
+                "assets": endpoints.assets,
                 "error": error,
                 "status_code": res.status().as_str()
             });

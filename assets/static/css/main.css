@@ -382,6 +382,15 @@ summary:hover {
   cursor: pointer;
 }
 
+.error {
+  text-align: center;
+  margin: 1em auto;
+}
+
+.error__status {
+  color: var(--secondary-dark-color);
+}
+
 html {
   font-size: var(--html-font-size);
 }

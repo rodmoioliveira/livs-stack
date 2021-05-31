@@ -1,0 +1,16 @@
+WITH cte AS (
+  SELECT
+    *
+  FROM
+    publishers
+)
+SELECT
+  *
+FROM
+  (TABLE cte $order_by) sub
+  RIGHT JOIN (
+    SELECT
+      count(*)
+    FROM
+      cte
+  ) c(count) ON TRUE;

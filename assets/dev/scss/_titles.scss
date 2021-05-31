@@ -10,7 +10,11 @@
   flex-wrap: wrap;
 }
 
-.titles__item {
+// .titles__item {}
+
+.titles__link {
+  text-decoration: none;
+  color: inherit;
   margin: 0 1em 1em 0;
   text-align: center;
   display: flex;

@@ -1,5 +1,8 @@
 use actix_web::{error, middleware, web, App, HttpResponse, HttpServer};
-use backend::handlers::{formats, genres, languages, root, titles};
+use backend::handlers::{
+    authors, customers, formats, genres, inventory, languages, measures, publishers, reviews, root,
+    titles,
+};
 use backend::{db, errors};
 use dotenv::dotenv;
 use std::env;
@@ -97,6 +100,62 @@ async fn main() -> std::io::Result<()> {
                     ),
             )
             .service(
+                web::scope("/publishers")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(publishers::all))
+                            .route(web::post().to(publishers::add)),
+                    )
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(publishers::one))
+                            .route(web::delete().to(publishers::delete))
+                            .route(web::put().to(publishers::update)),
+                    ),
+            )
+            .service(
+                web::scope("/authors")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(authors::all))
+                            .route(web::post().to(authors::add)),
+                    )
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(authors::one))
+                            .route(web::delete().to(authors::delete))
+                            .route(web::put().to(authors::update)),
+                    ),
+            )
+            .service(
+                web::scope("/customers")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(customers::all))
+                            .route(web::post().to(customers::add)),
+                    )
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(customers::one))
+                            .route(web::delete().to(customers::delete))
+                            .route(web::put().to(customers::update)),
+                    ),
+            )
+            .service(
+                web::scope("/reviews")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(reviews::all))
+                            .route(web::post().to(reviews::add)),
+                    )
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(reviews::one))
+                            .route(web::delete().to(reviews::delete))
+                            .route(web::put().to(reviews::update)),
+                    ),
+            )
+            .service(
                 web::scope("/languages")
                     .service(
                         web::resource("")
@@ -108,6 +167,34 @@ async fn main() -> std::io::Result<()> {
                             .route(web::get().to(languages::one))
                             .route(web::delete().to(languages::delete))
                             .route(web::put().to(languages::update)),
+                    ),
+            )
+            .service(
+                web::scope("/inventory")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(inventory::all))
+                            .route(web::post().to(inventory::add)),
+                    )
+                    .service(
+                        web::resource("/{id}")
+                            .route(web::get().to(inventory::one))
+                            .route(web::delete().to(inventory::delete))
+                            .route(web::put().to(inventory::update)),
+                    ),
+            )
+            .service(
+                web::scope("/measures")
+                    .service(
+                        web::resource("")
+                            .route(web::get().to(measures::all))
+                            .route(web::post().to(measures::add)),
+                    )
+                    .service(
+                        web::resource("/{title_id}")
+                            .route(web::get().to(measures::one))
+                            .route(web::delete().to(measures::delete))
+                            .route(web::put().to(measures::update)),
                     ),
             )
     })

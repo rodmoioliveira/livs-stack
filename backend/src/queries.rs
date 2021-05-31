@@ -1,4 +1,10 @@
+pub mod authors;
+pub mod customers;
 pub mod formats;
 pub mod genres;
+pub mod inventory;
 pub mod languages;
+pub mod measures;
+pub mod publishers;
+pub mod reviews;
 pub mod titles;

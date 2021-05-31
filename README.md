@@ -31,6 +31,6 @@ make test
 ## Applications
 
 - Adminer - http://localhost:8080/
-- Backedn - http://localhost:8081/
+- Backend - http://localhost:8081/
 - Assets - http://localhost:8082/static/
 - Frontend - http://localhost:8083/

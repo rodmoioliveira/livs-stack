@@ -83,3 +83,14 @@ html {
     margin: 0;
   }
 }
+
+@media (max-width: 723px) {
+  .title__img {
+    flex: 0 0 100%;
+  }
+
+  .title__info {
+    margin-left: 0;
+    flex: 0 0 100%;
+  }
+}

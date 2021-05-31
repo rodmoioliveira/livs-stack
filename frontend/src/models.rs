@@ -64,9 +64,49 @@ pub struct Language {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Measure {
+    pub id: Option<i64>,
+    pub title_id: i64,
+    pub weight: f32,
+    pub height: f32,
+    pub width: f32,
+    pub depth: f32,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Publisher {
+    pub id: Option<i64>,
+    pub publisher: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Format {
     pub id: Option<i64>,
     pub format: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Author {
+    pub id: Option<i64>,
+    pub first_name: String,
+    pub last_name: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Title {
+    pub id: i64,
+    pub isbn: String,
+    pub author: i64,
+    pub edition: i16,
+    pub format: i16,
+    pub language: i64,
+    pub genre: i64,
+    pub pages: i16,
+    pub publisher: i64,
+    pub summary: String,
+    pub title: String,
+    pub cover: String,
+    pub year: i16,
 }
 
 #[derive(Debug, Clone)]

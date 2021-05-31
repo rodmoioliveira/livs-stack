@@ -1,4 +1,6 @@
 use crate::{errors, models, querystrings, utils};
+use actix_http::Response;
+use actix_web::http::StatusCode;
 use actix_web::{web, HttpRequest, HttpResponse};
 use handlebars::Handlebars;
 use reqwest::blocking::Client;
@@ -193,4 +195,101 @@ pub async fn all(
 
     let body = hb.render("pages/titles", &data).unwrap();
     Ok(HttpResponse::Ok().body(body))
+}
+
+pub async fn one(
+    hb: web::Data<Handlebars<'_>>,
+    web::Path(id): web::Path<i64>,
+    client: web::Data<Client>,
+    endpoints: web::Data<models::Endpoints>,
+) -> Result<HttpResponse, errors::MyError> {
+    let link = format!("/titles/{}", id);
+    let res_title = utils::fetch(endpoints.backend_url(&link), &client)?;
+
+    match res_title.get("error").cloned() {
+        Some(_) => Ok(Response::build(StatusCode::NOT_FOUND).finish()),
+        None => {
+            let title: models::Title = res_title
+                .get("data")
+                .cloned()
+                .map(serde_json::from_value)
+                .unwrap()
+                .unwrap();
+
+            let measure: models::Measure =
+                utils::fetch(endpoints.backend_url(&format!("/measures/{}", id)), &client)?
+                    .get("data")
+                    .cloned()
+                    .map(serde_json::from_value)
+                    .unwrap()
+                    .unwrap();
+
+            let genre = &utils::fetch(
+                // TODO: https://github.com/rodmoioliveira/livs-stack/issues/2
+                endpoints.backend_url(&format!("/genres/{}", title.genre)),
+                &client,
+            )?
+            .get("data")
+            .cloned()
+            .unwrap()["genre"];
+
+            let format = &utils::fetch(
+                // TODO: https://github.com/rodmoioliveira/livs-stack/issues/2
+                endpoints.backend_url(&format!("/formats/{}", title.format)),
+                &client,
+            )?
+            .get("data")
+            .cloned()
+            .unwrap()["format"];
+
+            let language = &utils::fetch(
+                // TODO: https://github.com/rodmoioliveira/livs-stack/issues/2
+                endpoints.backend_url(&format!("/languages/{}", title.language)),
+                &client,
+            )?
+            .get("data")
+            .cloned()
+            .unwrap()["language"];
+
+            let publisher = &utils::fetch(
+                // TODO: https://github.com/rodmoioliveira/livs-stack/issues/2
+                endpoints.backend_url(&format!("/publishers/{}", title.publisher)),
+                &client,
+            )?
+            .get("data")
+            .cloned()
+            .unwrap()["publisher"];
+
+            let author = utils::fetch(
+                // TODO: https://github.com/rodmoioliveira/livs-stack/issues/2
+                endpoints.backend_url(&format!("/authors/{}", title.author)),
+                &client,
+            )?
+            .get("data")
+            .cloned()
+            .unwrap();
+
+            let data = serde_json::json!({
+                "assets": endpoints.assets,
+                "title": serde_json::json!({
+                    "author": format!("{} {}", &author["first_name"], &author["last_name"]).replace("\"", ""),
+                    "cover": title.cover,
+                    "edition": title.edition,
+                    "format": format,
+                    "genre": genre,
+                    "isbn": title.isbn,
+                    "language": language,
+                    "pages": title.pages,
+                    "publisher": publisher,
+                    "summary": title.summary,
+                    "title": title.title,
+                    "year": title.year,
+                }),
+                "measure": measure,
+            });
+
+            let body = hb.render("pages/title", &data).unwrap();
+            Ok(HttpResponse::Ok().body(body))
+        }
+    }
 }

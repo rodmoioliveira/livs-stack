@@ -1,15 +1,27 @@
 use crate::{errors, models};
 use actix_web::{web, HttpRequest};
 use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContext};
+use lazy_static::lazy_static;
+use regex::RegexSet;
 use reqwest::blocking::Client;
 use std::collections::HashSet;
 
+lazy_static! {
+    static ref RE: RegexSet =
+        // TODO: add new sets http://detectmobilebrowsers.com/
+        RegexSet::new(&[r"(android|bb\d+|meego).+mobile|avantgo|bada"]).unwrap();
+}
+
 pub fn is_mobile_user_agent(req: HttpRequest) -> bool {
-    let _user_agent = req.headers().get("user-agent");
-    // TODO: implement
-    // http://detectmobilebrowsers.com/
-    println!("{:#?}", _user_agent);
-    false
+    let user_agent = req
+        .headers()
+        .get("user-agent")
+        .unwrap()
+        .to_str()
+        .unwrap_or("")
+        .to_lowercase();
+
+    RE.is_match(&user_agent)
 }
 
 pub fn add_remove_all(filter_tags: &mut Vec<models::Filter>) {

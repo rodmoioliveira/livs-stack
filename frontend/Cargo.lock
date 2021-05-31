@@ -654,6 +654,8 @@ dependencies = [
  "dotenv",
  "env_logger",
  "handlebars",
+ "lazy_static",
+ "regex",
  "reqwest",
  "serde",
  "serde_json",

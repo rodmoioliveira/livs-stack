@@ -1,3 +1,8 @@
+fmt:
+	@cargo fmt --manifest-path frontend/Cargo.toml && \
+	cargo fmt --manifest-path backend/Cargo.toml  && \
+	cargo fmt --manifest-path assets/Cargo.toml
+
 up:
 	@docker-compose --file docker-compose.production.yml up
 
@@ -42,4 +47,4 @@ db-csv:
 nuke:
 	@docker system prune --volumes -f
 
-.PHONY: nuke run db dev prod db-csv sass-watch up down test
+.PHONY: nuke run db dev prod db-csv sass-watch up down test fmt

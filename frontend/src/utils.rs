@@ -16,6 +16,7 @@ pub fn is_mobile_user_agent(req: HttpRequest) -> bool {
     let user_agent = req
         .headers()
         .get("user-agent")
+        // FIXME: unwrap error from wrk -t2 -c10 -d60s --timeout 70s http://localhost:8083/titles\?limit\=25\&offset\=125
         .unwrap()
         .to_str()
         .unwrap_or("")

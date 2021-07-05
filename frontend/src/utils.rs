@@ -1,5 +1,5 @@
 use crate::{errors, models};
-use actix_web::{web, HttpRequest};
+use actix_web::{http, web, HttpRequest};
 use handlebars::{Context, Handlebars, Helper, HelperResult, Output, RenderContext};
 use lazy_static::lazy_static;
 use regex::RegexSet;
@@ -16,10 +16,9 @@ pub fn is_mobile_user_agent(req: HttpRequest) -> bool {
     let user_agent = req
         .headers()
         .get("user-agent")
-        // FIXME: unwrap error from wrk -t2 -c10 -d60s --timeout 70s http://localhost:8083/titles\?limit\=25\&offset\=125
-        .unwrap()
+        .unwrap_or(&http::HeaderValue::from_static(""))
         .to_str()
-        .unwrap_or("")
+        .unwrap()
         .to_lowercase();
 
     RE.is_match(&user_agent)

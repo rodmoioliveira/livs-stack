@@ -269,6 +269,24 @@ pub async fn one(
             .cloned()
             .unwrap();
 
+            let inventory = utils::fetch(
+                // TODO: https://github.com/rodmoioliveira/livs-stack/issues/2
+                endpoints.backend_url(&format!("/inventory?title_id={}", title.id)),
+                &client,
+            )?
+            .get("data")
+            .cloned()
+            .unwrap();
+
+            let reviews = utils::fetch(
+                // TODO: https://github.com/rodmoioliveira/livs-stack/issues/2
+                endpoints.backend_url(&format!("/reviews?title_id={}&order_by=-rate", title.id)),
+                &client,
+            )?
+            .get("data")
+            .cloned()
+            .unwrap();
+
             let data = serde_json::json!({
                 "assets": endpoints.assets,
                 "title": serde_json::json!({
@@ -285,7 +303,9 @@ pub async fn one(
                     "title": title.title,
                     "year": title.year,
                 }),
+                "inventory": inventory,
                 "measure": measure,
+                "reviews": reviews,
             });
 
             let body = hb.render("pages/title", &data).unwrap();

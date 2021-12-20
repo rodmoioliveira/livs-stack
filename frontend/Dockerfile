@@ -4,7 +4,7 @@ WORKDIR /usr/src/frontend
 COPY . .
 RUN cargo install --path .
 
-FROM gcr.io/distroless/cc-debian10
+FROM gcr.io/distroless/cc
 COPY --from=build /usr/local/cargo/bin/frontend .
 COPY --from=build /usr/src/frontend/static /static
 CMD ["./frontend"]

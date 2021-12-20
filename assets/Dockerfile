@@ -4,7 +4,7 @@ WORKDIR /usr/src/assets
 COPY . .
 RUN cargo install --path .
 
-FROM gcr.io/distroless/cc-debian10
+FROM gcr.io/distroless/cc
 COPY --from=build /usr/local/cargo/bin/assets .
 COPY --from=build /usr/src/assets/static /static
 CMD ["./assets"]

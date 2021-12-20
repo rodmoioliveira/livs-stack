@@ -4,6 +4,6 @@ WORKDIR /usr/src/backend
 COPY . .
 RUN cargo install --path .
 
-FROM gcr.io/distroless/cc-debian10
+FROM gcr.io/distroless/cc
 COPY --from=build /usr/local/cargo/bin/backend /usr/local/bin/backend
 CMD ["backend"]

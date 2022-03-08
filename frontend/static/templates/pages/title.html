@@ -65,21 +65,25 @@
         <section class="title__inventory">
           <h4>Inventory</h4>
           {{#each inventory}}
-          <li>
-            <p>price: ${{ price }}.00</p>
-            <p>quantity: {{ quantity }}</p>
-            <p>used: {{ used }}</p>
-          </li>
+          <ul>
+            <li>
+              <p>price: ${{ price }}.00</p>
+              <p>quantity: {{ quantity }}</p>
+              <p>used: {{ used }}</p>
+            </li>
+          </ul>
           {{/each}}
         </section>
         <section class="title__reviews">
           <h4>Reviews</h4>
           {{#each reviews}}
-          <li>
-            <p>customer_id: {{ customer_id }}</p>
-            <p>review: {{ review }}</p>
-            <p>rate: {{ rate }}</p>
-          </li>
+          <ul>
+            <li>
+              <p>customer_id: {{ customer_id }}</p>
+              <p>review: {{ review }}</p>
+              <p>rate: {{ rate }}</p>
+            </li>
+          </ul>
           {{/each}}
         </section>
       </section>

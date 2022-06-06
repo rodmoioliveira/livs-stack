@@ -5,7 +5,7 @@ authors = ["rodolfo.moi <rodolfo.moi@b2wdigital.com>"]
 edition = "2018"
 
 [dependencies]
-actix-http = "2.2.0"
+actix-http = "2.2.1"
 actix-web = "3.3.2"
 derive_more = "0.99.13"
 dotenv = "0.15.0"
